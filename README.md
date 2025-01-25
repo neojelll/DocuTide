@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://github.com/neojelll/DocuTide" target="blank"><img src="readme/Дизайн_без_названия__2_-removebg-preview.png" width="250" alt="DocuTide logo" /></a>
+  <a href="https://github.com/neojelll/DocuTide" target="blank"><img src="readme/DocuTide-logo.png" width="250" alt="DocuTide logo" /></a>
 </p>
 
 <p align="center">
-	<b><a href="https://github.com/neojelll/DocuTide" target="_blank" style="text-decoration: none; color: black;">DocuTide</a> - service for quickly creating documentation.</b>
+	<b><a href="https://github.com/neojelll/DocuTide" target="_blank">DocuTide</a> - service for quickly creating documentation.</b>
 </p>
 
 <p align="center">
