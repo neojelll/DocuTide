@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://nestjs.com/" target="blank"><img src="readme/Дизайн_без_названия__2_-removebg-preview.png" width="120" alt="Nest Logo" /></a>
+  <a target="blank"><img src="readme/Дизайн_без_названия__2_-removebg-preview.png" width="250" alt="DocuTide logo" /></a>
 </p>
 
 <p align="center">
