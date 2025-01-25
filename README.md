@@ -1,5 +1,9 @@
 <p align="center">
-	<b><a href="our_site" target="_blank" style="text-decoration: none; color: black;">DocuTide</a> - service for quickly creating documentation.</b>
+  <a href="https://nestjs.com/" target="blank"><img src="readme/Дизайн_без_названия__2_-removebg-preview.png" width="120" alt="Nest Logo" /></a>
+</p>
+
+<p align="center">
+	<b><a href="https://github.com/neojelll/DocuTide" target="_blank" style="text-decoration: none; color: black;">DocuTide</a> - service for quickly creating documentation.</b>
 </p>
 
 <p align="center">
