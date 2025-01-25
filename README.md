@@ -1,5 +1,5 @@
 <p align="center">
-  <a target="blank"><img src="readme/Дизайн_без_названия__2_-removebg-preview.png" width="250" alt="DocuTide logo" /></a>
+  <a href="https://github.com/neojelll/DocuTide" target="blank"><img src="readme/Дизайн_без_названия__2_-removebg-preview.png" width="250" alt="DocuTide logo" /></a>
 </p>
 
 <p align="center">
