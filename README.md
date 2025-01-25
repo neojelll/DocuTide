@@ -1,12 +1,12 @@
 <p align="center">
-    <strong><a href="our_site" target="_blank" style="text-decoration: none; color: black;">DocuTide</a></strong> - service for quickly creating documentation.
+	<b><a href="our_site" target="_blank" style="text-decoration: none; color: black;">DocuTide</a> - service for quickly creating documentation.</b>
 </p>
 
 <p align="center">
-	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/neojelll/DocuTide?include_prereleases&display_name=release&style=flat-square">
-	<img alt="Static Badge" src="https://img.shields.io/badge/TypeScript-5.5-blue?style=flat-square">
-	<img alt="Coveralls" src="https://img.shields.io/coverallsCoverage/github/neojelll/DocuTide?style=flat-square">
-	<img alt="GitHub License" src="https://img.shields.io/github/license/neojelll/DocuTide?style=flat-square">
+	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/neojelll/DocuTide?include_prereleases&display_name=release&style=flat">
+	<img alt="Static Badge" src="https://img.shields.io/badge/TypeScript-5.5-blue?style=flat">
+	<img alt="Coveralls" src="https://img.shields.io/coverallsCoverage/github/neojelll/DocuTide?style=flat">
+	<img alt="GitHub License" src="https://img.shields.io/github/license/neojelll/DocuTide?style=flat">
 	<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/neojelll/DocuTide?style=social">
 </p>
 
