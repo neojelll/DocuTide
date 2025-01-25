@@ -1,5 +1,5 @@
-<p align="center" style="font-family: Arial, sans-serif; font-size: 20px; font-weight: bold;">
-    <a href="our_site" target="_blank" style="text-decoration: none; color: black;">DocuTide</a> - service for quickly creating documentation.
+<p align="center">
+    <strong><a href="our_site" target="_blank" style="text-decoration: none; color: black;">DocuTide</a></strong> - service for quickly creating documentation.
 </p>
 
 <p align="center">
