@@ -25,6 +25,7 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/microservices": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
+    "class-validator": "^0.14.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -72,8 +73,7 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/apps/",
-      "<rootDir>/libs/"
+      "<rootDir>/apps/"
     ]
   }
 }
