@@ -17,6 +17,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@lib/user": [
+        "libs/user/src"
+      ],
+      "@lib/user/*": [
+        "libs/user/src/*"
+      ]
+    }
   }
 }
