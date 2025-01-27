@@ -14,7 +14,7 @@ import { UserMongo, UserMongoSchema } from '../schemas/user-mongo.schema';
       port: 5432,
       username: 'admin',
       password: 'secret',
-      database: 'users',
+      database: 'postgres',
       entities: [UserPostgres],
       synchronize: true,
     }),

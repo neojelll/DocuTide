@@ -25,9 +25,6 @@
     "@nestjs/microservices": "^11.0.5",
     "@nestjs/mongoose": "^11.0.0",
     "@nestjs/platform-express": "^11.0.1",
-    "@nestjs/typeorm": "^11.0.0",
-    "class-validator": "^0.14.1",
-    "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -39,6 +36,7 @@
     "@nestjs/testing": "^11.0.1",
     "@swc/cli": "^0.6.0",
     "@swc/core": "^1.10.7",
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
@@ -75,7 +73,12 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/apps/"
-    ]
+      "<rootDir>/apps/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "^@lib/project(|/.*)$": "<rootDir>/libs/project/src/$1",
+      "^@lib/user(|/.*)$": "<rootDir>/libs/user/src/$1"
+    }
   }
 }
