@@ -7,6 +7,7 @@ import { UserPostgres } from '../entities/user-postgres.entity';
 import { UserMongo } from '../schemas/user-mongo.schema';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserServiceService {
@@ -19,16 +20,15 @@ export class UserServiceService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const postgresUser = this.postgresRepository.create(createUserDto);
-    const savedPostgresUser = await this.postgresRepository.save(postgresUser);
+    const { password, ...otherFields } = createUserDto;
+    const hashedPassword: string = await bcrypt.hash(password, 10);
 
-    const mongoUser = new this.mongoModel({
-      ...createUserDto,
-      id: savedPostgresUser.id,
+    const postgresUser = this.postgresRepository.create({
+      ...otherFields,
+      password: hashedPassword,
     });
-    await mongoUser.save();
 
-    return savedPostgresUser;
+    return await this.postgresRepository.save(postgresUser);
   }
 
   async findOne(userId: string) {
