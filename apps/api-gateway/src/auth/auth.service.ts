@@ -9,10 +9,10 @@ export class AuthService {
 	) {}
 
 	async signUp(userSignUpDto: UserDto) {
-		this.authClient.emit('sign_up', JSON.stringify(userSignUpDto));
+		this.authClient.emit(process.env.USER_CREATE_TOPIC, JSON.stringify(userSignUpDto));
 	}
 
 	async signIn(userSignInDto: UserSignInDto) {
-		this.authClient.emit('sign_in', JSON.stringify(userSignInDto));
+		this.authClient.emit(process.env.USER_CREATED_TOPIC, JSON.stringify(userSignInDto));
 	}
 }
