@@ -5,12 +5,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices'
 	imports: [
 		ClientsModule.register([
 			{
-				name: 'USER_MICROSERVICE',
+				name: 'USERS_MICROSERVICE',
 				transport: Transport.KAFKA,
 				options: {
 					client: {
 						clientId: 'users',
-						brokers: ['localhost:9092'],
+						brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9092'],
 					},
 					producerOnlyMode: true,
 					consumer: {
