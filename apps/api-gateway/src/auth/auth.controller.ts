@@ -1,4 +1,4 @@
-import { UserDto, UserLoginDto } from '@lib/user/dto'
+import { UserDto, UserSignInDto } from '@lib/user/dto'
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
@@ -7,12 +7,12 @@ export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
 	@Post('sign-up')
-	async signUp(@Body(ValidationPipe) createUserDto: UserDto) {
-		return this.authService.signUp(createUserDto);
+	async signUp(@Body(ValidationPipe) userSignUpDto: UserDto) {
+		return this.authService.signUp(userSignUpDto);
 	}
 
 	@Post('sign-in')
-	async signIn(@Body(ValidationPipe) signInDto: UserLoginDto) {
-		return this.authService.signIn(signInDto);
+	async signIn(@Body(ValidationPipe) userSignInDto: UserSignInDto) {
+		return this.authService.signIn(userSignInDto);
 	}
 }

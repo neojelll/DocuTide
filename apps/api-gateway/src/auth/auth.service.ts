@@ -1,4 +1,4 @@
-import { UserDto, UserLoginDto } from '@lib/user/dto'
+import { UserDto, UserSignInDto } from '@lib/user/dto'
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
 
@@ -12,7 +12,7 @@ export class AuthService {
 		this.authClient.emit('sign_up', JSON.stringify(userSignUpDto));
 	}
 
-	async signIn(userSignInDto: UserLoginDto) {
+	async signIn(userSignInDto: UserSignInDto) {
 		this.authClient.emit('sign_in', JSON.stringify(userSignInDto));
 	}
 }
