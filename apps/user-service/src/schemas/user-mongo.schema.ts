@@ -3,14 +3,8 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class UserMongo extends Document {
-  @Prop()
-  username: string;
-
-  @Prop({ unique: true })
-  email: string;
-
-  @Prop()
-  password: string;
+  @Prop({ required: true, unique: true })
+  userId: string;
 }
 
 export const UserMongoSchema = SchemaFactory.createForClass(UserMongo);

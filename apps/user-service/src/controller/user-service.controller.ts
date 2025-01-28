@@ -8,29 +8,31 @@ import {
   Delete,
 } from '@nestjs/common';
 import { UserServiceService } from '../service/user-service.service';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserDto } from 'libs/user/src/dto/user.dto';
+import { UserReadDto } from '@lib/user/dto';
 
 @Controller('api/v1/users')
 export class UserServiceController {
   constructor(private readonly userService: UserServiceService) {}
 
   @Post('register')
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  create(@Body() UserDto: UserDto) {
+    return this.userService.create(UserDto);
+  }
+
+  @Get()
+  findAll(): Promise<UserReadDto[]> {
+    return this.userService.findAll();
   }
 
   @Get(':userId')
-  findOne(@Param('userId') userId: string) {
+  findOne(@Param('userId') userId: string): Promise<UserReadDto> {
     return this.userService.findOne(userId);
   }
 
   @Patch(':userId')
-  update(
-    @Param('userId') userId: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return this.userService.update(userId, updateUserDto);
+  update(@Param('userId') userId: string, @Body() UserDto: UserDto) {
+    return this.userService.update(userId, UserDto);
   }
 
   @Delete(':userId')
