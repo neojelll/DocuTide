@@ -9,10 +9,12 @@ export class AuthService {
 	) {}
 
 	async signUp(userSignUpDto: UserDto) {
-		this.authClient.emit(process.env.USER_CREATE_TOPIC, JSON.stringify(userSignUpDto));
+		const result = this.authClient.send(process.env.USER_CREATE_TOPIC, JSON.stringify(userSignUpDto));
+		return result;
 	}
 
 	async signIn(userSignInDto: UserSignInDto) {
-		this.authClient.emit(process.env.USER_CREATED_TOPIC, JSON.stringify(userSignInDto));
+		const result = this.authClient.send(process.env.USER_CREATED_TOPIC, JSON.stringify(userSignInDto));
+		return result;
 	}
 }
