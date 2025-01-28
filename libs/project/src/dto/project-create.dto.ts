@@ -7,5 +7,6 @@ export class ProjectCreateDto {
 	name: string;
 
 	@IsString()
+	@MaxLength(500)
 	about?: string;
 }
