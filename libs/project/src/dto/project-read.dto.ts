@@ -14,6 +14,9 @@ export class ProjectReadDto {
   @MaxLength(500)
   about?: string;
 
+  @IsString()
+  content?: string;
+
   @IsDate()
   @IsNotEmpty()
   createdAt: Date;
