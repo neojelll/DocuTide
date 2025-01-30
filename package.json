@@ -27,10 +27,6 @@
     "@nestjs/microservices": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.0.3",
-<<<<<<< HEAD
-    "class-transformer": "^0.5.1",
-=======
->>>>>>> main
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.7",
     "kafkajs": "^2.2.4",
