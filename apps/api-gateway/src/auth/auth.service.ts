@@ -1,4 +1,4 @@
-import { UserDto, UserSignInDto } from '@lib/user/dto'
+import { UserSignInDto, UserSignUpDto } from '@lib/user/dto'
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
 
@@ -8,7 +8,7 @@ export class AuthService {
 		@Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka
 	) {}
 
-	async signUp(userSignUpDto: UserDto) {
+	async signUp(userSignUpDto: UserSignUpDto) {
 		const result = this.authClient.send(process.env.USER_CREATE_TOPIC, JSON.stringify(userSignUpDto));
 		return result;
 	}

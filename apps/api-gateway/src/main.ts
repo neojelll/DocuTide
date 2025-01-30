@@ -9,7 +9,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
   .setTitle('DocuTide API')
-  .setDescription('DocuTide API')
+  .setDescription('API documentation for DocuTide service')
   .setVersion('1.0')
   .build();
 

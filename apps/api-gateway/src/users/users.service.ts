@@ -1,4 +1,4 @@
-import { UserDto } from '@lib/user/dto'
+import { UserUpdateDto } from '@lib/user/dto'
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
 
@@ -13,7 +13,7 @@ export class UsersService {
     return result;
   }
 
-  async updateUser(userId: string, userUpdateDto: UserDto) {
+  async updateUser(userId: string, userUpdateDto: UserUpdateDto) {
     const payload = {
       userId,
       ...userUpdateDto,
