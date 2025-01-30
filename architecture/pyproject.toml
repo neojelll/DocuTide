@@ -1,7 +1,6 @@
 [tool.poetry]
 name = "architecture"
 version = "0.1.0"
-description = ""
 authors = ["neojelll <timofejmitusin60892@gmail.com>"]
 
 [tool.poetry.dependencies]
