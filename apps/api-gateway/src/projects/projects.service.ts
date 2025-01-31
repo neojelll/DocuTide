@@ -9,8 +9,13 @@ export class ProjectsService {
     @Inject('PROJECTS_MICROSERVICE') private readonly projectsClient: ClientKafka,
   ) {}
 
-  async createProject(projectCreateDto: ProjectCreateDto) {
-    const result: Observable<string> = this.projectsClient.send(process.env.PROJECT_CREATE_TOPIC, JSON.stringify(projectCreateDto));
+  async createProject(userId: string, projectCreateDto: ProjectCreateDto) {
+    const payload: ProjectCreateDto = {
+      userId,
+      ...projectCreateDto,
+    };
+
+    const result: Observable<string> = this.projectsClient.send(process.env.PROJECT_CREATE_TOPIC, JSON.stringify(payload));
     return result;
   }
 

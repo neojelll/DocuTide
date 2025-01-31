@@ -1,7 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator'
+import { IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from 'class-validator'
 
 export class ProjectCreateDto {
+	@IsUUID()
+	@ApiPropertyOptional({
+		description: 'The unique identifier of the user associated with the project.',
+		type: String,
+	})
+	userId?: string;
+
 	@IsString()
 	@IsNotEmpty()
 	@MinLength(1)

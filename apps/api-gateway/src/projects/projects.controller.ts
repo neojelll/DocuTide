@@ -8,7 +8,7 @@ export class ProjectsController {
 
   @Post()
   async createProject(@Param('userId') userId: string, @Body(ValidationPipe) projectCreateDto: ProjectCreateDto) {
-    return await this.projectsService.createProject(projectCreateDto);
+    return await this.projectsService.createProject(userId, projectCreateDto);
   }
 
   @Get(':projectId')
