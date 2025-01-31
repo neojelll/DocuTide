@@ -1,6 +1,7 @@
 import { UserSignInDto, UserSignUpDto } from '@lib/user/dto'
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
+import { Observable } from 'rxjs'
 
 @Injectable()
 export class AuthService {
@@ -9,12 +10,12 @@ export class AuthService {
 	) {}
 
 	async signUp(userSignUpDto: UserSignUpDto) {
-		const result = this.authClient.send(process.env.USER_CREATE_TOPIC, JSON.stringify(userSignUpDto));
+		const result: Observable<string> = this.authClient.send(process.env.USER_CREATE_TOPIC, JSON.stringify(userSignUpDto));
 		return result;
 	}
 
 	async signIn(userSignInDto: UserSignInDto) {
-		const result = this.authClient.send(process.env.USER_CREATED_TOPIC, JSON.stringify(userSignInDto));
+		const result: Observable<string> = this.authClient.send(process.env.USER_CREATED_TOPIC, JSON.stringify(userSignInDto));
 		return result;
 	}
 }
