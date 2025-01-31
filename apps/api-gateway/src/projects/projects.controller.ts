@@ -1,4 +1,4 @@
-import { ProjectCreateDto } from '@lib/project/dto'
+import { ProjectCreateDto, ProjectUpdateDto } from '@lib/project/dto'
 import { Body, Controller, Delete, Get, Param, Patch, Post, ValidationPipe } from '@nestjs/common'
 import { ProjectsService } from './projects.service'
 
@@ -28,9 +28,9 @@ export class ProjectsController {
   async updateProject(
     @Param('userId') userId: string,
     @Param('projectId') projectId: string,
-    @Body(ValidationPipe) dto, // ...
+    @Body(ValidationPipe) projectUpdateDto: ProjectUpdateDto,
   ) {
-    return await this.projectsService.updateProject(userId); // ???
+    return await this.projectsService.updateProject(userId, projectId, projectUpdateDto);
   }
 
   @Delete(':projectId')
