@@ -1,6 +1,7 @@
-import { UserUpdateDto } from '@lib/user/dto'
+import { UserReadDto, UserUpdateDto } from '@lib/user/dto'
 import { Inject, Injectable } from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
+import { Observable } from 'rxjs'
 
 @Injectable()
 export class UsersService {
@@ -9,7 +10,7 @@ export class UsersService {
   ) {}
 
   async getUser(userId: string) {
-    const result = this.usersClient.send(process.env.USER_GET_TOPIC, JSON.stringify(userId));
+    const result: Observable<UserReadDto> = this.usersClient.send(process.env.USER_GET_TOPIC, JSON.stringify(userId));
     return result;
   }
 
@@ -19,12 +20,12 @@ export class UsersService {
       ...userUpdateDto,
     }
 
-    const result = this.usersClient.send(process.env.USER_UPDATE_TOPIC, JSON.stringify(payload));
+    const result: Observable<string> = this.usersClient.send(process.env.USER_UPDATE_TOPIC, JSON.stringify(payload));
     return result;
   }
 
   async deleteUser(userId: string) {
-    const result = this.usersClient.send(process.env.USER_DELETE_TOPIC, JSON.stringify(userId));
+    const result: Observable<string> = this.usersClient.send(process.env.USER_DELETE_TOPIC, JSON.stringify(userId));
     return result;
   }
 }
