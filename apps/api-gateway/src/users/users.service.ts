@@ -14,7 +14,7 @@ export class UsersService {
   }
 
   async updateUser(userId: string, userUpdateDto: UserUpdateDto) {
-    const payload = {
+    const payload: UserUpdateDto = {
       userId,
       ...userUpdateDto,
     }
