@@ -10,7 +10,10 @@ export class UsersService {
   ) {}
 
   async getUser(userId: string) {
-    const result: Observable<UserReadDto> = this.usersClient.send(process.env.USER_GET_TOPIC, JSON.stringify(userId));
+    const result: Observable<UserReadDto> = this.usersClient.send(
+      process.env.USER_GET_TOPIC,
+      JSON.stringify(userId),
+    );
     return result;
   }
 
@@ -20,12 +23,18 @@ export class UsersService {
       ...userUpdateDto,
     }
 
-    const result: Observable<string> = this.usersClient.send(process.env.USER_UPDATE_TOPIC, JSON.stringify(payload));
+    const result: Observable<string> = this.usersClient.send(
+      process.env.USER_UPDATE_TOPIC,
+      JSON.stringify(payload),
+    );
     return result;
   }
 
   async deleteUser(userId: string) {
-    const result: Observable<string> = this.usersClient.send(process.env.USER_DELETE_TOPIC, JSON.stringify(userId));
+    const result: Observable<string> = this.usersClient.send(
+      process.env.USER_DELETE_TOPIC,
+      JSON.stringify(userId),
+    );
     return result;
   }
 }

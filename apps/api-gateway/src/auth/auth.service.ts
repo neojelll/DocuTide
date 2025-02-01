@@ -6,16 +6,22 @@ import { Observable } from 'rxjs'
 @Injectable()
 export class AuthService {
 	constructor(
-		@Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka
+		@Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka,
 	) {}
 
-	async signUp(userSignUpDto: UserSignUpDto) {
-		const result: Observable<string> = this.authClient.send(process.env.USER_CREATE_TOPIC, JSON.stringify(userSignUpDto));
+	async signUp(userSignUpDto: UserSignUpDto): Promise<Observable<string>> {
+		const result: Observable<string> = this.authClient.send(
+			process.env.USER_CREATE_TOPIC,
+			JSON.stringify(userSignUpDto),
+		);
 		return result;
 	}
 
-	async signIn(userSignInDto: UserSignInDto) {
-		const result: Observable<string> = this.authClient.send(process.env.USER_CREATED_TOPIC, JSON.stringify(userSignInDto));
+	async signIn(userSignInDto: UserSignInDto): Promise<Observable<string>> {
+		const result: Observable<string> = this.authClient.send(
+			process.env.USER_CREATED_TOPIC,
+			JSON.stringify(userSignInDto)
+		);
 		return result;
 	}
 }

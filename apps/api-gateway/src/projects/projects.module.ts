@@ -14,7 +14,6 @@ import { ProjectsService } from './projects.service'
             clientId: 'projects',
             brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9092'],
           },
-          producerOnlyMode: true,
           consumer: {
             groupId: 'projects-consumer',
           },

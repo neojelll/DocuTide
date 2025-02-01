@@ -15,7 +15,10 @@ export class ProjectsService {
       ...projectCreateDto,
     };
 
-    const result: Observable<string> = this.projectsClient.send(process.env.PROJECT_CREATE_TOPIC, JSON.stringify(payload));
+    const result: Observable<string> = this.projectsClient.send(
+      process.env.PROJECT_CREATE_TOPIC,
+      JSON.stringify(payload),
+    );
     return result;
   }
 
@@ -25,12 +28,18 @@ export class ProjectsService {
       projectId,
     };
 
-    const result: Observable<ProjectReadDto> = this.projectsClient.send(process.env.PROJECT_GET_TOPIC, JSON.stringify(payload));
+    const result: Observable<ProjectReadDto> = this.projectsClient.send(
+      process.env.PROJECT_GET_TOPIC,
+      JSON.stringify(payload),
+    );
     return result;
   }
 
   async getAllProjects(userId: string) {
-    const result: Observable<Array<ProjectReadDto>> = this.projectsClient.send(process.env.PROJECT_GET_ALL_TOPIC, JSON.stringify(userId));
+    const result: Observable<Array<ProjectReadDto>> = this.projectsClient.send(
+      process.env.PROJECT_GET_ALL_TOPIC,
+      JSON.stringify(userId),
+    );
     return result;
   }
 
@@ -41,7 +50,10 @@ export class ProjectsService {
       ...projectUpdateDto,
     };
 
-    const result: Observable<string> = this.projectsClient.send(process.env.PROJECT_UPDATE_TOPIC, JSON.stringify(payload));
+    const result: Observable<string> = this.projectsClient.send(
+      process.env.PROJECT_UPDATE_TOPIC,
+      JSON.stringify(payload),
+    );
     return result;
   }
 
@@ -51,7 +63,10 @@ export class ProjectsService {
       projectId,
     };
 
-    const result: Observable<string> = this.projectsClient.send(process.env.PROJECT_DELETE_TOPIC, JSON.stringify(payload));
+    const result: Observable<string> = this.projectsClient.send(
+      process.env.PROJECT_DELETE_TOPIC,
+      JSON.stringify(payload),
+    );
     return result;
   }
 }
