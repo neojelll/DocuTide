@@ -10,9 +10,11 @@ export class AuthService {
 	) {}
 
 	async signUp(userSignUpDto: UserSignUpDto) {
-		const result: Observable<string> = this.authClient.send(process.env.USER_CREATE_TOPIC, JSON.stringify(userSignUpDto));
-		return result;
-	}
+    return this.authClient.send(
+			process.env.USER_CREATE_TOPIC || 'user_create',
+			JSON.stringify(userSignUpDto)
+		).toPromise();
+  }
 
 	async signIn(userSignInDto: UserSignInDto) {
 		const result: Observable<string> = this.authClient.send(process.env.USER_CREATED_TOPIC, JSON.stringify(userSignInDto));

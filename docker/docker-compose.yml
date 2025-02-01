@@ -44,10 +44,10 @@ services:
     image: postgres:latest
     container_name: user-data
     env_file:
-      - .env
+      - ../.env
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - initdb.d:/docker-entrypoint-initdb.d
+      - ../initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     networks:
@@ -58,7 +58,7 @@ services:
     image: mongo:latest
     container_name: user-media
     env_file:
-      - .env
+      - ../.env
     volumes:
       - mongo-data:/data/db
     ports:
