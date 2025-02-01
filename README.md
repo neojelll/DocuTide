@@ -30,13 +30,11 @@ DocuTide also acts as a kind of social network where, if desired, users can plac
 
 ## Architecture
 
-### System context
+[System Context Diagram](architecture/diagrams/system-context-diagram.png)
 
-![System-context](architecture/diagrams/system-context-diagram.png)
+[Containers Diagram](architecture/diagrams/containers-diagram.png)
 
-### Conrainers
-
-![Containers](architecture/diagrams/containers-diagram.png)
+[MVP Containers Diagram](architecture/diagrams/mvp-diagram.png)
 
 ## License
 
