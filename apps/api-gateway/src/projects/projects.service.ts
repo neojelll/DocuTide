@@ -1,15 +1,23 @@
-import { ProjectCreateDto, ProjectReadDto, ProjectUpdateDto } from '@lib/project/dto'
-import { Inject, Injectable } from '@nestjs/common'
-import { ClientKafka } from '@nestjs/microservices'
-import { Observable } from 'rxjs'
+import {
+  ProjectCreateDto,
+  ProjectReadDto,
+  ProjectUpdateDto,
+} from '@lib/project/dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ProjectsService {
   constructor(
-    @Inject('PROJECTS_MICROSERVICE') private readonly projectsClient: ClientKafka,
+    @Inject('PROJECTS_MICROSERVICE')
+    private readonly projectsClient: ClientKafka,
   ) {}
 
-  async createProject(userId: string, projectCreateDto: ProjectCreateDto): Promise<Observable<string>> {
+  async createProject(
+    userId: string,
+    projectCreateDto: ProjectCreateDto,
+  ): Promise<Observable<string>> {
     const payload: ProjectCreateDto = {
       userId,
       ...projectCreateDto,
@@ -22,7 +30,10 @@ export class ProjectsService {
     return result;
   }
 
-  async getProject(userId: string, projectId: string): Promise<Observable<ProjectReadDto>> {
+  async getProject(
+    userId: string,
+    projectId: string,
+  ): Promise<Observable<ProjectReadDto>> {
     const payload = {
       userId,
       projectId,
@@ -35,7 +46,9 @@ export class ProjectsService {
     return result;
   }
 
-  async getAllProjects(userId: string): Promise<Observable<Array<ProjectReadDto>>> {
+  async getAllProjects(
+    userId: string,
+  ): Promise<Observable<Array<ProjectReadDto>>> {
     const result: Observable<Array<ProjectReadDto>> = this.projectsClient.send(
       process.env.PROJECT_GET_ALL_TOPIC,
       JSON.stringify(userId),
@@ -43,7 +56,11 @@ export class ProjectsService {
     return result;
   }
 
-  async updateProject(userId: string, projectId: string, projectUpdateDto: ProjectUpdateDto): Promise<Observable<string>> {
+  async updateProject(
+    userId: string,
+    projectId: string,
+    projectUpdateDto: ProjectUpdateDto,
+  ): Promise<Observable<string>> {
     const payload: ProjectUpdateDto = {
       userId,
       projectId,
@@ -57,7 +74,10 @@ export class ProjectsService {
     return result;
   }
 
-  async deleteProject(userId: string, projectId: string): Promise<Observable<string>> {
+  async deleteProject(
+    userId: string,
+    projectId: string,
+  ): Promise<Observable<string>> {
     const payload = {
       userId,
       projectId,
