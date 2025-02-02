@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common'
-import { ClientsModule, Transport } from '@nestjs/microservices'
-import { ProjectsController } from './projects.controller'
-import { ProjectsService } from './projects.service'
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ProjectsController } from './projects.controller';
+import { ProjectsService } from './projects.service';
 
 @Module({
   imports: [
@@ -12,9 +12,8 @@ import { ProjectsService } from './projects.service'
         options: {
           client: {
             clientId: 'projects',
-            brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9092'],
+            brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9094'],
           },
-          producerOnlyMode: true,
           consumer: {
             groupId: 'projects-consumer',
           },

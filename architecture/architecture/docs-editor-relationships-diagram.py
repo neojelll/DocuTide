@@ -34,9 +34,9 @@ with Diagram(filename=PathSaveFile, show=False, direction='TB', graph_attr=Graph
 			technology='Kafka',
 		)
 
-		ProfileService = Container(
-			name='ProfileSerice',
-			description='subscribes to events from Kafka to update user profiles',
+		UsersService = Container(
+			name='UsersSerice',
+			description='subscribes to events from Kafka to update users',
 			technology='TypeScript',
 		)
 
@@ -73,7 +73,7 @@ with Diagram(filename=PathSaveFile, show=False, direction='TB', graph_attr=Graph
 
 	### MessageBroker ###
 	MessageBroker >> Relationship('sends events (project.created, project.updated, project.deleted) to Kafka [HTTP/HTTPS]') << ProjectService
-	MessageBroker >> Relationship('subscribes to events from Kafka to update user profiles and auth topics [HTTP/HTTPS]') << ProfileService
+	MessageBroker >> Relationship('subscribes to events from Kafka to update users and auth topics [HTTP/HTTPS]') << UsersService
 	MessageBroker >> Relationship('get profile and project info and sends events (docs.create ...)') << DocsEditor
 
 	### DocService ###

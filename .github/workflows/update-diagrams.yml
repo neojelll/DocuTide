@@ -46,6 +46,7 @@ jobs:
           poetry run python architecture/containers-diagram.py
           poetry run python architecture/messagebroker-relationships-diagram.py
           poetry run python architecture/docs-editor-relationships-diagram.py
+          poetry run python architecture/mvp-diagram.py
         working-directory: architecture
 
       - name: Commit changes
