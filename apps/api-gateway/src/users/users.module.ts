@@ -12,9 +12,8 @@ import { UsersService } from './users.service'
 				options: {
 					client: {
 						clientId: 'users',
-						brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9092'],
+						brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9094'],
 					},
-					producerOnlyMode: true,
 					consumer: {
 						groupId: 'users-consumer',
 					},
