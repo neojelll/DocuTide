@@ -1,7 +1,7 @@
-import { UserReadDto, UserUpdateDto } from '@lib/user/dto'
-import { Inject, Injectable } from '@nestjs/common'
-import { ClientKafka } from '@nestjs/microservices'
-import { Observable } from 'rxjs'
+import { UserReadDto, UserUpdateDto } from '@lib/user/dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class UsersService {
@@ -17,11 +17,14 @@ export class UsersService {
     return result;
   }
 
-  async updateUser(userId: string, userUpdateDto: UserUpdateDto): Promise<Observable<string>> {
+  async updateUser(
+    userId: string,
+    userUpdateDto: UserUpdateDto,
+  ): Promise<Observable<string>> {
     const payload: UserUpdateDto = {
       userId,
       ...userUpdateDto,
-    }
+    };
 
     const result: Observable<string> = this.usersClient.send(
       process.env.USER_UPDATE_TOPIC,
