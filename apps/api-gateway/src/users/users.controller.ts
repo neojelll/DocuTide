@@ -1,5 +1,15 @@
 import { UserUpdateDto } from '@lib/user/dto'
-import { Body, Controller, Delete, Get, Inject, OnModuleInit, Param, Patch, ValidationPipe } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  OnModuleInit,
+  Param,
+  Patch,
+  ValidationPipe,
+} from '@nestjs/common'
 import { ClientKafka } from '@nestjs/microservices'
 import { UsersService } from './users.service'
 
@@ -16,7 +26,10 @@ export class UsersController implements OnModuleInit {
   }
 
   @Patch(':userId')
-  async updateUser(@Param('userId') userId: string, @Body(ValidationPipe) userUpdateDto: UserUpdateDto) {
+  async updateUser(
+    @Param('userId') userId: string,
+    @Body(ValidationPipe) userUpdateDto: UserUpdateDto,
+  ) {
     return await this.usersService.updateUser(userId, userUpdateDto);
   }
 
@@ -26,9 +39,15 @@ export class UsersController implements OnModuleInit {
   }
 
   async onModuleInit() {
-    this.usersClient.subscribeToResponseOf(process.env.USER_GET_TOPIC || 'user.get');
-    this.usersClient.subscribeToResponseOf(process.env.USER_UPDATE_TOPIC || 'user.update');
-    this.usersClient.subscribeToResponseOf(process.env.USER_DELETE_TOPIC || 'user.delete');
+    this.usersClient.subscribeToResponseOf(
+      process.env.USER_GET_TOPIC || 'user.get',
+    );
+    this.usersClient.subscribeToResponseOf(
+      process.env.USER_UPDATE_TOPIC || 'user.update',
+    );
+    this.usersClient.subscribeToResponseOf(
+      process.env.USER_DELETE_TOPIC || 'user.delete',
+    );
     await this.usersClient.connect();
   }
 }

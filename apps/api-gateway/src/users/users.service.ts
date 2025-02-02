@@ -1,7 +1,7 @@
-import { UserReadDto, UserUpdateDto } from '@lib/user/dto'
-import { Inject, Injectable } from '@nestjs/common'
-import { ClientKafka } from '@nestjs/microservices'
-import { Observable } from 'rxjs'
+import { UserReadDto, UserUpdateDto } from '@lib/user/dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class UsersService {
