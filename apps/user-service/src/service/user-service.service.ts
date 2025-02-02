@@ -29,7 +29,6 @@ export class UserServiceService {
       const { password, ...otherFields } = createUserDto;
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Проверка уникальности email
       const existingUser = await this.postgresRepository.findOne({
         where: { email: otherFields.email },
       });
@@ -75,7 +74,6 @@ export class UserServiceService {
 
   async update(userId: string, updateUserDto: UserDto): Promise<UserReadDto> {
     const user = await this.findOneEntity(userId);
-    // Обновление только разрешенных полей
     const updatableFields = ['username', 'email', 'bio', 'role'];
     updatableFields.forEach((field) => {
       if (updateUserDto[field] !== undefined) {
