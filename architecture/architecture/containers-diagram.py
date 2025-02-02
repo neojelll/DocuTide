@@ -65,9 +65,9 @@ with Diagram(filename=PathSaveFile, show=False, direction='TB', graph_attr=Graph
 			technology='TypeScript',
 		)
 
-		ProfileService = Container(
-			name='ProfileSerice',
-			description='subscribes to events from Kafka to update user profiles',
+		UsersService = Container(
+			name='UsersSerice',
+			description='subscribes to events from Kafka to update users',
 			technology='TypeScript',
 		)
 
@@ -180,7 +180,7 @@ with Diagram(filename=PathSaveFile, show=False, direction='TB', graph_attr=Graph
 	MessageBroker >> Relationship('sends all logs [HTTP/HTTPS]') >> LogService
 	MessageBroker >> Relationship('sends events (user.registered, user.logged.in) to Kafka [HTTP/HTTPS]') << AuthService
 	MessageBroker >> Relationship('sends events (project.created, project.updated, project.deleted) to Kafka [HTTP/HTTPS]') << ProjectService
-	MessageBroker >> Relationship('subscribes to events from Kafka to update user profiles and auth topics [HTTP/HTTPS]') << ProfileService
+	MessageBroker >> Relationship('subscribes to events from Kafka to update users and auth topics [HTTP/HTTPS]') << UsersService
 	MessageBroker >> Relationship('subscribes to events related to changes in projects, such as project.created, project.updated, project.deleted [HTTP/HTTPS]') << PublicProjectFeedService
 	MessageBroker >> Relationship('subscription to all topics [HTTP/HTTPS]') << NotificationService
 	MessageBroker >> Relationship('get profile and project info and sends events (docs.create ...)') << DocsEditor
@@ -203,9 +203,9 @@ with Diagram(filename=PathSaveFile, show=False, direction='TB', graph_attr=Graph
 	### AuthService ###
 	AuthService >> Relationship('transfers session data [HTTP/HTTPS]') << Cache
 
-	### ProfileService ###
-	ProfileService >> Relationship('sending profile data with projects [HTTP/HTTPS]') << DataBase1
-	ProfileService >> Relationship('sending profile data [HTTP/HTTPS]') << DataBase2
+	### UsersService ###
+	UsersService >> Relationship('sending users data with projects [HTTP/HTTPS]') << DataBase1
+	UsersService >> Relationship('sending users data [HTTP/HTTPS]') << DataBase2
 
 	### CommentService ###
 	CommentService >> Relationship('sending comments data [HTTP/HTTPS]') << DataBase2
