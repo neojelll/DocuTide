@@ -9,7 +9,7 @@ export class ProjectsService {
     @Inject('PROJECTS_MICROSERVICE') private readonly projectsClient: ClientKafka,
   ) {}
 
-  async createProject(userId: string, projectCreateDto: ProjectCreateDto) {
+  async createProject(userId: string, projectCreateDto: ProjectCreateDto): Promise<Observable<string>> {
     const payload: ProjectCreateDto = {
       userId,
       ...projectCreateDto,
@@ -22,7 +22,7 @@ export class ProjectsService {
     return result;
   }
 
-  async getProject(userId: string, projectId: string) {
+  async getProject(userId: string, projectId: string): Promise<Observable<ProjectReadDto>> {
     const payload = {
       userId,
       projectId,
@@ -35,7 +35,7 @@ export class ProjectsService {
     return result;
   }
 
-  async getAllProjects(userId: string) {
+  async getAllProjects(userId: string): Promise<Observable<Array<ProjectReadDto>>> {
     const result: Observable<Array<ProjectReadDto>> = this.projectsClient.send(
       process.env.PROJECT_GET_ALL_TOPIC,
       JSON.stringify(userId),
@@ -43,7 +43,7 @@ export class ProjectsService {
     return result;
   }
 
-  async updateProject(userId: string, projectId: string, projectUpdateDto: ProjectUpdateDto) {
+  async updateProject(userId: string, projectId: string, projectUpdateDto: ProjectUpdateDto): Promise<Observable<string>> {
     const payload: ProjectUpdateDto = {
       userId,
       projectId,
@@ -57,7 +57,7 @@ export class ProjectsService {
     return result;
   }
 
-  async deleteProject(userId: string, projectId: string) {
+  async deleteProject(userId: string, projectId: string): Promise<Observable<string>> {
     const payload = {
       userId,
       projectId,
