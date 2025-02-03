@@ -8,8 +8,10 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Expose } from 'class-transformer';
 
 export class UserReadDto {
+  @Expose()
   @IsUUID()
   @IsNotEmpty()
   @ApiProperty({
@@ -18,6 +20,7 @@ export class UserReadDto {
   })
   userId: string;
 
+  @Expose()
   @IsString()
   @IsNotEmpty()
   @MinLength(5)
@@ -31,6 +34,7 @@ export class UserReadDto {
   })
   username: string;
 
+  @Expose()
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty({
@@ -39,6 +43,7 @@ export class UserReadDto {
   })
   email: string;
 
+  @Expose()
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
@@ -47,6 +52,7 @@ export class UserReadDto {
   })
   hashPassword: string;
 
+  @Expose()
   @IsString()
   @MaxLength(500)
   @ApiPropertyOptional({
@@ -57,6 +63,7 @@ export class UserReadDto {
   })
   bio?: string;
 
+  @Expose()
   @IsString()
   @MaxLength(50)
   @ApiPropertyOptional({
@@ -67,6 +74,7 @@ export class UserReadDto {
   })
   role?: string;
 
+  @Expose()
   @IsDate()
   @IsNotEmpty()
   @ApiProperty({
@@ -76,6 +84,7 @@ export class UserReadDto {
   })
   createdAt: Date;
 
+  @Expose()
   @IsDate()
   @IsNotEmpty()
   @ApiProperty({
