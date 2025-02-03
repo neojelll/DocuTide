@@ -8,25 +8,27 @@ const logLevels = {
   trace: 4,
 };
 
-const { combine, timestamp, json, printf, colorize, align } = winston.format;
+const { combine, timestamp, printf, colorize, align } = winston.format;
 
-const debugFilter = winston.format((info, opts) => {
+const debugFilter = winston.format((info) => {
   return info.level === 'debug' ? info : false;
 });
 
-const logger = winston.createLogger({
+const logFormat = printf(({ timestamp, level, message, ...meta }) => {
+  const metaString = Object.keys(meta).length ? JSON.stringify(meta) : '';
+  return `[${timestamp}] ${level}: ${message} ${metaString}`.trim();
+});
+
+export const logger = winston.createLogger({
   levels: logLevels,
   level: process.env.LOG_LEVEL || 'info',
   format: combine(
     timestamp({
-      format: 'YYYY-MM-DD hh:mm:ss',
+      format: 'YYYY-MM-DD HH:mm:ss',
     }),
-    colorize({
-      all: true,
-    }),
-    printf((info) => `[${info.timestamp}] ${info.level}: ${info.message}`),
+    colorize(),
     align(),
-    json(),
+    logFormat,
   ),
   transports: [
     new winston.transports.Console(),
@@ -36,11 +38,12 @@ const logger = winston.createLogger({
     new winston.transports.File({
       filename: 'logs/api-gateway.logs/debug.log',
       level: 'debug',
-      format: combine(debugFilter(), timestamp(), json()),
+      format: combine(debugFilter(), timestamp(), logFormat),
     }),
     new winston.transports.File({
       filename: 'logs/api-gateway.logs/error.log',
       level: 'error',
+      format: combine(timestamp(), logFormat),
     }),
   ],
 });
