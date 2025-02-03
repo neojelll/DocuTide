@@ -8,7 +8,7 @@ import { UserUpdateDto } from '@lib/user/dto/user-update-dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async createUser(userData: UserSignUpDto): Promise<any> {
     const hashedPassword = await bcrypt.hash(userData.password, 10);
@@ -31,18 +31,17 @@ export class UserService {
     return user;
   }
 
-  async getUserById(userId: string): Promise<any> {
-    const user = await this.userModel.findOne({ id: userId }).exec();
+  async getUserByUserId(userId: string): Promise<any> {
+    const user = await this.userModel.findOne({ userId }).exec();
     if (!user) {
       throw new Error(`User with ID ${userId} not found.`);
     }
     return user;
   }
 
-
   async updateUser(userId: string, updateDto: UserUpdateDto): Promise<any> {
     const updatedUser = await this.userModel.findOneAndUpdate(
-        { id: userId },
+        { userId },
         updateDto,
         { new: true },
     ).exec();
@@ -53,9 +52,8 @@ export class UserService {
     return updatedUser;
   }
 
-
   async deleteUser(userId: string): Promise<any> {
-    const deletedUser = await this.userModel.findOneAndDelete({ id: userId }).exec();
+    const deletedUser = await this.userModel.findOneAndDelete({ userId }).exec();
     if (!deletedUser) {
       throw new Error(`User with ID ${userId} not found.`);
     }

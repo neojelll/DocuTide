@@ -11,8 +11,8 @@ export class UserController {
 
   @MessagePattern('user.created')
   async handleLogin(
-    @Payload() signInDto: UserSignInDto,
-    @Payload() context: KafkaContext,
+      @Payload() signInDto: UserSignInDto,
+      @Payload() context: KafkaContext,
   ) {
     const { username, password } = signInDto;
     const loginResponse = await this.userService.login(username, password);
@@ -22,8 +22,8 @@ export class UserController {
 
   @MessagePattern('user.create')
   async handleRegistration(
-    @Payload() userData: UserSignUpDto,
-    @Payload() context: KafkaContext,
+      @Payload() userData: UserSignUpDto,
+      @Payload() context: KafkaContext,
   ) {
     const createdUser = await this.userService.createUser(userData);
     const replyTopic = 'user.create.reply';
@@ -32,26 +32,26 @@ export class UserController {
 
   @MessagePattern('user.get')
   async handleGetUser(
-    @Payload() userId: string,
-    @Payload() context: KafkaContext,
+      @Payload() userId: string,
+      @Payload() context: KafkaContext,
   ) {
-    const user = await this.userService.getUserById(userId);
+    const user = await this.userService.getUserByUserId(userId);
     const replyTopic = 'user.get.reply';
     return { topic: replyTopic, payload: user };
   }
 
   @MessagePattern('user.update')
   async handleUpdateUser(
-    @Payload()
-    userUpdateData: {
-      userId: string;
-      data: UserUpdateDto;
-    },
-    @Payload() context: KafkaContext,
+      @Payload()
+      userUpdateData: {
+        userId: string;
+        data: UserUpdateDto;
+      },
+      @Payload() context: KafkaContext,
   ) {
     const updatedUser = await this.userService.updateUser(
-      userUpdateData.userId,
-      userUpdateData.data,
+        userUpdateData.userId,
+        userUpdateData.data,
     );
     const replyTopic = 'user.update.reply';
     return { topic: replyTopic, payload: updatedUser };
@@ -59,8 +59,8 @@ export class UserController {
 
   @MessagePattern('user.delete')
   async handleDeleteUser(
-    @Payload() userId: string,
-    @Payload() context: KafkaContext,
+      @Payload() userId: string,
+      @Payload() context: KafkaContext,
   ) {
     const deletionResult = await this.userService.deleteUser(userId);
     const replyTopic = 'user.delete.reply';
