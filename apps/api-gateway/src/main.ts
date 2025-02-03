@@ -1,6 +1,6 @@
-import { NestFactory } from '@nestjs/core'
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { ApiGatewayModule } from './api-gateway.module'
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ApiGatewayModule } from './api-gateway.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApiGatewayModule);
@@ -8,10 +8,10 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
 
   const config = new DocumentBuilder()
-  .setTitle('DocuTide API')
-  .setDescription('API documentation for DocuTide service')
-  .setVersion('1.0')
-  .build();
+    .setTitle('DocuTide API')
+    .setDescription('API documentation for DocuTide service')
+    .setVersion('1.0')
+    .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);

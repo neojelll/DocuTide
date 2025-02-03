@@ -8,6 +8,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { logger } from '../logger/logger.config';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -19,6 +20,11 @@ export class AuthController implements OnModuleInit {
 
   @Post('sign-up')
   async signUp(@Body(ValidationPipe) userSignUpDto: UserSignUpDto) {
+    const { password, ...loggableData } = userSignUpDto;
+
+    logger.info('Start sign-up func', {
+      params: loggableData,
+    });
     return await this.authService.signUp(userSignUpDto);
   }
 
