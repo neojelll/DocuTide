@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
+import { plainToInstance } from 'class-transformer';
 import { User, UserDocument } from './schemas/user.schema';
 import { UserSignUpDto } from '@lib/user/dto/user-sign-up.dto';
-import { UserUpdateDto } from '@lib/user/dto/user-update-dto';
+import { UserUpdateDto } from '@lib/user/dto/user-update.dto';
 import { UserReadDto } from '@lib/user/dto/user-read.dto';
 
 @Injectable()
@@ -13,28 +13,27 @@ export class UserService {
 
   async createUser(userData: UserSignUpDto): Promise<UserReadDto> {
     const newUser = new this.userModel({ ...userData });
-    const savedUser = await newUser.save();
-    return this.toUserReadDto(savedUser);
+    return this.toUserReadDto(await newUser.save());
   }
-
-  async login(username: string, password: string): Promise<UserReadDto> {
-    const user = await this.userModel.findOne({ username });
-    if (!user) {
-      throw new Error('User not found');
-    }
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) {
-      throw new Error('Invalid password');
-    }
-    return this.toUserReadDto(user);
-  }
-
 
   async getUserByUserId(userId: string): Promise<UserReadDto> {
     const user = await this.userModel.findOne({ userId });
     if (!user) {
       throw new Error(`User with ID ${userId} not found.`);
     }
+    return this.toUserReadDto(user);
+  }
+
+  async getUserByUsername(username: string): Promise<UserReadDto> {
+    console.log(`[getUserByUsername] Searching for user with username: ${username}`);
+    const user = await this.userModel.findOne({ username });
+
+    if (!user) {
+      console.error(`[getUserByUsername] User with username ${username} not found.`);
+      throw new Error(`User with username ${username} not found.`);
+    }
+
+    console.log(`[getUserByUsername] User found: ${JSON.stringify(user)}`);
     return this.toUserReadDto(user);
   }
 
@@ -55,10 +54,11 @@ export class UserService {
   }
 
   private toUserReadDto(user: UserDocument): UserReadDto {
-    const { hashPassword, ...data } = user.toObject();
-    const dto = new UserReadDto();
-    Object.assign(dto, data);
-    dto.hashPassword = hashPassword;
+    console.log(`[toUserReadDto] Converting user document to UserReadDto`);
+    const dto = plainToInstance(UserReadDto, user.toObject(), {
+      excludeExtraneousValues: true,
+    });
+    console.log(`[toUserReadDto] Conversion result: ${JSON.stringify(dto)}`);
     return dto;
   }
 }
