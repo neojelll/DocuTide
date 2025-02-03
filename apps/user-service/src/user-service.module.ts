@@ -1,20 +1,16 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule } from '@nestjs/config';
-import { UserService } from './user-service.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UserController } from './user-service.controller';
+import { UserService } from './user-service.service';
 import { User, UserSchema } from './schemas/user.schema';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
-
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     MongooseModule.forRoot('mongodb://admin:secret@localhost:27017/user_data'),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ClientsModule.register([
       {
         name: 'KAFKA_SERVICE',

@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload, KafkaContext } from '@nestjs/microservices';
+import { KafkaContext, MessagePattern, Payload } from '@nestjs/microservices';
 import { UserService } from './user-service.service';
 import { UserSignInDto } from '@lib/user/dto/user-sign-in.dto';
 import { UserSignUpDto } from '@lib/user/dto/user-sign-up.dto';
@@ -9,61 +9,43 @@ import { UserUpdateDto } from '@lib/user/dto/user-update-dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @MessagePattern('user.created')
-  async handleLogin(
-      @Payload() signInDto: UserSignInDto,
-      @Payload() context: KafkaContext,
-  ) {
-    const { username, password } = signInDto;
-    const loginResponse = await this.userService.login(username, password);
-    const replyTopic = 'user.created.reply';
-    return { topic: replyTopic, payload: loginResponse };
-  }
-
   @MessagePattern('user.create')
   async handleRegistration(
-      @Payload() userData: UserSignUpDto,
-      @Payload() context: KafkaContext,
+    @Payload() userData: UserSignUpDto,
+    @Payload() context: KafkaContext,
   ) {
-    const createdUser = await this.userService.createUser(userData);
-    const replyTopic = 'user.create.reply';
-    return { topic: replyTopic, payload: createdUser };
+    return await this.userService.createUser(userData);
+  }
+
+  @MessagePattern('user.created')
+  async handleLogin(
+    @Payload() signInDto: UserSignInDto,
+    @Payload() context: KafkaContext,
+  ) {
+    return await this.userService.login(signInDto.username, signInDto.password);
   }
 
   @MessagePattern('user.get')
   async handleGetUser(
-      @Payload() userId: string,
-      @Payload() context: KafkaContext,
+    @Payload() userId: string,
+    @Payload() context: KafkaContext,
   ) {
-    const user = await this.userService.getUserByUserId(userId);
-    const replyTopic = 'user.get.reply';
-    return { topic: replyTopic, payload: user };
+    return await this.userService.getUserByUserId(userId);
   }
 
   @MessagePattern('user.update')
   async handleUpdateUser(
-      @Payload()
-      userUpdateData: {
-        userId: string;
-        data: UserUpdateDto;
-      },
-      @Payload() context: KafkaContext,
+    @Payload() payload: { userId: string; data: UserUpdateDto },
+    @Payload() context: KafkaContext,
   ) {
-    const updatedUser = await this.userService.updateUser(
-        userUpdateData.userId,
-        userUpdateData.data,
-    );
-    const replyTopic = 'user.update.reply';
-    return { topic: replyTopic, payload: updatedUser };
+    return await this.userService.updateUser(payload.userId, payload.data);
   }
 
   @MessagePattern('user.delete')
   async handleDeleteUser(
-      @Payload() userId: string,
-      @Payload() context: KafkaContext,
+    @Payload() userId: string,
+    @Payload() context: KafkaContext,
   ) {
-    const deletionResult = await this.userService.deleteUser(userId);
-    const replyTopic = 'user.delete.reply';
-    return { topic: replyTopic, payload: deletionResult };
+    return await this.userService.deleteUser(userId);
   }
 }

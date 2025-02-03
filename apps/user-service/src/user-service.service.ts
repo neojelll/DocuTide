@@ -5,58 +5,60 @@ import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from './schemas/user.schema';
 import { UserSignUpDto } from '@lib/user/dto/user-sign-up.dto';
 import { UserUpdateDto } from '@lib/user/dto/user-update-dto';
+import { UserReadDto } from '@lib/user/dto/user-read.dto';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async createUser(userData: UserSignUpDto): Promise<any> {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const newUser = new this.userModel({
-      ...userData,
-      password: hashedPassword,
-    });
-    return await newUser.save();
+  async createUser(userData: UserSignUpDto): Promise<UserReadDto> {
+    const newUser = new this.userModel({ ...userData });
+    const savedUser = await newUser.save();
+    return this.toUserReadDto(savedUser);
   }
 
-  async login(username: string, password: string): Promise<any> {
+  async login(username: string, password: string): Promise<UserReadDto> {
     const user = await this.userModel.findOne({ username });
     if (!user) {
       throw new Error('User not found');
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
       throw new Error('Invalid password');
     }
-    return user;
+    return this.toUserReadDto(user);
   }
 
-  async getUserByUserId(userId: string): Promise<any> {
-    const user = await this.userModel.findOne({ userId }).exec();
+
+  async getUserByUserId(userId: string): Promise<UserReadDto> {
+    const user = await this.userModel.findOne({ userId });
     if (!user) {
       throw new Error(`User with ID ${userId} not found.`);
     }
-    return user;
+    return this.toUserReadDto(user);
   }
 
-  async updateUser(userId: string, updateDto: UserUpdateDto): Promise<any> {
-    const updatedUser = await this.userModel.findOneAndUpdate(
-        { userId },
-        updateDto,
-        { new: true },
-    ).exec();
-
+  async updateUser(userId: string, updateDto: UserUpdateDto): Promise<UserReadDto> {
+    const updatedUser = await this.userModel.findOneAndUpdate({ userId }, updateDto, { new: true });
     if (!updatedUser) {
       throw new Error(`User with ID ${userId} not found.`);
     }
-    return updatedUser;
+    return this.toUserReadDto(updatedUser);
   }
 
-  async deleteUser(userId: string): Promise<any> {
-    const deletedUser = await this.userModel.findOneAndDelete({ userId }).exec();
+  async deleteUser(userId: string): Promise<string> {
+    const deletedUser = await this.userModel.findOneAndDelete({ userId });
     if (!deletedUser) {
       throw new Error(`User with ID ${userId} not found.`);
     }
     return `User with ID ${userId} deleted successfully.`;
+  }
+
+  private toUserReadDto(user: UserDocument): UserReadDto {
+    const { hashPassword, ...data } = user.toObject();
+    const dto = new UserReadDto();
+    Object.assign(dto, data);
+    dto.hashPassword = hashPassword;
+    return dto;
   }
 }
