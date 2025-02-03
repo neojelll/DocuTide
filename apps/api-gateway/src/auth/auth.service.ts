@@ -3,7 +3,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClientKafka } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
-import { Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { JwtPayload } from './interfaces/jwt.interface';
 
 @Injectable()
@@ -13,35 +13,36 @@ export class AuthService {
     @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka,
   ) {}
 
-  async signUp(userSignUpDto: UserSignUpDto): Promise<Observable<string>> {
+  async signUp(userSignUpDto: UserSignUpDto): Promise<string> {
     const salt = await bcrypt.genSalt();
     userSignUpDto.password = await bcrypt.hash(userSignUpDto.password, salt);
 
-    const result: Observable<string> = this.authClient.send(
-      process.env.USER_CREATE_TOPIC,
-      JSON.stringify(userSignUpDto),
+    const result: string = await firstValueFrom(
+      this.authClient.send(
+        process.env.USER_CREATE_TOPIC,
+        JSON.stringify(userSignUpDto),
+      ),
     );
 
     return result;
   }
 
-  async signIn(userSignInDto: UserSignInDto): Promise<string> {
-    const user: Observable<UserReadDto> = this.authClient.send(
-      process.env.USER_CREATED_TOPIC,
-      JSON.stringify(userSignInDto),
+  async signIn(userSignInDto: UserSignInDto): Promise<Object> {
+    const user: UserReadDto = await firstValueFrom(
+      this.authClient.send(
+        process.env.USER_CREATED_TOPIC,
+        JSON.stringify(userSignInDto),
+      ),
     );
 
     if (
-      !Object(user).userId ||
-      !(await bcrypt.compare(userSignInDto.password, Object(user).password))
+      !user.userId ||
+      !(await bcrypt.compare(userSignInDto.password, user.hashPassword))
     ) {
       throw new UnauthorizedException();
     }
 
-    return await this.generateAccessToken(
-      userSignInDto.username,
-      String(Object(user).userId),
-    );
+    return await this.generateAccessToken(userSignInDto.username, user.userId);
   }
 
   async generateAccessToken(username: string, userId: string): Promise<any> {
