@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
@@ -10,6 +11,7 @@ import {
 } from 'class-validator';
 
 export class UserReadDto {
+  @Expose()
   @IsUUID()
   @IsNotEmpty()
   @ApiProperty({
@@ -18,19 +20,21 @@ export class UserReadDto {
   })
   userId: string;
 
+  @Expose()
   @IsString()
   @IsNotEmpty()
   @MinLength(5)
   @MaxLength(15)
   @ApiProperty({
     description:
-      'Username of the user, must be between 5 and 15 characters long.',
+        'Username of the user, must be between 5 and 15 characters long.',
     type: String,
     minLength: 5,
     maxLength: 15,
   })
   username: string;
 
+  @Expose()
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty({
@@ -39,6 +43,7 @@ export class UserReadDto {
   })
   email: string;
 
+  @Expose({ name: 'password' })
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
@@ -47,6 +52,7 @@ export class UserReadDto {
   })
   hashPassword: string;
 
+  @Expose()
   @IsString()
   @MaxLength(500)
   @ApiPropertyOptional({
@@ -57,6 +63,7 @@ export class UserReadDto {
   })
   bio?: string;
 
+  @Expose()
   @IsString()
   @MaxLength(50)
   @ApiPropertyOptional({
@@ -67,6 +74,7 @@ export class UserReadDto {
   })
   role?: string;
 
+  @Expose()
   @IsDate()
   @IsNotEmpty()
   @ApiProperty({
@@ -76,6 +84,7 @@ export class UserReadDto {
   })
   createdAt: Date;
 
+  @Expose()
   @IsDate()
   @IsNotEmpty()
   @ApiProperty({
