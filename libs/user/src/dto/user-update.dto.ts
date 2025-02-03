@@ -1,5 +1,5 @@
-import { ApiPropertyOptional } from '@nestjs/swagger'
-import { IsString, IsUUID, MaxLength, MinLength } from 'class-validator'
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 
 export class UserUpdateDto {
   @IsUUID()
@@ -13,7 +13,8 @@ export class UserUpdateDto {
   @MinLength(5)
   @MaxLength(15)
   @ApiPropertyOptional({
-    description: 'Username of the user, must be between 5 and 15 characters long.',
+    description:
+      'Username of the user, must be between 5 and 15 characters long.',
     type: String,
     minLength: 5,
     maxLength: 15,
@@ -25,7 +26,8 @@ export class UserUpdateDto {
   @MinLength(7)
   @MaxLength(30)
   @ApiPropertyOptional({
-    description: 'Password of the user, must be between 7 and 30 characters long.',
+    description:
+      'Password of the user, must be between 7 and 30 characters long.',
     type: String,
     minLength: 7,
     maxLength: 30,
