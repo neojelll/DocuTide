@@ -7,10 +7,11 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
+        clientId : 'user',
         brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9094'],
       },
       consumer: {
-        groupId: 'user-service-consumer',
+        groupId: 'auth-consumer',
       },
     },
   });

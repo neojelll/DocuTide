@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { plainToInstance } from 'class-transformer';
 import { User, UserDocument } from './schemas/user.schema';
 import { UserSignUpDto } from '@lib/user/dto/user-sign-up.dto';
 import { UserUpdateDto } from '@lib/user/dto/user-update.dto';
@@ -12,9 +11,13 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async createUser(userData: UserSignUpDto): Promise<UserReadDto> {
-    const newUser = new this.userModel({ ...userData });
+    const newUser = new this.userModel({
+      ...userData,
+      hashPassword: userData.password,
+    });
     return this.toUserReadDto(await newUser.save());
   }
+
 
   async getUserByUserId(userId: string): Promise<UserReadDto> {
     const user = await this.userModel.findOne({ userId });
@@ -25,15 +28,11 @@ export class UserService {
   }
 
   async getUserByUsername(username: string): Promise<UserReadDto> {
-    console.log(`[getUserByUsername] Searching for user with username: ${username}`);
     const user = await this.userModel.findOne({ username });
 
     if (!user) {
-      console.error(`[getUserByUsername] User with username ${username} not found.`);
       throw new Error(`User with username ${username} not found.`);
     }
-
-    console.log(`[getUserByUsername] User found: ${JSON.stringify(user)}`);
     return this.toUserReadDto(user);
   }
 
@@ -54,11 +53,18 @@ export class UserService {
   }
 
   private toUserReadDto(user: UserDocument): UserReadDto {
-    console.log(`[toUserReadDto] Converting user document to UserReadDto`);
-    const dto = plainToInstance(UserReadDto, user.toObject(), {
-      excludeExtraneousValues: true,
-    });
-    console.log(`[toUserReadDto] Conversion result: ${JSON.stringify(dto)}`);
+    const plainUser = user.toObject();
+
+    const dto: UserReadDto = {
+      userId: plainUser.userId,
+      email: plainUser.email,
+      username: plainUser.username,
+      role: plainUser.role,
+      hashPassword: plainUser.hashPassword,
+      createdAt: plainUser.createdAt,
+      updatedAt: plainUser.updatedAt,
+    };
     return dto;
   }
+
 }
