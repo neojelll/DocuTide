@@ -22,6 +22,15 @@
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
       }
     },
+    "docs-editor": {
+      "type": "application",
+      "root": "apps/docs-editor",
+      "entryFile": "main",
+      "sourceRoot": "apps/docs-editor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/docs-editor/tsconfig.app.json"
+      }
+    },
     "project": {
       "type": "library",
       "root": "libs/project",
