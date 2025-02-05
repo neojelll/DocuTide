@@ -22,13 +22,13 @@
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
       }
     },
-    "documentation": {
+    "docs": {
       "type": "library",
-      "root": "libs/documentation",
+      "root": "libs/docs",
       "entryFile": "index",
-      "sourceRoot": "libs/documentation/src",
+      "sourceRoot": "libs/docs/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/documentation/tsconfig.lib.json"
+        "tsConfigPath": "libs/docs/tsconfig.lib.json"
       }
     },
     "project": {
