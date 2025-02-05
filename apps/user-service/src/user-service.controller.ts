@@ -9,29 +9,29 @@ import { UserUpdateDto } from '@lib/user/dto/user-update.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @MessagePattern(process.env.USER_CREATE_TOPIC)
+  @MessagePattern(process.env.USER_CREATE_TOPIC || 'user.create')
   async handleRegistration(@Payload() userData: UserSignUpDto) {
     return await this.userService.createUser(userData);
   }
 
-  @MessagePattern(process.env.USER_CREATED_TOPIC)
+  @MessagePattern(process.env.USER_CREATED_TOPIC || 'user.created')
   async handleLogin(@Payload() signInDto: UserSignInDto) {
     return await this.userService.getUserByUsername(signInDto.username);
   }
 
-  @MessagePattern(process.env.USER_GET_TOPIC)
+  @MessagePattern(process.env.USER_GET_TOPIC || 'user.get')
   async handleGetUser(@Payload() userId: string) {
     return await this.userService.getUserByUserId(userId);
   }
 
-  @MessagePattern(process.env.USER_UPDATE_TOPIC)
+  @MessagePattern(process.env.USER_UPDATE_TOPIC || 'user.update')
   async handleUpdateUser(
     @Payload() payload: { userId: string; data: UserUpdateDto },
   ) {
     return await this.userService.updateUser(payload.userId, payload.data);
   }
 
-  @MessagePattern(process.env.USER_DELETE_TOPIC)
+  @MessagePattern(process.env.USER_DELETE_TOPIC || 'user.delete')
   async handleDeleteUser(@Payload() userId: string) {
     return await this.userService.deleteUser(userId);
   }
