@@ -27,7 +27,7 @@ export class AuthService {
     return result;
   }
 
-  async signIn(userSignInDto: UserSignInDto): Promise<Object> {
+  async signIn(userSignInDto: UserSignInDto) {
     const user: UserReadDto = await firstValueFrom(
       this.authClient.send(
         process.env.USER_CREATED_TOPIC,
@@ -39,7 +39,7 @@ export class AuthService {
       !user.userId ||
       !(await bcrypt.compare(userSignInDto.password, user.hashPassword))
     ) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Uncorrect password');
     }
 
     return await this.generateAccessToken(userSignInDto.username, user.userId);
@@ -52,7 +52,9 @@ export class AuthService {
     };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
     };
   }
 }
