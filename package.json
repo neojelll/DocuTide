@@ -94,6 +94,7 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
+      "^@lib/documentation(|/.*)$": "<rootDir>/libs/documentation/src/$1",
       "^@lib/project(|/.*)$": "<rootDir>/libs/project/src/$1",
       "^@lib/user(|/.*)$": "<rootDir>/libs/user/src/$1"
     }
