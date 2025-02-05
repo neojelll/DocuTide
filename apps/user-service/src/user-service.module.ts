@@ -13,7 +13,7 @@ import { User, UserSchema } from './schemas/user.schema';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ClientsModule.register([
       {
-        name: 'KAFKA_SERVICE',
+        name: 'USER_SERVICE',
         transport: Transport.KAFKA,
         options: {
           client: {
