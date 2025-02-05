@@ -18,6 +18,12 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@lib/docs": [
+        "libs/docs/src"
+      ],
+      "@lib/docs/*": [
+        "libs/docs/src/*"
+      ],
       "@lib/project": [
         "libs/project/src"
       ],
