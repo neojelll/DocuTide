@@ -1,5 +1,5 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsDate, IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString, IsUUID, IsArray, IsDateString } from 'class-validator';
 
 export class ProjectReadDto {
   @IsUUID()
@@ -7,54 +7,61 @@ export class ProjectReadDto {
   @ApiProperty({
     description: 'Unique identifier of the project',
     type: String,
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
-  projectId: string;
+  id: string;
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(1)
-  @MaxLength(30)
   @ApiProperty({
-    description: 'The name of the project',
+    description: 'Name of the project',
     type: String,
-    minLength: 1,
-    maxLength: 30,
+    example: 'Insanely AWESOMEE!!!! project',
   })
   name: string;
 
   @IsString()
-  @MaxLength(500)
-  @ApiPropertyOptional({
-    description: 'A brief description of the project',
-    type: String,
-    maxLength: 500,
-    default: '',
-  })
-  about?: string;
-
-  @IsString()
-  @ApiPropertyOptional({
-    description: 'Content of the project, which may include details or specifications.',
-    type: String,
-    default: '',
-  })
-  content?: string;
-
-  @IsDate()
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The date when the project was created, in ISO format.',
+    description: 'Description of the project',
     type: String,
-    example: '2025-01-01T00:00:00Z',
+    example: 'This is a project.',
   })
-  createdAt: Date;
+  description: string;
 
-  @IsDate()
+  @IsUUID()
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The date when the project was last updated, in ISO format.',
+    description: 'ID of the project owner (maintainer)',
     type: String,
-    example: '2025-01-02T00:00:00Z',
+    example: '123e4567-e89b-12d3-a456-426614174001',
   })
-  updatedAt: Date;
+  ownerId: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @ApiProperty({
+    description: 'Tags associated with the project',
+    type: [String],
+    example: ['opensource', 'tech', 'Postgres-hot-leaks'],
+  })
+  tags: string[];
+
+  @IsDateString()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Timestamp when the project was created',
+    type: String,
+    example: '2025-02-06T12:00:00Z',
+  })
+  createdAt: string;
+
+  @IsDateString()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Timestamp when the project was last updated',
+    type: String,
+    example: '2025-02-06T12:00:00Z',
+  })
+  updatedAt: string;
 }
