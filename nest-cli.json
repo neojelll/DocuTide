@@ -40,6 +40,15 @@
         "tsConfigPath": "libs/project/tsconfig.lib.json"
       }
     },
+    "project-service": {
+      "type": "application",
+      "root": "apps/project-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/project-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/project-service/tsconfig.app.json"
+      }
+    },
     "user": {
       "type": "library",
       "root": "libs/user",
