@@ -4,6 +4,7 @@ import { UserService } from './user-service.service';
 import { UserSignInDto } from '@lib/user/dto/user-sign-in.dto';
 import { UserSignUpDto } from '@lib/user/dto/user-sign-up.dto';
 import { UserUpdateDto } from '@lib/user/dto/user-update.dto';
+import * as process from 'node:process';
 
 @Controller()
 export class UserController {
@@ -19,8 +20,13 @@ export class UserController {
     return await this.userService.getUserByUsername(signInDto.username);
   }
 
+  @MessagePattern(process.env.USER_GET_ALL_TOPIC || 'user.get.all')
+  async getAll() {
+    return await this.userService.getAllUsers();
+  }
+
   @MessagePattern(process.env.USER_GET_TOPIC || 'user.get')
-  async handleGetUser(@Payload() userId: string) {
+  async handleGetUserById(@Payload() userId: string) {
     return await this.userService.getUserByUserId(userId);
   }
 
