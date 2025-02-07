@@ -1,33 +1,39 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from 'class-validator'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {IsArray, IsNotEmpty, IsString, IsUUID, MaxLength, MinLength} from 'class-validator';
 
 export class ProjectCreateDto {
 	@IsUUID()
-	@ApiPropertyOptional({
-		description: 'The unique identifier of the user associated with the project.',
+	@ApiProperty({
+		description: 'Unique identifier of the user associated with the project.',
 		type: String,
+		example: '123e4567-e89b-12d3-a456-426614174000',
 	})
-	userId?: string;
+	ownerId?: string;
 
 	@IsString()
 	@IsNotEmpty()
-	@MinLength(1)
-	@MaxLength(30)
 	@ApiProperty({
-		description: 'The name of the project, must be between 1 and 30 characters long.',
+		description: 'The name of the project',
 		type: String,
-		minLength: 1,
-    maxLength: 30,
+		example: 'Insanely AWESOMEE!!!! project',
 	})
 	name: string;
 
 	@IsString()
-	@MaxLength(500)
-	@ApiPropertyOptional({
-		description: 'A brief description of the project, maximum 500 characters.',
+	@IsNotEmpty()
+	@ApiProperty({
+		description: 'Description of the project',
 		type: String,
-		maxLength: 500,
-		default: '',
+		example: 'This is a project.',
 	})
-	about?: string;
+	description: string;
+
+	@IsArray()
+	@IsString({ each: true })
+	@ApiProperty({
+		description: 'Tags associated with the project',
+		type: [String],
+		example: ['opensource', 'tech'],
+	})
+	tags: string[];
 }

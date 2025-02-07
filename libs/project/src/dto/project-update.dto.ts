@@ -1,48 +1,38 @@
-import { ApiPropertyOptional } from '@nestjs/swagger'
-import { IsString, IsUUID, MaxLength, MinLength } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class ProjectUpdateDto {
   @IsUUID()
-  @ApiPropertyOptional({
-    description: 'The unique identifier of the user associated with the project.',
+  @ApiProperty({
+    description: 'Unique identifier of the project to be updated.',
     type: String,
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
-  userId?: string;
-
-  @IsUUID()
-  @ApiPropertyOptional({
-    description: 'The unique identifier of the project to be updated.',
-    type: String,
-  })
-  projectId?: string;
+  projectId: string;
 
   @IsString()
-  @MinLength(1)
-  @MaxLength(30)
-  @ApiPropertyOptional({
-    description: 'The name of the project, must be between 1 and 30 characters long.',
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Name of the project',
     type: String,
-    minLength: 1,
-    maxLength: 30,
-    default: '',
+    example: 'Updated Project Name',
   })
-  name?: string;
+  name: string;
 
   @IsString()
-  @MaxLength(500)
-  @ApiPropertyOptional({
-    description: 'A brief description of the project, maximum 500 characters.',
+  @ApiProperty({
+    description: 'Description of the project',
     type: String,
-    maxLength: 500,
-    default: '',
+    example: 'Updated description.',
   })
-  about?: string;
+  description: string;
 
-  @IsString()
-  @ApiPropertyOptional({
-    description: 'Content of the project, which may include details or specifications.',
-    type: String,
-    default: '',
+  @IsArray()
+  @IsString({ each: true })
+  @ApiProperty({
+    description: 'Updated tags for the project',
+    type: [String],
+    example: ['updated', 'tech'],
   })
-  content?: string;
+  tags: string[];
 }
