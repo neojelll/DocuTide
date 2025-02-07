@@ -1,0 +1,20 @@
+{
+  "name": "user",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/user/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/user",
+        "tsConfig": "libs/user/tsconfig.lib.json",
+        "packageJson": "libs/user/package.json",
+        "main": "libs/user/src/index.ts",
+        "assets": ["libs/user/*.md"]
+      }
+    }
+  }
+}
