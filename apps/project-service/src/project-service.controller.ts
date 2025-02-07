@@ -29,14 +29,14 @@ export class ProjectController {
   async handleUpdateProject(
     @Payload() payload: { projectId: string; data: ProjectUpdateDto },
   ) {
-    return await this.projectService.updateUser(
+    return await this.projectService.updateProject(
       payload.projectId,
       payload.data,
     );
   }
 
-  @MessagePattern(process.env.USER_DELETE_TOPIC || 'user.delete')
+  @MessagePattern(process.env.PROJECT_DELETE_TOPIC || 'project.delete')
   async handleDeleteProject(@Payload() projectId: string) {
-    return await this.projectService.deleteUser(projectId);
+    return await this.projectService.deleteProject(projectId);
   }
 }

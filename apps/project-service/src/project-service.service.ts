@@ -30,7 +30,7 @@ export class ProjectService {
     return this.toProjectReadDto(project);
   }
 
-  async updateUser(
+  async updateProject(
     projectId: string,
     data: ProjectUpdateDto,
   ): Promise<ProjectReadDto> {
@@ -44,7 +44,7 @@ export class ProjectService {
     return this.toProjectReadDto(updatedProject);
   }
 
-  async deleteUser(projectId: string) {
+  async deleteProject(projectId: string) {
     const deletedProject = await this.projectModel.findOneAndDelete({
       id: projectId,
     });
