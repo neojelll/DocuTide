@@ -18,9 +18,13 @@ export class UserService {
     return this.toUserReadDto(await newUser.save());
   }
 
+  async getAllUsers(): Promise<UserReadDto[]> {
+    const users = await this.userModel.find().exec();
+    return users.map(this.toUserReadDto);
+  }
 
   async getUserByUserId(userId: string): Promise<UserReadDto> {
-    const user = await this.userModel.findOne({ userId });
+    const user = await this.userModel.findOne({ userId: userId });
     if (!user) {
       throw new Error(`User with ID ${userId} not found.`);
     }
@@ -28,16 +32,18 @@ export class UserService {
   }
 
   async getUserByUsername(username: string): Promise<UserReadDto> {
-    const user = await this.userModel.findOne({ username });
-
+    const user = await this.userModel.findOne({ username: username });
     if (!user) {
       throw new Error(`User with username ${username} not found.`);
     }
     return this.toUserReadDto(user);
   }
 
-  async updateUser(userId: string, updateDto: UserUpdateDto): Promise<UserReadDto> {
-    const updatedUser = await this.userModel.findOneAndUpdate({ userId }, updateDto, { new: true });
+  async updateUser(userId: string, data: UserUpdateDto): Promise<UserReadDto> {
+    const updatedUser = await this.userModel.findOneAndUpdate({
+      userId: userId,
+      data: data,
+    });
     if (!updatedUser) {
       throw new Error(`User with ID ${userId} not found.`);
     }
@@ -45,7 +51,9 @@ export class UserService {
   }
 
   async deleteUser(userId: string): Promise<string> {
-    const deletedUser = await this.userModel.findOneAndDelete({ userId });
+    const deletedUser = await this.userModel.findOneAndDelete({
+      userId: userId,
+    });
     if (!deletedUser) {
       throw new Error(`User with ID ${userId} not found.`);
     }
@@ -55,7 +63,7 @@ export class UserService {
   private toUserReadDto(user: UserDocument): UserReadDto {
     const plainUser = user.toObject();
 
-    const dto: UserReadDto = {
+    return {
       userId: plainUser.userId,
       email: plainUser.email,
       username: plainUser.username,
@@ -64,7 +72,5 @@ export class UserService {
       createdAt: plainUser.createdAt,
       updatedAt: plainUser.updatedAt,
     };
-    return dto;
   }
-
 }
