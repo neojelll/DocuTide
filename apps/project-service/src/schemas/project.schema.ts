@@ -7,13 +7,13 @@ export class Project extends Document {
     @Prop({ default: () => uuidv4(), unique: true })
     id: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, default: '' })
     name: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, default: '' })
     description: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true})
     ownerId: string;
 
     @Prop({ type: [String], default: [] })
