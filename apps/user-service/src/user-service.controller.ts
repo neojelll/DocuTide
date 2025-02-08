@@ -1,10 +1,12 @@
+import {
+  UserSignInDto,
+  UserSignUpDto,
+  UserUpdateDto,
+} from '@docu-tide/user/lib/dto';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { UserService } from './user-service.service';
-import { UserSignInDto } from '@lib/user/dto/user-sign-in.dto';
-import { UserSignUpDto } from '@lib/user/dto/user-sign-up.dto';
-import { UserUpdateDto } from '@lib/user/dto/user-update.dto';
 import * as process from 'node:process';
+import { UserService } from './user-service.service';
 
 @Controller()
 export class UserController {
@@ -32,7 +34,7 @@ export class UserController {
 
   @MessagePattern(process.env.USER_UPDATE_TOPIC || 'user.update')
   async handleUpdateUser(
-    @Payload() payload: { userId: string; data: UserUpdateDto },
+    @Payload() payload: { userId: string; data: UserUpdateDto }
   ) {
     return await this.userService.updateUser(payload.userId, payload.data);
   }

@@ -1,10 +1,12 @@
+import {
+  UserReadDto,
+  UserSignUpDto,
+  UserUpdateDto,
+} from '@docu-tide/user/lib/dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
-import { UserSignUpDto } from '@lib/user/dto/user-sign-up.dto';
-import { UserUpdateDto } from '@lib/user/dto/user-update.dto';
-import { UserReadDto } from '@lib/user/dto/user-read.dto';
 
 @Injectable()
 export class UserService {

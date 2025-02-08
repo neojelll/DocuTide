@@ -1,9 +1,6 @@
-import {
-  Controller,
-  Param,
-} from '@nestjs/common';
+import { ProjectUpdateDto } from '@docu-tide/project/lib/dto';
+import { Controller, Param } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { ProjectUpdateDto } from '@lib/project/dto';
 import { ProjectService } from './project-service.service';
 
 @Controller()
@@ -27,11 +24,11 @@ export class ProjectController {
 
   @MessagePattern(process.env.PROJECT_UPDATE_TOPIC || 'project.update')
   async handleUpdateProject(
-    @Payload() payload: { projectId: string; data: ProjectUpdateDto },
+    @Payload() payload: { projectId: string; data: ProjectUpdateDto }
   ) {
     return await this.projectService.updateProject(
       payload.projectId,
-      payload.data,
+      payload.data
     );
   }
 

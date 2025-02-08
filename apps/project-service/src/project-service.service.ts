@@ -1,5 +1,5 @@
+import { ProjectReadDto, ProjectUpdateDto } from '@docu-tide/project/lib/dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ProjectReadDto, ProjectUpdateDto } from '@lib/project/dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Project, ProjectDocument } from './schemas/project.schema';
@@ -7,7 +7,7 @@ import { Project, ProjectDocument } from './schemas/project.schema';
 @Injectable()
 export class ProjectService {
   constructor(
-    @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
+    @InjectModel(Project.name) private projectModel: Model<ProjectDocument>
   ) {}
 
   async createProject(ownerId: string): Promise<ProjectReadDto> {
@@ -32,7 +32,7 @@ export class ProjectService {
 
   async updateProject(
     projectId: string,
-    data: ProjectUpdateDto,
+    data: ProjectUpdateDto
   ): Promise<ProjectReadDto> {
     const updatedProject = await this.projectModel.findOneAndUpdate({
       id: projectId,
