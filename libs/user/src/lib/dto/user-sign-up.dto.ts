@@ -41,4 +41,10 @@ export class UserSignUpDto {
     maxLength: 30,
   })
   password: string;
+
+  constructor(username: string, email: string, password: string) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+  }
 }
