@@ -28,8 +28,8 @@ export class UserSignInDto {
   })
   password: string;
 
-  constructor(username: string, password: string) {
-    this.username = username;
-    this.password = password;
+  constructor(params: { username: string; password: string }) {
+    this.username = params.username;
+    this.password = params.password;
   }
 }

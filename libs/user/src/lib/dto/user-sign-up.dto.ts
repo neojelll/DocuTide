@@ -42,9 +42,9 @@ export class UserSignUpDto {
   })
   password: string;
 
-  constructor(username: string, email: string, password: string) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
+  constructor(params: { username: string; email: string; password: string }) {
+    this.username = params.username;
+    this.email = params.email;
+    this.password = params.password;
   }
 }
