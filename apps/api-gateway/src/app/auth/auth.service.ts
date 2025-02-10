@@ -6,7 +6,7 @@ import {
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClientKafka } from '@nestjs/microservices';
-import * as bcrypt from 'bcryptjs';
+import * as bcryptjs from 'bcryptjs';
 import { firstValueFrom } from 'rxjs';
 import { JwtPayload } from './interfaces/jwt.interface';
 
@@ -18,8 +18,8 @@ export class AuthService {
   ) {}
 
   async signUp(userSignUpDto: UserSignUpDto): Promise<string> {
-    const salt = await bcrypt.genSalt();
-    userSignUpDto.password = await bcrypt.hash(userSignUpDto.password, salt);
+    const salt = await bcryptjs.genSalt();
+    userSignUpDto.password = await bcryptjs.hash(userSignUpDto.password, salt);
 
     const result: string = await firstValueFrom(
       this.authClient.send(
@@ -41,7 +41,7 @@ export class AuthService {
 
     if (
       !user.userId ||
-      !(await bcrypt.compare(userSignInDto.password, user.hashPassword))
+      !(await bcryptjs.compare(userSignInDto.password, user.hashPassword))
     ) {
       throw new UnauthorizedException('Uncorrect password');
     }
