@@ -1,3 +1,4 @@
+import { DocsDto } from '@docu-tide/docs/lib/dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -6,21 +7,21 @@ import { firstValueFrom } from 'rxjs';
 export class DocsEditorService {
   constructor(
     @Inject('DOCS_EDITOR_MICROSERVICE')
-    private readonly docsEditorClient: ClientKafka,
+    private readonly docsEditorClient: ClientKafka
   ) {}
 
-  // add DTO annotation
-  async saveDocs(userId: string, projectId: string, docsDto) {
+  async saveDocs(userId: string, projectId: string, docsDto: DocsDto) {
     const payload = {
       userId,
       projectId,
       ...docsDto,
     };
+
     const result = await firstValueFrom(
       this.docsEditorClient.send(
         process.env.DOCS_SAVE_TOPIC,
-        JSON.stringify(payload),
-      ),
+        JSON.stringify(payload)
+      )
     );
 
     return result;
@@ -35,8 +36,8 @@ export class DocsEditorService {
     const result = await firstValueFrom(
       this.docsEditorClient.send(
         process.env.DOCS_GET_TOPIC,
-        JSON.stringify(payload),
-      ),
+        JSON.stringify(payload)
+      )
     );
 
     return result;

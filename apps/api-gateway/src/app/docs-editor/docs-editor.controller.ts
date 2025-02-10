@@ -1,3 +1,4 @@
+import { DocsDto } from '@docu-tide/docs/lib/dto';
 import {
   Body,
   Controller,
@@ -18,7 +19,7 @@ export class DocsEditorController implements OnModuleInit {
   constructor(
     private readonly docsEditorService: DocsEditorService,
     @Inject('DOCS_EDITOR_MICROSERVICE')
-    private readonly docsEditorClient: ClientKafka,
+    private readonly docsEditorClient: ClientKafka
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -26,7 +27,7 @@ export class DocsEditorController implements OnModuleInit {
   async saveDocs(
     @Param('userId') userId: string,
     @Param('projectId') projectId: string,
-    @Body(ValidationPipe) docsDto, // add DTO annotation
+    @Body(ValidationPipe) docsDto: DocsDto
   ) {
     return await this.docsEditorService.saveDocs(userId, projectId, docsDto);
   }
@@ -35,17 +36,17 @@ export class DocsEditorController implements OnModuleInit {
   @Get('docs')
   async getDocs(
     @Param('userId') userId: string,
-    @Param('projectId') projectId: string,
+    @Param('projectId') projectId: string
   ) {
     return await this.docsEditorService.getDocs(userId, projectId);
   }
 
   async onModuleInit() {
     this.docsEditorClient.subscribeToResponseOf(
-      process.env.DOCS_SAVE_TOPIC || 'docs.save',
+      process.env.DOCS_SAVE_TOPIC || 'docs.save'
     );
     this.docsEditorClient.subscribeToResponseOf(
-      process.env.DOCS_GET_TOPIC || 'docs.get',
+      process.env.DOCS_GET_TOPIC || 'docs.get'
     );
     await this.docsEditorClient.connect();
   }
