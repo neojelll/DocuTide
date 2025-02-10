@@ -5,9 +5,11 @@ import {
   Inject,
   OnModuleInit,
   Post,
+  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { CustomValidationPipe } from '../pipes/custom-validation.pipe';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -17,8 +19,10 @@ export class AuthController implements OnModuleInit {
     @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka
   ) {}
 
+  @UsePipes(new CustomValidationPipe())
   @Post('sign-up')
-  async signUp(@Body(ValidationPipe) userSignUpDto: UserSignUpDto) {
+  async signUp(@Body() userSignUpDto: UserSignUpDto) {
+    console.log('Start response');
     return await this.authService.signUp(userSignUpDto);
   }
 
