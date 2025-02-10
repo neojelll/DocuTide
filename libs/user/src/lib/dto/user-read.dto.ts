@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
@@ -8,7 +9,6 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { Expose } from 'class-transformer';
 
 export class UserReadDto {
   @Expose()
@@ -93,4 +93,24 @@ export class UserReadDto {
     example: '2025-01-01T00:00:00Z',
   })
   updatedAt: Date;
+
+  constructor(params: {
+    userId: string;
+    username: string;
+    email: string;
+    hashPassword: string;
+    bio?: string;
+    role?: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }) {
+    this.userId = params.userId;
+    this.username = params.username;
+    this.email = params.email;
+    this.hashPassword = params.hashPassword;
+    this.bio = params.bio;
+    this.role = params.role;
+    this.createdAt = params.createdAt;
+    this.updatedAt = params.updatedAt;
+  }
 }

@@ -9,4 +9,8 @@ export class DocsDto {
     type: String,
   })
   content: string;
+
+  constructor(params: { content: string }) {
+    this.content = params.content;
+  }
 }
