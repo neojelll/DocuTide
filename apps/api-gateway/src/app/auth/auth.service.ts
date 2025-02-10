@@ -6,7 +6,7 @@ import {
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClientKafka } from '@nestjs/microservices';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { firstValueFrom } from 'rxjs';
 import { JwtPayload } from './interfaces/jwt.interface';
 
