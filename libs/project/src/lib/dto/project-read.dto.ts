@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID, IsArray, IsDateString } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class ProjectReadDto {
   @IsUUID()
@@ -64,4 +70,22 @@ export class ProjectReadDto {
     example: '2025-02-06T12:00:00Z',
   })
   updatedAt: string;
+
+  constructor(params: {
+    id: string;
+    name: string;
+    description: string;
+    ownerId: string;
+    tags: string[];
+    createdAt: string;
+    updatedAt: string;
+  }) {
+    this.id = params.id;
+    this.name = params.name;
+    this.description = params.description;
+    this.ownerId = params.ownerId;
+    this.tags = params.tags;
+    this.createdAt = params.createdAt;
+    this.updatedAt = params.updatedAt;
+  }
 }
