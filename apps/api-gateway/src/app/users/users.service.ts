@@ -1,6 +1,5 @@
 import { UserReadDto, UserUpdateDto } from '@docu-tide/user/lib/dto';
 import { Inject, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { JwtPayload } from '../auth/interfaces/jwt.interface';
@@ -8,8 +7,7 @@ import { JwtPayload } from '../auth/interfaces/jwt.interface';
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka,
-    private readonly jwtService: JwtService
+    @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka
   ) {}
 
   async getUser(user: JwtPayload): Promise<UserReadDto> {
