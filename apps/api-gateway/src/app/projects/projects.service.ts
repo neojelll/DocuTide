@@ -6,6 +6,7 @@ import {
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { JwtPayload } from '../auth/interfaces/jwt.interface';
 
 @Injectable()
 export class ProjectsService {
@@ -15,11 +16,11 @@ export class ProjectsService {
   ) {}
 
   async createProject(
-    userId: string,
+    user: JwtPayload,
     projectCreateDto: ProjectCreateDto
   ): Promise<string> {
     const payload: ProjectCreateDto = {
-      ownerId: userId,
+      ownerId: user.sub,
       ...projectCreateDto,
     };
 
@@ -33,10 +34,13 @@ export class ProjectsService {
     return result;
   }
 
-  async getProject(userId: string, projectId: string): Promise<ProjectReadDto> {
+  async getProject(
+    user: JwtPayload,
+    projectname: string
+  ): Promise<ProjectReadDto> {
     const payload = {
-      userId,
-      projectId,
+      ...user,
+      projectname,
     };
 
     const result: ProjectReadDto = await firstValueFrom(
@@ -49,11 +53,11 @@ export class ProjectsService {
     return result;
   }
 
-  async getAllProjects(userId: string): Promise<Array<ProjectReadDto>> {
+  async getAllProjects(user: JwtPayload): Promise<Array<ProjectReadDto>> {
     const result: Array<ProjectReadDto> = await firstValueFrom(
       this.projectsClient.send(
         process.env.PROJECT_GET_ALL_TOPIC,
-        JSON.stringify(userId)
+        JSON.stringify(user)
       )
     );
 
@@ -61,12 +65,13 @@ export class ProjectsService {
   }
 
   async updateProject(
-    userId: string,
-    projectId: string,
+    user: JwtPayload,
+    projectname: string,
     projectUpdateDto: ProjectUpdateDto
   ): Promise<string> {
     const payload: ProjectUpdateDto = {
-      projectId,
+      ...user,
+      name: projectname,
       ...projectUpdateDto,
     };
 
@@ -80,10 +85,10 @@ export class ProjectsService {
     return result;
   }
 
-  async deleteProject(userId: string, projectId: string): Promise<string> {
+  async deleteProject(user: JwtPayload, projectname: string): Promise<string> {
     const payload = {
-      userId,
-      projectId,
+      ...user,
+      projectname,
     };
 
     const result: string = await firstValueFrom(

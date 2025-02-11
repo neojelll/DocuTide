@@ -1,42 +1,28 @@
+import { DocsDto } from '@docu-tide/docs/lib/dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { JwtPayload } from '../auth/interfaces/jwt.interface';
 
 @Injectable()
 export class DocsEditorService {
   constructor(
     @Inject('DOCS_EDITOR_MICROSERVICE')
-    private readonly docsEditorClient: ClientKafka,
+    private readonly docsEditorClient: ClientKafka
   ) {}
 
-  // add DTO annotation
-  async saveDocs(userId: string, projectId: string, docsDto) {
+  async newDocs(user: JwtPayload, projectname: string, docsDto: DocsDto) {
     const payload = {
-      userId,
-      projectId,
+      ...user,
+      projectname,
       ...docsDto,
     };
-    const result = await firstValueFrom(
-      this.docsEditorClient.send(
-        process.env.DOCS_SAVE_TOPIC,
-        JSON.stringify(payload),
-      ),
-    );
-
-    return result;
-  }
-
-  async getDocs(userId: string, projectId: string) {
-    const payload = {
-      userId,
-      projectId,
-    };
 
     const result = await firstValueFrom(
       this.docsEditorClient.send(
-        process.env.DOCS_GET_TOPIC,
-        JSON.stringify(payload),
-      ),
+        process.env.DOCS_NEW_TOPIC,
+        JSON.stringify(payload)
+      )
     );
 
     return result;

@@ -13,10 +13,12 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { JwtDecode } from '../auth/decorators/jwt-decode.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtPayload } from '../auth/interfaces/jwt.interface';
 import { ProjectsService } from './projects.service';
 
-@Controller('users/:userId/projects')
+@Controller()
 export class ProjectsController implements OnModuleInit {
   constructor(
     private readonly projectsService: ProjectsService,
@@ -25,50 +27,50 @@ export class ProjectsController implements OnModuleInit {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post()
+  @Post('new')
   async createProject(
-    @Param('userId') userId: string,
+    @JwtDecode() user: JwtPayload,
     @Body(ValidationPipe) projectCreateDto: ProjectCreateDto
   ) {
-    return await this.projectsService.createProject(userId, projectCreateDto);
+    return await this.projectsService.createProject(user, projectCreateDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':projectId')
+  @Get(':username/:projectname')
   async getProject(
-    @Param('userId') userId: string,
-    @Param('projectId') projectId: string
+    @JwtDecode() user: JwtPayload,
+    @Param('projectname') projectname: string
   ) {
-    return await this.projectsService.getProject(userId, projectId);
+    return await this.projectsService.getProject(user, projectname);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
-  async getAllProjects(@Param('userId') userId: string) {
-    return await this.projectsService.getAllProjects(userId);
+  @Get(':username/projects')
+  async getAllProjects(@JwtDecode() user: JwtPayload) {
+    return await this.projectsService.getAllProjects(user);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch(':projectId')
+  @Patch(':username/:projectname/settings')
   async updateProject(
-    @Param('userId') userId: string,
-    @Param('projectId') projectId: string,
+    @JwtDecode() user: JwtPayload,
+    @Param('projectname') projectname: string,
     @Body(ValidationPipe) projectUpdateDto: ProjectUpdateDto
   ) {
     return await this.projectsService.updateProject(
-      userId,
-      projectId,
+      user,
+      projectname,
       projectUpdateDto
     );
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':projectId')
+  @Delete(':username/:projectname/admin')
   async deleteProject(
-    @Param('userId') userId: string,
-    @Param('projectId') projectId: string
+    @JwtDecode() user: JwtPayload,
+    @Param('projectname') projectname: string
   ) {
-    return await this.projectsService.deleteProject(userId, projectId);
+    return await this.projectsService.deleteProject(user, projectname);
   }
 
   async onModuleInit() {

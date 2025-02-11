@@ -1,7 +1,7 @@
+import { DocsDto } from '@docu-tide/docs/lib/dto';
 import {
   Body,
   Controller,
-  Get,
   Inject,
   OnModuleInit,
   Param,
@@ -10,42 +10,32 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { JwtDecode } from '../auth/decorators/jwt-decode.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtPayload } from '../auth/interfaces/jwt.interface';
 import { DocsEditorService } from './docs-editor.service';
 
-@Controller('users/:userId/projects/:projectId')
+@Controller(':username/:projectname')
 export class DocsEditorController implements OnModuleInit {
   constructor(
     private readonly docsEditorService: DocsEditorService,
     @Inject('DOCS_EDITOR_MICROSERVICE')
-    private readonly docsEditorClient: ClientKafka,
+    private readonly docsEditorClient: ClientKafka
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('docs')
-  async saveDocs(
-    @Param('userId') userId: string,
-    @Param('projectId') projectId: string,
-    @Body(ValidationPipe) docsDto, // add DTO annotation
+  @Post('new')
+  async newDocs(
+    @JwtDecode() user: JwtPayload,
+    @Param('projectname') projectname: string,
+    @Body(ValidationPipe) docsDto: DocsDto
   ) {
-    return await this.docsEditorService.saveDocs(userId, projectId, docsDto);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('docs')
-  async getDocs(
-    @Param('userId') userId: string,
-    @Param('projectId') projectId: string,
-  ) {
-    return await this.docsEditorService.getDocs(userId, projectId);
+    return await this.docsEditorService.newDocs(user, projectname, docsDto);
   }
 
   async onModuleInit() {
     this.docsEditorClient.subscribeToResponseOf(
-      process.env.DOCS_SAVE_TOPIC || 'docs.save',
-    );
-    this.docsEditorClient.subscribeToResponseOf(
-      process.env.DOCS_GET_TOPIC || 'docs.get',
+      process.env.DOCS_NEW_TOPIC || 'docs.save'
     );
     await this.docsEditorClient.connect();
   }

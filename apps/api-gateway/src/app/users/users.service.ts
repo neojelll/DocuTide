@@ -2,6 +2,7 @@ import { UserReadDto, UserUpdateDto } from '@docu-tide/user/lib/dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { JwtPayload } from '../auth/interfaces/jwt.interface';
 
 @Injectable()
 export class UsersService {
@@ -9,20 +10,20 @@ export class UsersService {
     @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka
   ) {}
 
-  async getUser(userId: string): Promise<UserReadDto> {
+  async getUser(user: JwtPayload): Promise<UserReadDto> {
     const result: UserReadDto = await firstValueFrom(
-      this.usersClient.send(process.env.USER_GET_TOPIC, JSON.stringify(userId))
+      this.usersClient.send(process.env.USER_GET_TOPIC, JSON.stringify(user))
     );
 
     return result;
   }
 
   async updateUser(
-    userId: string,
+    user: JwtPayload,
     userUpdateDto: UserUpdateDto
   ): Promise<string> {
     const payload: UserUpdateDto = {
-      userId,
+      userId: user.sub,
       ...userUpdateDto,
     };
 
@@ -36,12 +37,9 @@ export class UsersService {
     return result;
   }
 
-  async deleteUser(userId: string): Promise<string> {
+  async deleteUser(user: JwtPayload): Promise<string> {
     const result: string = await firstValueFrom(
-      this.usersClient.send(
-        process.env.USER_DELETE_TOPIC,
-        JSON.stringify(userId)
-      )
+      this.usersClient.send(process.env.USER_DELETE_TOPIC, JSON.stringify(user))
     );
 
     return result;

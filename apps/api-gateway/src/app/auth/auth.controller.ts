@@ -19,6 +19,7 @@ export class AuthController implements OnModuleInit {
 
   @Post('sign-up')
   async signUp(@Body(ValidationPipe) userSignUpDto: UserSignUpDto) {
+    console.log('Start response');
     return await this.authService.signUp(userSignUpDto);
   }
 
