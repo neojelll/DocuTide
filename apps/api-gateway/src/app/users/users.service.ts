@@ -12,31 +12,20 @@ export class UsersService {
     private readonly jwtService: JwtService
   ) {}
 
-  async getUser(request: Request, username: string): Promise<UserReadDto> {
-    const jwt = request.headers['authorization'].split(' ')[1];
-    const decodedJwt: JwtPayload = this.jwtService.decode(jwt);
-
-    const payload = {
-      ...decodedJwt,
-      username,
-    };
-
+  async getUser(user: JwtPayload): Promise<UserReadDto> {
     const result: UserReadDto = await firstValueFrom(
-      this.usersClient.send(process.env.USER_GET_TOPIC, JSON.stringify(payload))
+      this.usersClient.send(process.env.USER_GET_TOPIC, JSON.stringify(user))
     );
 
     return result;
   }
 
   async updateUser(
-    request: Request,
+    user: JwtPayload,
     userUpdateDto: UserUpdateDto
   ): Promise<string> {
-    const jwt = request.headers['authorization'].split(' ')[1];
-    const decodedJwt: JwtPayload = this.jwtService.decode(jwt);
-
     const payload: UserUpdateDto = {
-      ...decodedJwt,
+      userId: user.sub,
       ...userUpdateDto,
     };
 
@@ -50,15 +39,9 @@ export class UsersService {
     return result;
   }
 
-  async deleteUser(request: Request): Promise<string> {
-    const jwt = request.headers['authorization'].split(' ')[1];
-    const decodedJwt: JwtPayload = this.jwtService.decode(jwt);
-
+  async deleteUser(user: JwtPayload): Promise<string> {
     const result: string = await firstValueFrom(
-      this.usersClient.send(
-        process.env.USER_DELETE_TOPIC,
-        JSON.stringify(decodedJwt)
-      )
+      this.usersClient.send(process.env.USER_DELETE_TOPIC, JSON.stringify(user))
     );
 
     return result;

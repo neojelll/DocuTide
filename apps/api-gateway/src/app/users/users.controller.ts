@@ -6,14 +6,14 @@ import {
   Get,
   Inject,
   OnModuleInit,
-  Param,
   Patch,
-  Req,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { JwtDecode } from '../auth/decorators/jwt-decode.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtPayload } from '../auth/interfaces/jwt.interface';
 import { UsersService } from './users.service';
 
 @Controller()
@@ -25,23 +25,23 @@ export class UsersController implements OnModuleInit {
 
   @UseGuards(JwtAuthGuard)
   @Get(':username')
-  async getUser(@Param('username') username: string, @Req() request: Request) {
-    return await this.usersService.getUser(request, username);
+  async getUser(@JwtDecode() user: JwtPayload) {
+    return await this.usersService.getUser(user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('settings/profile')
   async updateUser(
-    @Body(ValidationPipe) userUpdateDto: UserUpdateDto,
-    @Req() request: Request
+    @JwtDecode() user: JwtPayload,
+    @Body(ValidationPipe) userUpdateDto: UserUpdateDto
   ) {
-    return await this.usersService.updateUser(request, userUpdateDto);
+    return await this.usersService.updateUser(user, userUpdateDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('settings/admin')
-  async deleteUser(@Req() request: Request) {
-    return await this.usersService.deleteUser(request);
+  async deleteUser(@JwtDecode() user: JwtPayload) {
+    return await this.usersService.deleteUser(user);
   }
 
   async onModuleInit() {
