@@ -41,10 +41,4 @@ export class UserSignUpDto {
     maxLength: 30,
   })
   password: string;
-
-  constructor(params: { username: string; email: string; password: string }) {
-    this.username = params.username;
-    this.email = params.email;
-    this.password = params.password;
-  }
 }

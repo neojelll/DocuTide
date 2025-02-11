@@ -27,9 +27,4 @@ export class UserSignInDto {
     maxLength: 30,
   })
   password: string;
-
-  constructor(params: { username: string; password: string }) {
-    this.username = params.username;
-    this.password = params.password;
-  }
 }
