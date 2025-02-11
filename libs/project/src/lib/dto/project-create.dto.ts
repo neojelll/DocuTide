@@ -36,16 +36,4 @@ export class ProjectCreateDto {
     example: ['opensource', 'tech'],
   })
   tags: string[];
-
-  constructor(params: {
-    ownerId: string;
-    name: string;
-    description: string;
-    tags: string[];
-  }) {
-    this.ownerId = params.ownerId;
-    this.name = params.name;
-    this.description = params.description;
-    this.tags = params.tags;
-  }
 }

@@ -44,16 +44,4 @@ export class UserUpdateDto {
     default: '',
   })
   bio?: string;
-
-  constructor(params: {
-    userId?: string;
-    username?: string;
-    password?: string;
-    bio?: string;
-  }) {
-    this.userId = params.userId;
-    this.username = params.username;
-    this.password = params.password;
-    this.bio = params.bio;
-  }
 }

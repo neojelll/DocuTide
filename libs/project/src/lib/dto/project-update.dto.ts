@@ -35,16 +35,4 @@ export class ProjectUpdateDto {
     example: ['updated', 'tech'],
   })
   tags: string[];
-
-  constructor(params: {
-    projectId: string;
-    name: string;
-    description: string;
-    tags: string[];
-  }) {
-    this.projectId = params.projectId;
-    this.name = params.name;
-    this.description = params.description;
-    this.tags = params.tags;
-  }
 }
