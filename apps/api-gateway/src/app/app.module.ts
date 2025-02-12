@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { DocsEditorModule } from './docs-editor/docs-editor.module';
 import { ProjectsModule } from './projects/projects.module';
@@ -22,6 +22,12 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     ProjectsModule,
     DocsEditorModule,
+  ],
+  providers: [
+    {
+      provide: 'APP_GUARD',
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
