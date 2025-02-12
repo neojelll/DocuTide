@@ -1,3 +1,4 @@
+import { JwtAuthGuard, JwtDecode, JwtPayload } from '@docu-tide/core/auth';
 import { UserUpdateDto } from '@docu-tide/user/lib/dto';
 import {
   Body,
@@ -11,9 +12,6 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
-import { JwtDecode } from '../auth/decorators/jwt-decode.decorator';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { JwtPayload } from '../auth/interfaces/jwt.interface';
 import { UsersService } from './users.service';
 
 @Controller()

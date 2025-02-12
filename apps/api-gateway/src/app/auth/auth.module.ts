@@ -1,10 +1,10 @@
+import { JwtStrategy } from '@docu-tide/core/auth';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [
