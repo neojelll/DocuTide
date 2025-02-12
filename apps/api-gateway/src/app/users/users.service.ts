@@ -12,7 +12,7 @@ export class UsersService {
 
   async getUser(user: JwtPayload): Promise<UserReadDto> {
     const result: UserReadDto = await firstValueFrom(
-      this.usersClient.send(process.env.USER_GET_TOPIC, JSON.stringify(user))
+      this.usersClient.send(process.env['USER_GET_TOPIC'], JSON.stringify(user))
     );
 
     return result;
@@ -29,7 +29,7 @@ export class UsersService {
 
     const result: string = await firstValueFrom(
       this.usersClient.send(
-        process.env.USER_UPDATE_TOPIC,
+        process.env['USER_UPDATE_TOPIC'],
         JSON.stringify(payload)
       )
     );
@@ -39,7 +39,10 @@ export class UsersService {
 
   async deleteUser(user: JwtPayload): Promise<string> {
     const result: string = await firstValueFrom(
-      this.usersClient.send(process.env.USER_DELETE_TOPIC, JSON.stringify(user))
+      this.usersClient.send(
+        process.env['USER_DELETE_TOPIC'],
+        JSON.stringify(user)
+      )
     );
 
     return result;

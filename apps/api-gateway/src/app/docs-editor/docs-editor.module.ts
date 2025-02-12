@@ -12,7 +12,7 @@ import { DocsEditorService } from './docs-editor.service';
         options: {
           client: {
             clientId: 'docs-editor',
-            brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9094'],
+            brokers: [process.env['MESSAGE_BROKER_URL']],
           },
           consumer: {
             groupId: 'docs-editor-consumer',

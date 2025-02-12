@@ -29,12 +29,8 @@ export class AuthController implements OnModuleInit {
   }
 
   async onModuleInit() {
-    this.authClient.subscribeToResponseOf(
-      process.env.USER_CREATE_TOPIC || 'user.create'
-    );
-    this.authClient.subscribeToResponseOf(
-      process.env.USER_CREATED_TOPIC || 'user.created'
-    );
+    this.authClient.subscribeToResponseOf(process.env['USER_CREATE_TOPIC']);
+    this.authClient.subscribeToResponseOf(process.env['USER_CREATED_TOPIC']);
     await this.authClient.connect();
   }
 }

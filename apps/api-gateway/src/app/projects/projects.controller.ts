@@ -75,22 +75,20 @@ export class ProjectsController implements OnModuleInit {
 
   async onModuleInit() {
     this.projectsClient.subscribeToResponseOf(
-      process.env.PROJECT_CREATE_TOPIC || 'project.create'
+      process.env['PROJECT_CREATE_TOPIC']
     );
     this.projectsClient.subscribeToResponseOf(
-      process.env.PROJECT_CREATED_TOPIC || 'project.created'
+      process.env['PROJECT_CREATED_TOPIC']
+    );
+    this.projectsClient.subscribeToResponseOf(process.env['PROJECT_GET_TOPIC']);
+    this.projectsClient.subscribeToResponseOf(
+      process.env['PROJECT_GET_ALL_TOPIC']
     );
     this.projectsClient.subscribeToResponseOf(
-      process.env.PROJECT_GET_TOPIC || 'project.get'
+      process.env['PROJECT_UPDATE_TOPIC']
     );
     this.projectsClient.subscribeToResponseOf(
-      process.env.PROJECT_GET_ALL_TOPIC || 'project.get.all'
-    );
-    this.projectsClient.subscribeToResponseOf(
-      process.env.PROJECT_UPDATE_TOPIC || 'project.update'
-    );
-    this.projectsClient.subscribeToResponseOf(
-      process.env.PROJECT_DELETE_TOPIC || 'project.delete'
+      process.env['PROJECT_DELETE_TOPIC']
     );
     await this.projectsClient.connect();
   }

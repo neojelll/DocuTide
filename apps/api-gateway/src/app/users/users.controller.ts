@@ -45,15 +45,9 @@ export class UsersController implements OnModuleInit {
   }
 
   async onModuleInit() {
-    this.usersClient.subscribeToResponseOf(
-      process.env.USER_GET_TOPIC || 'user.get'
-    );
-    this.usersClient.subscribeToResponseOf(
-      process.env.USER_UPDATE_TOPIC || 'user.update'
-    );
-    this.usersClient.subscribeToResponseOf(
-      process.env.USER_DELETE_TOPIC || 'user.delete'
-    );
+    this.usersClient.subscribeToResponseOf(process.env['USER_GET_TOPIC']);
+    this.usersClient.subscribeToResponseOf(process.env['USER_UPDATE_TOPIC']);
+    this.usersClient.subscribeToResponseOf(process.env['USER_DELETE_TOPIC']);
     await this.usersClient.connect();
   }
 }

@@ -20,7 +20,7 @@ export class DocsEditorService {
 
     const result = await firstValueFrom(
       this.docsEditorClient.send(
-        process.env.DOCS_NEW_TOPIC,
+        process.env['DOCS_NEW_TOPIC'],
         JSON.stringify(payload)
       )
     );

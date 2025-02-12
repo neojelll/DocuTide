@@ -10,8 +10,8 @@ import { JwtStrategy } from './strategy/jwt.strategy';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '7d' },
+      secret: process.env['JWT_SECRET'],
+      signOptions: { expiresIn: process.env['JWT_EXPIRES'] },
     }),
     ClientsModule.register([
       {
@@ -20,7 +20,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
         options: {
           client: {
             clientId: 'auth',
-            brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9094'],
+            brokers: [process.env['MESSAGE_BROKER_URL']],
           },
           consumer: {
             groupId: 'auth-consumer',
