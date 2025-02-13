@@ -7,12 +7,15 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka
+    @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka,
   ) {}
 
   async getUser(user: JwtPayload): Promise<UserReadDto> {
     const result: UserReadDto = await firstValueFrom(
-      this.usersClient.send(process.env['USER_GET_TOPIC'], JSON.stringify(user))
+      this.usersClient.send(
+        process.env['USER_GET_TOPIC'],
+        JSON.stringify(user),
+      ),
     );
 
     return result;
@@ -20,7 +23,7 @@ export class UsersService {
 
   async updateUser(
     user: JwtPayload,
-    userUpdateDto: UserUpdateDto
+    userUpdateDto: UserUpdateDto,
   ): Promise<string> {
     const payload: UserUpdateDto = {
       userId: user.sub,
@@ -30,8 +33,8 @@ export class UsersService {
     const result: string = await firstValueFrom(
       this.usersClient.send(
         process.env['USER_UPDATE_TOPIC'],
-        JSON.stringify(payload)
-      )
+        JSON.stringify(payload),
+      ),
     );
 
     return result;
@@ -41,8 +44,8 @@ export class UsersService {
     const result: string = await firstValueFrom(
       this.usersClient.send(
         process.env['USER_DELETE_TOPIC'],
-        JSON.stringify(user)
-      )
+        JSON.stringify(user),
+      ),
     );
 
     return result;

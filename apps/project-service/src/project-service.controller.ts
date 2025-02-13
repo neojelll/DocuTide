@@ -24,11 +24,11 @@ export class ProjectController {
 
   @MessagePattern(process.env.PROJECT_UPDATE_TOPIC || 'project.update')
   async handleUpdateProject(
-    @Payload() payload: { projectId: string; data: ProjectUpdateDto }
+    @Payload() payload: { projectId: string; data: ProjectUpdateDto },
   ) {
     return await this.projectService.updateProject(
       payload.projectId,
-      payload.data
+      payload.data,
     );
   }
 

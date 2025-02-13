@@ -18,5 +18,5 @@ export const JwtDecode = createParamDecorator(
     } catch (Error) {
       return null;
     }
-  }
+  },
 );
