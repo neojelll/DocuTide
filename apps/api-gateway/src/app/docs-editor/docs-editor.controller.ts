@@ -32,9 +32,7 @@ export class DocsEditorController implements OnModuleInit {
   }
 
   async onModuleInit() {
-    this.docsEditorClient.subscribeToResponseOf(
-      process.env.DOCS_NEW_TOPIC || 'docs.save'
-    );
+    this.docsEditorClient.subscribeToResponseOf(process.env['DOCS_NEW_TOPIC']);
     await this.docsEditorClient.connect();
   }
 }

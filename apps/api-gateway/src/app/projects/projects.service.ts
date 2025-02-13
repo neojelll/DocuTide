@@ -26,7 +26,7 @@ export class ProjectsService {
 
     const result: string = await firstValueFrom(
       this.projectsClient.send(
-        process.env.PROJECT_CREATE_TOPIC,
+        process.env['PROJECT_CREATE_TOPIC'],
         JSON.stringify(payload)
       )
     );
@@ -45,7 +45,7 @@ export class ProjectsService {
 
     const result: ProjectReadDto = await firstValueFrom(
       this.projectsClient.send(
-        process.env.PROJECT_GET_TOPIC,
+        process.env['PROJECT_GET_TOPIC'],
         JSON.stringify(payload)
       )
     );
@@ -56,7 +56,7 @@ export class ProjectsService {
   async getAllProjects(user: JwtPayload): Promise<Array<ProjectReadDto>> {
     const result: Array<ProjectReadDto> = await firstValueFrom(
       this.projectsClient.send(
-        process.env.PROJECT_GET_ALL_TOPIC,
+        process.env['PROJECT_GET_ALL_TOPIC'],
         JSON.stringify(user)
       )
     );
@@ -77,7 +77,7 @@ export class ProjectsService {
 
     const result: string = await firstValueFrom(
       this.projectsClient.send(
-        process.env.PROJECT_UPDATE_TOPIC,
+        process.env['PROJECT_UPDATE_TOPIC'],
         JSON.stringify(payload)
       )
     );
@@ -93,7 +93,7 @@ export class ProjectsService {
 
     const result: string = await firstValueFrom(
       this.projectsClient.send(
-        process.env.PROJECT_DELETE_TOPIC,
+        process.env['PROJECT_DELETE_TOPIC'],
         JSON.stringify(payload)
       )
     );

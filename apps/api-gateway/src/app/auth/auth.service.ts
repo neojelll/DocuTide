@@ -23,7 +23,7 @@ export class AuthService {
 
     const result: string = await firstValueFrom(
       this.authClient.send(
-        process.env.USER_CREATE_TOPIC,
+        process.env['USER_CREATE_TOPIC'],
         JSON.stringify(userSignUpDto)
       )
     );
@@ -34,7 +34,7 @@ export class AuthService {
   async signIn(userSignInDto: UserSignInDto) {
     const user: UserReadDto = await firstValueFrom(
       this.authClient.send(
-        process.env.USER_CREATED_TOPIC,
+        process.env['USER_CREATED_TOPIC'],
         JSON.stringify(userSignInDto)
       )
     );
@@ -57,7 +57,7 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload, {
-        secret: process.env.JWT_SECRET,
+        secret: process.env['JWT_SECRET'],
       }),
     };
   }

@@ -12,7 +12,7 @@ import { ProjectsService } from './projects.service';
         options: {
           client: {
             clientId: 'projects',
-            brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9094'],
+            brokers: [process.env['MESSAGE_BROKER_URL']],
           },
           consumer: {
             groupId: 'projects-consumer',
