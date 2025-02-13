@@ -18,7 +18,7 @@ export class DocsEditorController implements OnModuleInit {
   constructor(
     private readonly docsEditorService: DocsEditorService,
     @Inject('DOCS_EDITOR_MICROSERVICE')
-    private readonly docsEditorClient: ClientKafka
+    private readonly docsEditorClient: ClientKafka,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -26,7 +26,7 @@ export class DocsEditorController implements OnModuleInit {
   async newDocs(
     @JwtDecode() user: JwtPayload,
     @Param('projectname') projectname: string,
-    @Body(ValidationPipe) docsDto: DocsDto
+    @Body(ValidationPipe) docsDto: DocsDto,
   ) {
     return await this.docsEditorService.newDocs(user, projectname, docsDto);
   }

@@ -8,7 +8,7 @@ import { firstValueFrom } from 'rxjs';
 export class DocsEditorService {
   constructor(
     @Inject('DOCS_EDITOR_MICROSERVICE')
-    private readonly docsEditorClient: ClientKafka
+    private readonly docsEditorClient: ClientKafka,
   ) {}
 
   async newDocs(user: JwtPayload, projectname: string, docsDto: DocsDto) {
@@ -21,8 +21,8 @@ export class DocsEditorService {
     const result = await firstValueFrom(
       this.docsEditorClient.send(
         process.env['DOCS_NEW_TOPIC'],
-        JSON.stringify(payload)
-      )
+        JSON.stringify(payload),
+      ),
     );
 
     return result;

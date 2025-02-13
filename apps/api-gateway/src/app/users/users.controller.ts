@@ -18,7 +18,7 @@ import { UsersService } from './users.service';
 export class UsersController implements OnModuleInit {
   constructor(
     private readonly usersService: UsersService,
-    @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka
+    @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -31,7 +31,7 @@ export class UsersController implements OnModuleInit {
   @Patch('settings/profile')
   async updateUser(
     @JwtDecode() user: JwtPayload,
-    @Body(ValidationPipe) userUpdateDto: UserUpdateDto
+    @Body(ValidationPipe) userUpdateDto: UserUpdateDto,
   ) {
     return await this.usersService.updateUser(user, userUpdateDto);
   }

@@ -16,7 +16,7 @@ async function bootstrap() {
           groupId: 'api-consumer',
         },
       },
-    }
+    },
   );
 }
 bootstrap();

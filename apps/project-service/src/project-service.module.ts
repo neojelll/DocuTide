@@ -10,7 +10,7 @@ import { Project, ProjectSchema } from './schemas/project.schema';
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     MongooseModule.forRoot(
-      process.env.MONGODB_URI || 'mongodb://admin:secret@localhost:27017'
+      process.env.MONGODB_URI || 'mongodb://admin:secret@localhost:27017',
     ),
     MongooseModule.forFeature([{ name: Project.name, schema: ProjectSchema }]),
     ClientsModule.register([
