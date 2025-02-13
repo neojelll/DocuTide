@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
 export class AuthController implements OnModuleInit {
   constructor(
     private readonly authService: AuthService,
-    @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka
+    @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka,
   ) {}
 
   @Post('sign-up')

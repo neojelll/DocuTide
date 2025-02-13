@@ -16,7 +16,7 @@ async function bootstrap() {
           groupId: 'auth-consumer',
         },
       },
-    }
+    },
   );
 
   await app.listen();

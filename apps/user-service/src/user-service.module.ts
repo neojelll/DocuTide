@@ -10,7 +10,7 @@ import { UserService } from './user-service.service';
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     MongooseModule.forRoot(
-      process.env.MONGODB_URI || 'mongodb://admin:secret@localhost:27017'
+      process.env.MONGODB_URI || 'mongodb://admin:secret@localhost:27017',
     ),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ClientsModule.register([

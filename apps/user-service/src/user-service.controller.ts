@@ -34,7 +34,7 @@ export class UserController {
 
   @MessagePattern(process.env.USER_UPDATE_TOPIC || 'user.update')
   async handleUpdateUser(
-    @Payload() payload: { userId: string; data: UserUpdateDto }
+    @Payload() payload: { userId: string; data: UserUpdateDto },
   ) {
     return await this.userService.updateUser(payload.userId, payload.data);
   }
