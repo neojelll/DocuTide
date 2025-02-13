@@ -1,8 +1,8 @@
+import { JwtPayload } from '@docu-tide/core/auth';
 import { DocsDto } from '@docu-tide/docs/lib/dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import { JwtPayload } from '../auth/interfaces/jwt.interface';
 
 @Injectable()
 export class DocsEditorService {

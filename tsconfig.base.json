@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@docu-tide/core/auth": ["libs/core/auth/src/index.ts"],
       "@docu-tide/docs/*": ["libs/docs/src/*"],
       "@docu-tide/project/*": ["libs/project/src/*"],
       "@docu-tide/user/*": ["libs/user/src/*"]

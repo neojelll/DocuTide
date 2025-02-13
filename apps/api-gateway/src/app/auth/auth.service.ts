@@ -1,3 +1,4 @@
+import { JwtPayload } from '@docu-tide/core/auth';
 import {
   UserReadDto,
   UserSignInDto,
@@ -8,7 +9,6 @@ import { JwtService } from '@nestjs/jwt';
 import { ClientKafka } from '@nestjs/microservices';
 import * as bcryptjs from 'bcryptjs';
 import { firstValueFrom } from 'rxjs';
-import { JwtPayload } from './interfaces/jwt.interface';
 
 @Injectable()
 export class AuthService {

@@ -6,7 +6,7 @@ import { JwtPayload } from '../interfaces/jwt.interface';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
-    const secret = process.env.JWT_SECRET;
+    const secret = process.env['JWT_SECRET'];
 
     if (!secret) {
       throw new UnauthorizedException('JWT secret is not defined');

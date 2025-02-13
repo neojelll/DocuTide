@@ -10,7 +10,7 @@ export const JwtDecode = createParamDecorator(
       return null;
     }
 
-    const jwtService = new JwtService({ secret: process.env.JWT_SECRET });
+    const jwtService = new JwtService({ secret: process.env['JWT_SECRET'] });
 
     try {
       const decode = jwtService.verify(token);
