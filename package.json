@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "formatting": "prettier --write ."
+    "format": "prettier --write .",
+    "format-check": "prettier --check ."
   },
   "private": true,
   "dependencies": {
