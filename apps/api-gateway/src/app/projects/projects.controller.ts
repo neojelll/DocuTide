@@ -21,14 +21,14 @@ export class ProjectsController implements OnModuleInit {
   constructor(
     private readonly projectsService: ProjectsService,
     @Inject('PROJECTS_MICROSERVICE')
-    private readonly projectsClient: ClientKafka
+    private readonly projectsClient: ClientKafka,
   ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post('new')
   async createProject(
     @JwtDecode() user: JwtPayload,
-    @Body(ValidationPipe) projectCreateDto: ProjectCreateDto
+    @Body(ValidationPipe) projectCreateDto: ProjectCreateDto,
   ) {
     return await this.projectsService.createProject(user, projectCreateDto);
   }
@@ -37,7 +37,7 @@ export class ProjectsController implements OnModuleInit {
   @Get(':username/:projectname')
   async getProject(
     @JwtDecode() user: JwtPayload,
-    @Param('projectname') projectname: string
+    @Param('projectname') projectname: string,
   ) {
     return await this.projectsService.getProject(user, projectname);
   }
@@ -53,12 +53,12 @@ export class ProjectsController implements OnModuleInit {
   async updateProject(
     @JwtDecode() user: JwtPayload,
     @Param('projectname') projectname: string,
-    @Body(ValidationPipe) projectUpdateDto: ProjectUpdateDto
+    @Body(ValidationPipe) projectUpdateDto: ProjectUpdateDto,
   ) {
     return await this.projectsService.updateProject(
       user,
       projectname,
-      projectUpdateDto
+      projectUpdateDto,
     );
   }
 
@@ -66,27 +66,27 @@ export class ProjectsController implements OnModuleInit {
   @Delete(':username/:projectname/admin')
   async deleteProject(
     @JwtDecode() user: JwtPayload,
-    @Param('projectname') projectname: string
+    @Param('projectname') projectname: string,
   ) {
     return await this.projectsService.deleteProject(user, projectname);
   }
 
   async onModuleInit() {
     this.projectsClient.subscribeToResponseOf(
-      process.env['PROJECT_CREATE_TOPIC']
+      process.env['PROJECT_CREATE_TOPIC'],
     );
     this.projectsClient.subscribeToResponseOf(
-      process.env['PROJECT_CREATED_TOPIC']
+      process.env['PROJECT_CREATED_TOPIC'],
     );
     this.projectsClient.subscribeToResponseOf(process.env['PROJECT_GET_TOPIC']);
     this.projectsClient.subscribeToResponseOf(
-      process.env['PROJECT_GET_ALL_TOPIC']
+      process.env['PROJECT_GET_ALL_TOPIC'],
     );
     this.projectsClient.subscribeToResponseOf(
-      process.env['PROJECT_UPDATE_TOPIC']
+      process.env['PROJECT_UPDATE_TOPIC'],
     );
     this.projectsClient.subscribeToResponseOf(
-      process.env['PROJECT_DELETE_TOPIC']
+      process.env['PROJECT_DELETE_TOPIC'],
     );
     await this.projectsClient.connect();
   }

@@ -7,7 +7,7 @@ import { Project, ProjectDocument } from './schemas/project.schema';
 @Injectable()
 export class ProjectService {
   constructor(
-    @InjectModel(Project.name) private projectModel: Model<ProjectDocument>
+    @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
   ) {}
 
   async createProject(ownerId: string): Promise<ProjectReadDto> {
@@ -32,7 +32,7 @@ export class ProjectService {
 
   async updateProject(
     projectId: string,
-    data: ProjectUpdateDto
+    data: ProjectUpdateDto,
   ): Promise<ProjectReadDto> {
     const updatedProject = await this.projectModel.findOneAndUpdate({
       id: projectId,

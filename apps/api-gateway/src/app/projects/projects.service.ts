@@ -12,12 +12,12 @@ import { firstValueFrom } from 'rxjs';
 export class ProjectsService {
   constructor(
     @Inject('PROJECTS_MICROSERVICE')
-    private readonly projectsClient: ClientKafka
+    private readonly projectsClient: ClientKafka,
   ) {}
 
   async createProject(
     user: JwtPayload,
-    projectCreateDto: ProjectCreateDto
+    projectCreateDto: ProjectCreateDto,
   ): Promise<string> {
     const payload: ProjectCreateDto = {
       ownerId: user.sub,
@@ -27,8 +27,8 @@ export class ProjectsService {
     const result: string = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_CREATE_TOPIC'],
-        JSON.stringify(payload)
-      )
+        JSON.stringify(payload),
+      ),
     );
 
     return result;
@@ -36,7 +36,7 @@ export class ProjectsService {
 
   async getProject(
     user: JwtPayload,
-    projectname: string
+    projectname: string,
   ): Promise<ProjectReadDto> {
     const payload = {
       ...user,
@@ -46,8 +46,8 @@ export class ProjectsService {
     const result: ProjectReadDto = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_GET_TOPIC'],
-        JSON.stringify(payload)
-      )
+        JSON.stringify(payload),
+      ),
     );
 
     return result;
@@ -57,8 +57,8 @@ export class ProjectsService {
     const result: Array<ProjectReadDto> = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_GET_ALL_TOPIC'],
-        JSON.stringify(user)
-      )
+        JSON.stringify(user),
+      ),
     );
 
     return result;
@@ -67,7 +67,7 @@ export class ProjectsService {
   async updateProject(
     user: JwtPayload,
     projectname: string,
-    projectUpdateDto: ProjectUpdateDto
+    projectUpdateDto: ProjectUpdateDto,
   ): Promise<string> {
     const payload: ProjectUpdateDto = {
       ...user,
@@ -78,8 +78,8 @@ export class ProjectsService {
     const result: string = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_UPDATE_TOPIC'],
-        JSON.stringify(payload)
-      )
+        JSON.stringify(payload),
+      ),
     );
 
     return result;
@@ -94,8 +94,8 @@ export class ProjectsService {
     const result: string = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_DELETE_TOPIC'],
-        JSON.stringify(payload)
-      )
+        JSON.stringify(payload),
+      ),
     );
 
     return result;

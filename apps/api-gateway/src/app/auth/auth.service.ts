@@ -14,7 +14,7 @@ import { firstValueFrom } from 'rxjs';
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka
+    @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka,
   ) {}
 
   async signUp(userSignUpDto: UserSignUpDto): Promise<string> {
@@ -24,8 +24,8 @@ export class AuthService {
     const result: string = await firstValueFrom(
       this.authClient.send(
         process.env['USER_CREATE_TOPIC'],
-        JSON.stringify(userSignUpDto)
-      )
+        JSON.stringify(userSignUpDto),
+      ),
     );
 
     return result;
@@ -35,8 +35,8 @@ export class AuthService {
     const user: UserReadDto = await firstValueFrom(
       this.authClient.send(
         process.env['USER_CREATED_TOPIC'],
-        JSON.stringify(userSignInDto)
-      )
+        JSON.stringify(userSignInDto),
+      ),
     );
 
     if (
