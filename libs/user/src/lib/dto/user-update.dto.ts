@@ -1,7 +1,14 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsUUID,
+  MaxLength,
+  MinLength,
+  ValidateIf,
+} from 'class-validator';
 
 export class UserUpdateDto {
+  @ValidateIf((o) => o.userId !== undefined)
   @IsUUID()
   @ApiPropertyOptional({
     description: 'Unique identifier for the user.',
@@ -9,6 +16,7 @@ export class UserUpdateDto {
   })
   userId?: string;
 
+  @ValidateIf((o) => o.username !== undefined)
   @IsString()
   @MinLength(5)
   @MaxLength(15)
@@ -22,6 +30,7 @@ export class UserUpdateDto {
   })
   username?: string;
 
+  @ValidateIf((o) => o.password !== undefined)
   @IsString()
   @MinLength(7)
   @MaxLength(30)
@@ -35,6 +44,7 @@ export class UserUpdateDto {
   })
   password?: string;
 
+  @ValidateIf((o) => o.bio !== undefined)
   @IsString()
   @MaxLength(500)
   @ApiPropertyOptional({
