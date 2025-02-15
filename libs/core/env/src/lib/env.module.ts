@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { EnvService } from './env.service';
 
 @Module({
   imports: [
@@ -9,7 +10,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
   ],
   controllers: [],
-  providers: [],
-  exports: [],
+  providers: [EnvService],
+  exports: [EnvService],
 })
 export class EnvModule {}
