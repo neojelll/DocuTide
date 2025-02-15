@@ -42,14 +42,15 @@ export class UserService {
   }
 
   async updateUser(userId: string, data: UserUpdateDto): Promise<UserReadDto> {
-    const updatedUser = await this.userModel.findOneAndUpdate({
-      userId: userId,
-      data: data,
-    });
+    const updatedUser = await this.userModel.findOneAndUpdate(
+      { userId: userId },
+      data,
+    );
+
     if (!updatedUser) {
       throw new Error(`User with ID ${userId} not found.`);
     }
-    return this.toUserReadDto(updatedUser);
+    return this.toUserReadDto(await this.userModel.findOne({ userId: userId }));
   }
 
   async deleteUser(userId: string): Promise<string> {
