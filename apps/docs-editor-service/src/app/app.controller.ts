@@ -17,6 +17,6 @@ export class AppController {
       docsDto: DocsDto;
     },
   ) {
-    return this.appService.newDocs(message);
+    return this.appService.newDocumentation(message);
   }
 }
