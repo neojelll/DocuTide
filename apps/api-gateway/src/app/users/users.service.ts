@@ -1,5 +1,9 @@
 import { JwtPayload } from '@docu-tide/core/auth';
-import { UserReadDto, UserUpdateDto } from '@docu-tide/user/lib/dto';
+import {
+  UserReadDto,
+  UserUpdateDto,
+  ValidationUserUpdateDto,
+} from '@docu-tide/user';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -22,18 +26,18 @@ export class UsersService {
   }
 
   async updateUser(
-    user: JwtPayload,
-    userUpdateDto: UserUpdateDto,
+    jwtPayload: JwtPayload,
+    validationUserUpdateDto: ValidationUserUpdateDto,
   ): Promise<string> {
-    const payload: UserUpdateDto = {
-      userId: user.sub,
-      ...userUpdateDto,
+    const userUpdateDto: UserUpdateDto = {
+      jwtPayload,
+      ...validationUserUpdateDto,
     };
 
     const result: string = await firstValueFrom(
       this.usersClient.send(
         process.env['USER_UPDATE_TOPIC'],
-        JSON.stringify(payload),
+        JSON.stringify(userUpdateDto),
       ),
     );
 
