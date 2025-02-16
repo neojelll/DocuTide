@@ -20,7 +20,7 @@
       "@docu-tide/docs/*": ["libs/docs/src/*"],
       "@docu-tide/core/env": ["libs/core/env/src/index.ts"],
       "@docu-tide/project/*": ["libs/project/src/*"],
-      "@docu-tide/user/*": ["libs/user/src/*"]
+      "@docu-tide/user": ["libs/user/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
