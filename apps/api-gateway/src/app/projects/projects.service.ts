@@ -68,10 +68,12 @@ export class ProjectsService {
 
   async updateProject(
     jwtPayload: JwtPayload,
+    projectname: string,
     validationProjectUpdateDto: ValidationProjectUpdateDto,
   ): Promise<string> {
     const projectUpdateDto: ProjectUpdateDto = {
       jwtPayload,
+      projectname,
       ...validationProjectUpdateDto,
     };
 

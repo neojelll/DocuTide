@@ -65,6 +65,7 @@ export class ProjectsController implements OnModuleInit {
   ) {
     return await this.projectsService.updateProject(
       jwtPayload,
+      projectname,
       validationProjectUpdateDto,
     );
   }
