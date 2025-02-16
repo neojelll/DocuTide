@@ -1,57 +1,8 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsString,
-  IsUUID,
-  MaxLength,
-  MinLength,
-  ValidateIf,
-} from 'class-validator';
+import { JwtPayload } from '@docu-tide/core/auth';
+import { IsObject } from 'class-validator';
+import { ValidationUserUpdateDto } from '../validation-dto/user-update-validation.dto';
 
-export class UserUpdateDto {
-  @ValidateIf((o) => o.userId !== undefined)
-  @IsUUID()
-  @ApiPropertyOptional({
-    description: 'Unique identifier for the user.',
-    type: String,
-  })
-  userId?: string;
-
-  @ValidateIf((o) => o.username !== undefined)
-  @IsString()
-  @MinLength(5)
-  @MaxLength(15)
-  @ApiPropertyOptional({
-    description:
-      'Username of the user, must be between 5 and 15 characters long.',
-    type: String,
-    minLength: 5,
-    maxLength: 15,
-    default: '',
-  })
-  username?: string;
-
-  @ValidateIf((o) => o.password !== undefined)
-  @IsString()
-  @MinLength(7)
-  @MaxLength(30)
-  @ApiPropertyOptional({
-    description:
-      'Password of the user, must be between 7 and 30 characters long.',
-    type: String,
-    minLength: 7,
-    maxLength: 30,
-    default: '',
-  })
-  password?: string;
-
-  @ValidateIf((o) => o.bio !== undefined)
-  @IsString()
-  @MaxLength(500)
-  @ApiPropertyOptional({
-    description: 'A brief biography of the user.',
-    type: String,
-    maxLength: 500,
-    default: '',
-  })
-  bio?: string;
+export class UserUpdateDto extends ValidationUserUpdateDto {
+  @IsObject()
+  jwtPayload: JwtPayload;
 }
