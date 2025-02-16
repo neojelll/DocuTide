@@ -1,9 +1,11 @@
 import { JwtPayload } from '@docu-tide/core/auth';
 import {
   ProjectCreateDto,
-  ProjectReadDto,
+  ProjectGetDto,
   ProjectUpdateDto,
-} from '@docu-tide/project/lib/dto';
+  ValidationProjectCreateDto,
+  ValidationProjectUpdateDto,
+} from '@docu-tide/core/dtos';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -16,18 +18,18 @@ export class ProjectsService {
   ) {}
 
   async createProject(
-    user: JwtPayload,
-    projectCreateDto: ProjectCreateDto,
+    jwtPayload: JwtPayload,
+    validationProjectCreateDto: ValidationProjectCreateDto,
   ): Promise<string> {
-    const payload: ProjectCreateDto = {
-      ownerId: user.sub,
-      ...projectCreateDto,
+    const projectCreateDto: ProjectCreateDto = {
+      jwtPayload,
+      ...validationProjectCreateDto,
     };
 
     const result: string = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_CREATE_TOPIC'],
-        JSON.stringify(payload),
+        JSON.stringify(projectCreateDto),
       ),
     );
 
@@ -37,13 +39,13 @@ export class ProjectsService {
   async getProject(
     user: JwtPayload,
     projectname: string,
-  ): Promise<ProjectReadDto> {
+  ): Promise<ProjectGetDto> {
     const payload = {
       ...user,
       projectname,
     };
 
-    const result: ProjectReadDto = await firstValueFrom(
+    const result: ProjectGetDto = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_GET_TOPIC'],
         JSON.stringify(payload),
@@ -53,8 +55,8 @@ export class ProjectsService {
     return result;
   }
 
-  async getAllProjects(user: JwtPayload): Promise<Array<ProjectReadDto>> {
-    const result: Array<ProjectReadDto> = await firstValueFrom(
+  async getAllProjects(user: JwtPayload): Promise<Array<ProjectGetDto>> {
+    const result: Array<ProjectGetDto> = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_GET_ALL_TOPIC'],
         JSON.stringify(user),
@@ -65,20 +67,18 @@ export class ProjectsService {
   }
 
   async updateProject(
-    user: JwtPayload,
-    projectname: string,
-    projectUpdateDto: ProjectUpdateDto,
+    jwtPayload: JwtPayload,
+    validationProjectUpdateDto: ValidationProjectUpdateDto,
   ): Promise<string> {
-    const payload: ProjectUpdateDto = {
-      ...user,
-      name: projectname,
-      ...projectUpdateDto,
+    const projectUpdateDto: ProjectUpdateDto = {
+      jwtPayload,
+      ...validationProjectUpdateDto,
     };
 
     const result: string = await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_UPDATE_TOPIC'],
-        JSON.stringify(payload),
+        JSON.stringify(projectUpdateDto),
       ),
     );
 
