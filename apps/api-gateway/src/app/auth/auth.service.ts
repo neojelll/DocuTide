@@ -1,9 +1,5 @@
 import { AuthLibService, JwtPayload } from '@docu-tide/core/auth';
-import {
-  UserReadDto,
-  UserSignInDto,
-  UserSignUpDto,
-} from '@docu-tide/user/lib/dto';
+import { UserGetDto, UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import * as bcryptjs from 'bcryptjs';
@@ -31,7 +27,7 @@ export class AuthService {
   }
 
   async signIn(userSignInDto: UserSignInDto) {
-    const user: UserReadDto = await firstValueFrom(
+    const user: UserGetDto = await firstValueFrom(
       this.authClient.send(
         process.env['USER_CREATED_TOPIC'],
         JSON.stringify(userSignInDto),
