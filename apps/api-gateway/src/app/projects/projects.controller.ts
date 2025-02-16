@@ -1,5 +1,8 @@
 import { JwtAuthGuard, JwtDecode, JwtPayload } from '@docu-tide/core/auth';
-import { ProjectCreateDto, ProjectUpdateDto } from '@docu-tide/project/lib/dto';
+import {
+  ValidationProjectCreateDto,
+  ValidationProjectUpdateDto,
+} from '@docu-tide/core/dtos';
 import {
   Body,
   Controller,
@@ -27,10 +30,14 @@ export class ProjectsController implements OnModuleInit {
   @UseGuards(JwtAuthGuard)
   @Post('new')
   async createProject(
-    @JwtDecode() user: JwtPayload,
-    @Body(ValidationPipe) projectCreateDto: ProjectCreateDto,
+    @JwtDecode() jwtPayload: JwtPayload,
+    @Body(ValidationPipe)
+    validationProjectCreateDto: ValidationProjectCreateDto,
   ) {
-    return await this.projectsService.createProject(user, projectCreateDto);
+    return await this.projectsService.createProject(
+      jwtPayload,
+      validationProjectCreateDto,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
@@ -51,14 +58,15 @@ export class ProjectsController implements OnModuleInit {
   @UseGuards(JwtAuthGuard)
   @Patch(':username/:projectname/settings')
   async updateProject(
-    @JwtDecode() user: JwtPayload,
+    @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
-    @Body(ValidationPipe) projectUpdateDto: ProjectUpdateDto,
+    @Body(ValidationPipe)
+    validationProjectUpdateDto: ValidationProjectUpdateDto,
   ) {
     return await this.projectsService.updateProject(
-      user,
+      jwtPayload,
       projectname,
-      projectUpdateDto,
+      validationProjectUpdateDto,
     );
   }
 

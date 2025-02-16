@@ -1,5 +1,5 @@
 import { JwtAuthGuard, JwtDecode, JwtPayload } from '@docu-tide/core/auth';
-import { DocsDto } from '@docu-tide/docs/lib/dto';
+import { ValidationDocumentCreateDto } from '@docu-tide/core/dtos';
 import {
   Body,
   Controller,
@@ -24,11 +24,16 @@ export class DocsEditorController implements OnModuleInit {
   @UseGuards(JwtAuthGuard)
   @Post('new')
   async newDocs(
-    @JwtDecode() user: JwtPayload,
+    @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
-    @Body(ValidationPipe) docsDto: DocsDto,
+    @Body(ValidationPipe)
+    validationDocumentCreateDto: ValidationDocumentCreateDto,
   ) {
-    return await this.docsEditorService.newDocs(user, projectname, docsDto);
+    return await this.docsEditorService.newDocs(
+      jwtPayload,
+      projectname,
+      validationDocumentCreateDto,
+    );
   }
 
   async onModuleInit() {

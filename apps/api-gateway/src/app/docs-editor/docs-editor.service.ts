@@ -1,5 +1,8 @@
 import { JwtPayload } from '@docu-tide/core/auth';
-import { DocsDto } from '@docu-tide/docs/lib/dto';
+import {
+  DocumentCreateDto,
+  ValidationDocumentCreateDto,
+} from '@docu-tide/core/dtos';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -11,17 +14,21 @@ export class DocsEditorService {
     private readonly docsEditorClient: ClientKafka,
   ) {}
 
-  async newDocs(user: JwtPayload, projectname: string, docsDto: DocsDto) {
-    const payload = {
-      ...user,
+  async newDocs(
+    jwtPayload: JwtPayload,
+    projectname: string,
+    validationDocumentCreateDto: ValidationDocumentCreateDto,
+  ) {
+    const documentCreateDto: DocumentCreateDto = {
+      jwtPayload,
       projectname,
-      ...docsDto,
+      ...validationDocumentCreateDto,
     };
 
     const result = await firstValueFrom(
       this.docsEditorClient.send(
         process.env['DOCS_NEW_TOPIC'],
-        JSON.stringify(payload),
+        JSON.stringify(documentCreateDto),
       ),
     );
 

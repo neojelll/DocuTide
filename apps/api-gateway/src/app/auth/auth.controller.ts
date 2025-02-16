@@ -1,4 +1,4 @@
-import { UserSignInDto, UserSignUpDto } from '@docu-tide/user/lib/dto';
+import { UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
 import {
   Body,
   Controller,
