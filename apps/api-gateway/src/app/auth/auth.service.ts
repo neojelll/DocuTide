@@ -1,11 +1,10 @@
-import { JwtPayload } from '@docu-tide/core/auth';
+import { AuthLibService, JwtPayload } from '@docu-tide/core/auth';
 import {
   UserReadDto,
   UserSignInDto,
   UserSignUpDto,
 } from '@docu-tide/user/lib/dto';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ClientKafka } from '@nestjs/microservices';
 import * as bcryptjs from 'bcryptjs';
 import { firstValueFrom } from 'rxjs';
@@ -13,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly jwtService: JwtService,
+    private readonly authLibService: AuthLibService,
     @Inject('AUTH_MICROSERVICE') private readonly authClient: ClientKafka,
   ) {}
 
@@ -46,19 +45,12 @@ export class AuthService {
       throw new UnauthorizedException('Uncorrect password');
     }
 
-    return await this.generateAccessToken(userSignInDto.username, user.userId);
-  }
-
-  async generateAccessToken(username: string, userId: string): Promise<any> {
-    const payload: JwtPayload = {
-      sub: userId,
-      username,
+    const jwtPayload: JwtPayload = {
+      sub: user.userId,
+      username: user.username,
+      email: user.email,
     };
 
-    return {
-      access_token: this.jwtService.sign(payload, {
-        secret: process.env['JWT_SECRET'],
-      }),
-    };
+    return await this.authLibService.createAccessToken(jwtPayload);
   }
 }
