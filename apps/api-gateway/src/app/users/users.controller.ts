@@ -1,5 +1,5 @@
 import { JwtAuthGuard, JwtDecode, JwtPayload } from '@docu-tide/core/auth';
-import { UserUpdateDto } from '@docu-tide/user/lib/dto';
+import { ValidationUserUpdateDto } from '@docu-tide/core/dtos';
 import {
   Body,
   Controller,
@@ -30,10 +30,13 @@ export class UsersController implements OnModuleInit {
   @UseGuards(JwtAuthGuard)
   @Patch('settings/profile')
   async updateUser(
-    @JwtDecode() user: JwtPayload,
-    @Body(ValidationPipe) userUpdateDto: UserUpdateDto,
+    @JwtDecode() jwtPayload: JwtPayload,
+    @Body(ValidationPipe) validationUserUpdateDto: ValidationUserUpdateDto,
   ) {
-    return await this.usersService.updateUser(user, userUpdateDto);
+    return await this.usersService.updateUser(
+      jwtPayload,
+      validationUserUpdateDto,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
