@@ -14,7 +14,7 @@ import {
 import { ClientKafka } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 
-@Controller()
+@Controller('users')
 export class UsersController implements OnModuleInit {
   constructor(
     private readonly usersService: UsersService,
@@ -22,13 +22,13 @@ export class UsersController implements OnModuleInit {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get(':username')
-  async getUser(@JwtDecode() user: JwtPayload) {
-    return await this.usersService.getUser(user);
+  @Get('me')
+  async getUser(@JwtDecode() jwtPayload: JwtPayload) {
+    return await this.usersService.getUser(jwtPayload);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('settings/profile')
+  @Patch()
   async updateUser(
     @JwtDecode() jwtPayload: JwtPayload,
     @Body(ValidationPipe) validationUserUpdateDto: ValidationUserUpdateDto,
@@ -40,9 +40,9 @@ export class UsersController implements OnModuleInit {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('settings/admin')
-  async deleteUser(@JwtDecode() user: JwtPayload) {
-    return await this.usersService.deleteUser(user);
+  @Delete('remove')
+  async removeUser(@JwtDecode() jwtPayload: JwtPayload) {
+    return await this.usersService.removeUser(jwtPayload);
   }
 
   async onModuleInit() {
