@@ -6,6 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { DocumentGetPayload } from '../../interfaces/document-get.interface';
 
 export class DocumentGetDto {
   @IsUUID()
@@ -29,4 +30,16 @@ export class DocumentGetDto {
   @IsDate()
   @IsNotEmpty()
   updatedAt: Date;
+
+  constructor(documentGetPayload: DocumentGetPayload) {
+    this.documentId = documentGetPayload.documentId;
+    this.projectname = documentGetPayload.projectname;
+    this.content = documentGetPayload.content;
+    this.createdAt = documentGetPayload.createdAt;
+    this.updatedAt = documentGetPayload.updatedAt;
+  }
+
+  async stringify(): Promise<string> {
+    return JSON.stringify(this, null, 2);
+  }
 }
