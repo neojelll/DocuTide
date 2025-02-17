@@ -6,6 +6,7 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
+import { UserGetPayload } from '../../interfaces/user-get.interface';
 
 export class UserGetDto {
   @IsUUID()
@@ -39,4 +40,19 @@ export class UserGetDto {
   @IsDate()
   @IsNotEmpty()
   updatedAt: Date;
+
+  constructor(userGetPayload: UserGetPayload) {
+    this.userId = userGetPayload.userId;
+    this.email = userGetPayload.email;
+    this.username = userGetPayload.username;
+    this.hashPassword = userGetPayload.hashPassword;
+    this.biography = userGetPayload.biography;
+    this.role = userGetPayload.role;
+    this.createdAt = userGetPayload.createdAt;
+    this.updatedAt = userGetPayload.updatedAt;
+  }
+
+  async stringify(): Promise<string> {
+    return JSON.stringify(this, null, 2);
+  }
 }
