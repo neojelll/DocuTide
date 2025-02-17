@@ -1,7 +1,10 @@
 import { JwtPayload } from '@docu-tide/core/auth';
 import {
   DocumentCreateDto,
+  DocumentGetDto,
+  DocumentUpdateDto,
   ValidationDocumentCreateDto,
+  ValidationDocumentUpdateDto,
 } from '@docu-tide/core/dtos';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
@@ -14,24 +17,75 @@ export class DocsEditorService {
     private readonly docsEditorClient: ClientKafka,
   ) {}
 
-  async newDocs(
+  async createDocument(
     jwtPayload: JwtPayload,
     projectname: string,
     validationDocumentCreateDto: ValidationDocumentCreateDto,
-  ) {
+  ): Promise<DocumentGetDto> {
     const documentCreateDto: DocumentCreateDto = {
       jwtPayload,
       projectname,
       ...validationDocumentCreateDto,
     };
 
-    const result = await firstValueFrom(
+    return await firstValueFrom(
       this.docsEditorClient.send(
-        process.env['DOCS_NEW_TOPIC'],
+        process.env['DOCUMENT_CREATE_TOPIC'],
         JSON.stringify(documentCreateDto),
       ),
     );
+  }
 
-    return result;
+  async getDocument(
+    jwtPayload: JwtPayload,
+    projectname: string,
+  ): Promise<DocumentGetDto> {
+    const payload = {
+      jwtPayload,
+      projectname,
+    };
+
+    return await firstValueFrom(
+      this.docsEditorClient.send(
+        process.env['DOCUMENT_GET_TOPIC'],
+        JSON.stringify(payload),
+      ),
+    );
+  }
+
+  async updateDocument(
+    jwtPayload: JwtPayload,
+    projectname: string,
+    validationDocumentUpdateDto: ValidationDocumentUpdateDto,
+  ): Promise<DocumentGetDto> {
+    const documentUpdateDto: DocumentUpdateDto = {
+      jwtPayload,
+      projectname,
+      ...validationDocumentUpdateDto,
+    };
+
+    return await firstValueFrom(
+      this.docsEditorClient.send(
+        process.env['DOCUMENT_UPDATE_TOPIC'],
+        JSON.stringify(documentUpdateDto),
+      ),
+    );
+  }
+
+  async removeDocument(
+    jwtPayload: JwtPayload,
+    projectname: string,
+  ): Promise<string> {
+    const payload = {
+      jwtPayload,
+      projectname,
+    };
+
+    return await firstValueFrom(
+      this.docsEditorClient.send(
+        process.env['DOCUMENT_DELETE_TOPIC'],
+        JSON.stringify(payload),
+      ),
+    );
   }
 }
