@@ -29,7 +29,11 @@ export class AuthController implements OnModuleInit {
     @Res({ passthrough: true }) response: Response,
     @Body(ValidationPipe) userSignInDto: UserSignInDto,
   ) {
-    return await this.authService.signIn(response, userSignInDto);
+    const token: string = await this.authService.signIn(userSignInDto);
+    response.cookie('jwt', token, {
+      httpOnly: true,
+    });
+    return { message: 'Successfully signed out' };
   }
 
   @Post('sign-out')
