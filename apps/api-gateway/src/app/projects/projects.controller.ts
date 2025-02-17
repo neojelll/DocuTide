@@ -19,7 +19,7 @@ import {
 import { ClientKafka } from '@nestjs/microservices';
 import { ProjectsService } from './projects.service';
 
-@Controller()
+@Controller('projects')
 export class ProjectsController implements OnModuleInit {
   constructor(
     private readonly projectsService: ProjectsService,
@@ -28,7 +28,7 @@ export class ProjectsController implements OnModuleInit {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('new')
+  @Post()
   async createProject(
     @JwtDecode() jwtPayload: JwtPayload,
     @Body(ValidationPipe)
@@ -41,22 +41,22 @@ export class ProjectsController implements OnModuleInit {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':username/:projectname')
+  @Get()
+  async getAllProjects(@JwtDecode() jwtPayload: JwtPayload) {
+    return await this.projectsService.getAllProjects(jwtPayload);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':projectname')
   async getProject(
-    @JwtDecode() user: JwtPayload,
+    @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
   ) {
-    return await this.projectsService.getProject(user, projectname);
+    return await this.projectsService.getProject(jwtPayload, projectname);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':username/projects')
-  async getAllProjects(@JwtDecode() user: JwtPayload) {
-    return await this.projectsService.getAllProjects(user);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Patch(':username/:projectname/settings')
+  @Patch(':projectname')
   async updateProject(
     @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
@@ -71,12 +71,12 @@ export class ProjectsController implements OnModuleInit {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':username/:projectname/admin')
-  async deleteProject(
-    @JwtDecode() user: JwtPayload,
+  @Delete(':projectname/remove')
+  async removeProject(
+    @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
   ) {
-    return await this.projectsService.deleteProject(user, projectname);
+    return await this.projectsService.removeProject(jwtPayload, projectname);
   }
 
   async onModuleInit() {

@@ -20,86 +20,79 @@ export class ProjectsService {
   async createProject(
     jwtPayload: JwtPayload,
     validationProjectCreateDto: ValidationProjectCreateDto,
-  ): Promise<string> {
+  ): Promise<ProjectGetDto> {
     const projectCreateDto: ProjectCreateDto = {
       jwtPayload,
       ...validationProjectCreateDto,
     };
 
-    const result: string = await firstValueFrom(
+    return await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_CREATE_TOPIC'],
         JSON.stringify(projectCreateDto),
       ),
     );
+  }
 
-    return result;
+  async getAllProjects(jwtPayload: JwtPayload): Promise<Array<ProjectGetDto>> {
+    return await firstValueFrom(
+      this.projectsClient.send(
+        process.env['PROJECT_GET_ALL_TOPIC'],
+        JSON.stringify(jwtPayload),
+      ),
+    );
   }
 
   async getProject(
-    user: JwtPayload,
+    jwtPayload: JwtPayload,
     projectname: string,
   ): Promise<ProjectGetDto> {
     const payload = {
-      ...user,
+      jwtPayload,
       projectname,
     };
 
-    const result: ProjectGetDto = await firstValueFrom(
+    return await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_GET_TOPIC'],
         JSON.stringify(payload),
       ),
     );
-
-    return result;
-  }
-
-  async getAllProjects(user: JwtPayload): Promise<Array<ProjectGetDto>> {
-    const result: Array<ProjectGetDto> = await firstValueFrom(
-      this.projectsClient.send(
-        process.env['PROJECT_GET_ALL_TOPIC'],
-        JSON.stringify(user),
-      ),
-    );
-
-    return result;
   }
 
   async updateProject(
     jwtPayload: JwtPayload,
     projectname: string,
     validationProjectUpdateDto: ValidationProjectUpdateDto,
-  ): Promise<string> {
+  ): Promise<ProjectGetDto> {
     const projectUpdateDto: ProjectUpdateDto = {
       jwtPayload,
       projectname,
       ...validationProjectUpdateDto,
     };
 
-    const result: string = await firstValueFrom(
+    return await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_UPDATE_TOPIC'],
         JSON.stringify(projectUpdateDto),
       ),
     );
-
-    return result;
   }
 
-  async deleteProject(user: JwtPayload, projectname: string): Promise<string> {
+  async removeProject(
+    jwtPayload: JwtPayload,
+    projectname: string,
+  ): Promise<string> {
     const payload = {
-      ...user,
+      jwtPayload,
       projectname,
     };
 
-    const result: string = await firstValueFrom(
+    return await firstValueFrom(
       this.projectsClient.send(
         process.env['PROJECT_DELETE_TOPIC'],
         JSON.stringify(payload),
       ),
     );
-
-    return result;
   }
 }
