@@ -18,7 +18,7 @@ export class AuthService {
 
     const result: string = await firstValueFrom(
       this.authClient.send(
-        process.env['USER_CREATE_TOPIC'],
+        process.env['AUTH_SIGN_UP_TOPIC'],
         JSON.stringify(userSignUpDto),
       ),
     );
@@ -26,10 +26,10 @@ export class AuthService {
     return result;
   }
 
-  async signIn(userSignInDto: UserSignInDto) {
+  async signIn(response, userSignInDto: UserSignInDto) {
     const user: UserGetDto = await firstValueFrom(
       this.authClient.send(
-        process.env['USER_CREATED_TOPIC'],
+        process.env['AUTH_SIGN_IN_TOPIC'],
         JSON.stringify(userSignInDto),
       ),
     );
@@ -47,6 +47,12 @@ export class AuthService {
       email: user.email,
     };
 
-    return await this.authLibService.createAccessToken(jwtPayload);
+    const token = await this.authLibService.createAccessToken(jwtPayload);
+
+    response.cookie('jwt', token.access_token, {
+      httpOnly: true,
+    });
+
+    return 'success';
   }
 }

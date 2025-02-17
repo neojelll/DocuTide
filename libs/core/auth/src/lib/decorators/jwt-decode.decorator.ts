@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 export const JwtDecode = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    const token = request.headers.authorization?.split(' ')[1];
+    const token = request.cookies['jwt'];
 
     if (!token) {
       return null;

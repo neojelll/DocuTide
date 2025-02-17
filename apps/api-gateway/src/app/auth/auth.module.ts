@@ -26,7 +26,7 @@ import { AuthService } from './auth.service';
             brokers: [process.env['MESSAGE_BROKER_URL']],
           },
           consumer: {
-            groupId: 'auth-consumer',
+            groupId: process.env['AUTH_GROUP_ID'],
           },
         },
       },
