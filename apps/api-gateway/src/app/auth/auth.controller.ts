@@ -33,7 +33,7 @@ export class AuthController implements OnModuleInit {
     response.cookie('jwt', token, {
       httpOnly: true,
     });
-    return { message: 'Successfully signed out' };
+    return { message: 'Successfully signed in' };
   }
 
   @Post('sign-out')

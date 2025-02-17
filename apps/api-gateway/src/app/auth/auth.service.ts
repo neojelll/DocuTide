@@ -31,6 +31,7 @@ export class AuthService {
         JSON.stringify(userSignInDto),
       ),
     );
+    await this.authLibService.verifyPassword(userGetDto, userSignInDto);
     return await this.authLibService.createAccessToken(userGetDto);
   }
 }
