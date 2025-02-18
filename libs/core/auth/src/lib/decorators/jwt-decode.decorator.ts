@@ -1,10 +1,18 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 export const JwtDecode = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    const token = request.cookies['jwt'];
+    const cookieFileName: string | undefined = process.env['COOKIE_FILE_NAME'];
+    if (!cookieFileName) {
+      throw new NotFoundException('not fount cookie file name in .env file');
+    }
+    const token = request.cookies[cookieFileName];
 
     if (!token) {
       return null;

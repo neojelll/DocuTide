@@ -30,15 +30,17 @@ export class AuthController implements OnModuleInit {
     @Body(ValidationPipe) userSignInDto: UserSignInDto,
   ) {
     const token: string = await this.authService.signIn(userSignInDto);
-    response.cookie('jwt', token, {
-      httpOnly: true,
+    response.cookie(process.env['COOKIE_FILE_NAME'], token, {
+      httpOnly: Boolean(process.env['COOKIE_HTTP_ONLY']),
     });
     return { message: 'Successfully signed in' };
   }
 
   @Post('sign-out')
   async signOut(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('jwt', { httpOnly: true });
+    response.clearCookie(process.env['COOKIE_FILE_NAME'], {
+      httpOnly: Boolean(process.env['COOKIE_HTTP_ONLY']),
+    });
     return { message: 'Successfully signed out' };
   }
 

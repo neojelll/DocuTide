@@ -48,7 +48,9 @@ export class UserController implements OnModuleInit {
     @JwtDecode() jwtPayload: JwtPayload,
   ) {
     const result = await this.userService.removeUser(jwtPayload);
-    response.clearCookie('jwt', { httpOnly: true });
+    response.clearCookie(process.env['COOKIE_FILE_NAME'], {
+      httpOnly: Boolean(process.env['COOKIE_HTTP_ONLY']),
+    });
     return result;
   }
 
