@@ -1,13 +1,13 @@
-import {
-  UserSignInDto,
-  UserSignUpDto,
-  UserUpdateDto,
-} from '@docu-tide/user/lib/dto';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import * as process from 'node:process';
 import { UserService } from './user-service.service';
 import { JwtPayload } from '@docu-tide/core/auth';
+import {
+  UserSignInDto,
+  UserSignUpDto,
+  UserUpdateDto,
+} from '@docu-tide/core/dtos';
 
 @Controller()
 export class UserController {
@@ -29,17 +29,14 @@ export class UserController {
   }
 
   @MessagePattern(process.env.USER_GET_TOPIC || 'user.get')
-  async handleGetUserById(@Payload() payload: JwtPayload) {
+  async handleGetUserByUserId(@Payload() payload: JwtPayload) {
     return await this.userService.getUserByUserId(payload.sub);
   }
 
   @MessagePattern(process.env.USER_UPDATE_TOPIC || 'user.update')
   async handleUpdateUser(@Payload() payload: UserUpdateDto) {
-    console.log('Received user update payload:', payload);
-    const { userId, ...userData } = payload;
-    console.log(`Updating user with ID: ${userId}`, userData);
-
-    return await this.userService.updateUser(userId, userData);
+    const { ...userData } = payload;
+    return await this.userService.updateUser(payload.jwtPayload.sub, userData);
   }
 
   @MessagePattern(process.env.USER_DELETE_TOPIC || 'user.delete')
