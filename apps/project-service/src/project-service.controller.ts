@@ -2,6 +2,7 @@ import {Controller, Param} from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ProjectService } from './project-service.service';
 import { ProjectCreateDto, ProjectUpdateDto } from '@docu-tide/core/dtos';
+import {JwtPayload} from "@docu-tide/core/auth";
 
 @Controller()
 export class ProjectController {
@@ -24,10 +25,10 @@ export class ProjectController {
   }
 
   @MessagePattern(process.env['PROJECT_GET_TOPIC'] || 'project.get')
-  async handleGetProjectById(@Param() projectId: string) {
-    console.log('Received request to get project by ID:', projectId);
-    const result = await this.projectService.getProjectById(projectId);
-    console.log('Fetched project by ID:', result);
+  async handleGetProjectByProjectName(@Payload() data: { jwtPayload: JwtPayload; projectName: string }) {
+    console.log('Received request to get project by projectName:', data.projectName);
+    const result = await this.projectService.getProjectByProjectname(data.projectName);
+    console.log('Fetched project by projectName:', result);
     return result;
   }
 
@@ -35,15 +36,15 @@ export class ProjectController {
   async handleUpdateProject(@Payload() payload: ProjectUpdateDto) {
     console.log('Received update project request:', payload);
     const { ...projectData } = payload;
-    const result = await this.projectService.updateProject(projectData.projectname, projectData);
+    const result = await this.projectService.updateProject(payload.oldProjectName, projectData);
     console.log('Project updated successfully:', result);
     return result;
   }
 
   @MessagePattern(process.env['PROJECT_DELETE_TOPIC'] || 'project.delete')
-  async handleDeleteProject(@Param() projectname: string) {
-    console.log('Received delete project request for ID:', projectname);
-    const result = await this.projectService.deleteProject(projectname);
+  async handleDeleteProject(@Payload() data: { jwtPayload: JwtPayload; projectName: string }) {
+    console.log('Received delete project request for ID:', data.projectName);
+    const result = await this.projectService.deleteProject(data.projectName);
     console.log('Project deleted successfully:', result);
     return result;
   }

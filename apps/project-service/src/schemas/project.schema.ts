@@ -8,7 +8,7 @@ export class Project extends Document {
   projectId: string;
 
   @Prop({ required: true, default: '' })
-  projectname: string;
+  projectName: string;
 
   @Prop({ required: true, default: '' })
   description: string;

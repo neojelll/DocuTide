@@ -57,40 +57,40 @@ export class ProjectService {
     return new ProjectGetDto(project).stringify();
   }
 
-  async getProjectByProjectname(projectname: string): Promise<string> {
-    console.log(`Fetching project by projectname: ${projectname}`);
-    const project = await this.projectModel.findOne({ projectname });
+  async getProjectByProjectname(projectName: string): Promise<string> {
+    console.log(`Fetching project by projectName: ${projectName}`);
+    const project = await this.projectModel.findOne({ projectName });
     if (!project) {
-      console.log(`Project with projectname ${projectname} not found.`);
-      throw new NotFoundException(`Project with projectname ${projectname} not found.`);
+      console.log(`Project with projectName ${projectName} not found.`);
+      throw new NotFoundException(`Project with projectName ${projectName} not found.`);
     }
     console.log('Project found:', project);
     return new ProjectGetDto(project).stringify();
   }
 
-  async updateProject(projectId: string, data: ProjectUpdateDto): Promise<string> {
-    console.log(`Updating project with ID: ${projectId} with data:`, data);
+  async updateProject(oldProjectName: string, data: ProjectUpdateDto): Promise<string> {
+    console.log(`Updating project with projectName: ${oldProjectName} with data:`, data);
     const updatedProject = await this.projectModel
-      .findOneAndUpdate({ projectId }, data, { new: true })
+      .findOneAndUpdate({ projectName : oldProjectName }, data, { new: true })
       .exec();
     if (!updatedProject) {
-      console.log(`Project with ID ${projectId} not found for update.`);
-      throw new NotFoundException(`Project with id ${projectId} not found.`);
+      console.log(`Project with name ${oldProjectName} not found for update.`);
+      throw new NotFoundException(`Project with name ${oldProjectName} not found.`);
     }
     console.log('Updated project:', updatedProject);
     return new ProjectGetDto(updatedProject).stringify();
   }
 
-  async deleteProject(projectId: string): Promise<string> {
-    console.log(`Deleting project with ID: ${projectId}`);
+  async deleteProject(projectName: string): Promise<string> {
+    console.log(`Deleting project with ID: ${projectName}`);
     const deletedProject = await this.projectModel
-      .findOneAndDelete({ projectId })
+      .findOneAndDelete({ projectName })
       .exec();
     if (!deletedProject) {
-      console.log(`Project with ID ${projectId} not found for deletion.`);
-      throw new NotFoundException(`Project with id ${projectId} not found.`);
+      console.log(`Project with name ${projectName} not found for deletion.`);
+      throw new NotFoundException(`Project with name ${projectName} not found.`);
     }
-    console.log(`Project with ID ${projectId} deleted successfully.`);
-    return `Project with ID ${projectId} deleted successfully.`;
+    console.log(`Project with name ${projectName} deleted successfully.`);
+    return `Project with name ${projectName} deleted successfully.`;
   }
 }
