@@ -4,7 +4,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { DocsEditorModule } from './docs-editor/docs-editor.module';
 import { ProjectsModule } from './projects/projects.module';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { UsersModule } from './users/users.module';
       envFilePath: '.env',
     }),
     AuthModule,
-    UsersModule,
+    UserModule,
     ProjectsModule,
     DocsEditorModule,
   ],

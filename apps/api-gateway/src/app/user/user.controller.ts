@@ -12,19 +12,19 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 
 @Controller('users')
-export class UsersController implements OnModuleInit {
+export class UserController implements OnModuleInit {
   constructor(
-    private readonly usersService: UsersService,
-    @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka,
+    private readonly userService: UserService,
+    @Inject('USERS_MICROSERVICE') private readonly userClient: ClientKafka,
   ) {}
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async getUser(@JwtDecode() jwtPayload: JwtPayload) {
-    return await this.usersService.getUser(jwtPayload);
+    return await this.userService.getUser(jwtPayload);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -33,7 +33,7 @@ export class UsersController implements OnModuleInit {
     @JwtDecode() jwtPayload: JwtPayload,
     @Body(ValidationPipe) validationUserUpdateDto: ValidationUserUpdateDto,
   ) {
-    return await this.usersService.updateUser(
+    return await this.userService.updateUser(
       jwtPayload,
       validationUserUpdateDto,
     );
@@ -42,13 +42,13 @@ export class UsersController implements OnModuleInit {
   @UseGuards(JwtAuthGuard)
   @Delete('remove')
   async removeUser(@JwtDecode() jwtPayload: JwtPayload) {
-    return await this.usersService.removeUser(jwtPayload);
+    return await this.userService.removeUser(jwtPayload);
   }
 
   async onModuleInit() {
-    this.usersClient.subscribeToResponseOf(process.env['USER_GET_TOPIC']);
-    this.usersClient.subscribeToResponseOf(process.env['USER_UPDATE_TOPIC']);
-    this.usersClient.subscribeToResponseOf(process.env['USER_DELETE_TOPIC']);
-    await this.usersClient.connect();
+    this.userClient.subscribeToResponseOf(process.env['USER_GET_TOPIC']);
+    this.userClient.subscribeToResponseOf(process.env['USER_UPDATE_TOPIC']);
+    this.userClient.subscribeToResponseOf(process.env['USER_DELETE_TOPIC']);
+    await this.userClient.connect();
   }
 }
