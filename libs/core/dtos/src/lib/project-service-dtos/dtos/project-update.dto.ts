@@ -9,5 +9,5 @@ export class ProjectUpdateDto extends ValidationProjectUpdateDto {
 
   @IsString()
   @IsNotEmpty()
-  projectname: string;
+  oldProjectName: string;
 }

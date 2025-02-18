@@ -17,7 +17,7 @@ export class DocumentGetDto {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(30)
-  projectname: string;
+  projectName: string;
 
   @IsString()
   @IsNotEmpty()
@@ -33,7 +33,7 @@ export class DocumentGetDto {
 
   constructor(documentGetPayload: DocumentGetPayload) {
     this.documentId = documentGetPayload.documentId;
-    this.projectname = documentGetPayload.projectname;
+    this.projectName = documentGetPayload.projectName;
     this.content = documentGetPayload.content;
     this.createdAt = documentGetPayload.createdAt;
     this.updatedAt = documentGetPayload.updatedAt;

@@ -45,11 +45,11 @@ export class ProjectService {
 
   async getProject(
     jwtPayload: JwtPayload,
-    projectname: string,
+    projectName: string,
   ): Promise<ProjectGetDto> {
     const payload = {
       jwtPayload,
-      projectname,
+      projectName,
     };
 
     return await firstValueFrom(
@@ -62,12 +62,12 @@ export class ProjectService {
 
   async updateProject(
     jwtPayload: JwtPayload,
-    projectname: string,
+    projectName: string,
     validationProjectUpdateDto: ValidationProjectUpdateDto,
   ): Promise<ProjectGetDto> {
     const projectUpdateDto: ProjectUpdateDto = {
       jwtPayload,
-      projectname,
+      oldProjectName: projectName,
       ...validationProjectUpdateDto,
     };
 
@@ -81,11 +81,11 @@ export class ProjectService {
 
   async removeProject(
     jwtPayload: JwtPayload,
-    projectname: string,
+    projectName: string,
   ): Promise<string> {
     const payload = {
       jwtPayload,
-      projectname,
+      projectName,
     };
 
     return await firstValueFrom(

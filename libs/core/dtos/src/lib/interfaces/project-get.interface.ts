@@ -1,7 +1,7 @@
 export interface ProjectGetPayload {
   userId: string;
   projectId: string;
-  projectname: string;
+  projectName: string;
   description: string;
   createdAt: Date;
   updatedAt: Date;
