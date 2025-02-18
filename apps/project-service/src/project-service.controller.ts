@@ -8,24 +8,24 @@ import { JwtPayload } from '@docu-tide/core/auth';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @MessagePattern(process.env['PROJECT_CREATE_TOPIC'] || 'project.create')
+  @MessagePattern(process.env['PROJECT_CREATE_TOPIC'])
   async handleCreateProject(@Payload() projectData: ProjectCreateDto) {
     return await this.projectService.createProject(projectData);
   }
 
-  @MessagePattern(process.env['PROJECT_GET_ALL_TOPIC'] || 'project.get.all')
+  @MessagePattern(process.env['PROJECT_GET_ALL_TOPIC'])
   async handleGetAllProjects() {
     return await this.projectService.getAllProjects();
   }
 
-  @MessagePattern(process.env['PROJECT_GET_TOPIC'] || 'project.get')
+  @MessagePattern(process.env['PROJECT_GET_TOPIC'])
   async handleGetProjectByProjectName(
     @Payload() data: { jwtPayload: JwtPayload; projectName: string },
   ) {
     return await this.projectService.getProjectByProjectname(data.projectName);
   }
 
-  @MessagePattern(process.env['PROJECT_UPDATE_TOPIC'] || 'project.update')
+  @MessagePattern(process.env['PROJECT_UPDATE_TOPIC'])
   async handleUpdateProject(@Payload() payload: ProjectUpdateDto) {
     const { ...projectData } = payload;
     return await this.projectService.updateProject(
@@ -34,7 +34,7 @@ export class ProjectController {
     );
   }
 
-  @MessagePattern(process.env['PROJECT_DELETE_TOPIC'] || 'project.delete')
+  @MessagePattern(process.env['PROJECT_DELETE_TOPIC'])
   async handleDeleteProject(
     @Payload() data: { jwtPayload: JwtPayload; projectName: string },
   ) {
