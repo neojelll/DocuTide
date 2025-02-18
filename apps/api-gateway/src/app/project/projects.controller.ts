@@ -17,53 +17,53 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
-import { ProjectsService } from './projects.service';
+import { ProjectService } from './projects.service';
 
-@Controller()
-export class ProjectsController implements OnModuleInit {
+@Controller('projects')
+export class ProjectController implements OnModuleInit {
   constructor(
-    private readonly projectsService: ProjectsService,
+    private readonly projectService: ProjectService,
     @Inject('PROJECTS_MICROSERVICE')
-    private readonly projectsClient: ClientKafka,
+    private readonly projectClient: ClientKafka,
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('new')
+  @Post()
   async createProject(
     @JwtDecode() jwtPayload: JwtPayload,
     @Body(ValidationPipe)
     validationProjectCreateDto: ValidationProjectCreateDto,
   ) {
-    return await this.projectsService.createProject(
+    return await this.projectService.createProject(
       jwtPayload,
       validationProjectCreateDto,
     );
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':username/:projectname')
+  @Get()
+  async getAllProjects(@JwtDecode() jwtPayload: JwtPayload) {
+    return await this.projectService.getAllProjects(jwtPayload);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':projectname')
   async getProject(
-    @JwtDecode() user: JwtPayload,
+    @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
   ) {
-    return await this.projectsService.getProject(user, projectname);
+    return await this.projectService.getProject(jwtPayload, projectname);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':username/projects')
-  async getAllProjects(@JwtDecode() user: JwtPayload) {
-    return await this.projectsService.getAllProjects(user);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Patch(':username/:projectname/settings')
+  @Patch(':projectname')
   async updateProject(
     @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
     @Body(ValidationPipe)
     validationProjectUpdateDto: ValidationProjectUpdateDto,
   ) {
-    return await this.projectsService.updateProject(
+    return await this.projectService.updateProject(
       jwtPayload,
       projectname,
       validationProjectUpdateDto,
@@ -71,31 +71,31 @@ export class ProjectsController implements OnModuleInit {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':username/:projectname/admin')
-  async deleteProject(
-    @JwtDecode() user: JwtPayload,
+  @Delete(':projectname/remove')
+  async removeProject(
+    @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
   ) {
-    return await this.projectsService.deleteProject(user, projectname);
+    return await this.projectService.removeProject(jwtPayload, projectname);
   }
 
   async onModuleInit() {
-    this.projectsClient.subscribeToResponseOf(
+    this.projectClient.subscribeToResponseOf(
       process.env['PROJECT_CREATE_TOPIC'],
     );
-    this.projectsClient.subscribeToResponseOf(
+    this.projectClient.subscribeToResponseOf(
       process.env['PROJECT_CREATED_TOPIC'],
     );
-    this.projectsClient.subscribeToResponseOf(process.env['PROJECT_GET_TOPIC']);
-    this.projectsClient.subscribeToResponseOf(
+    this.projectClient.subscribeToResponseOf(process.env['PROJECT_GET_TOPIC']);
+    this.projectClient.subscribeToResponseOf(
       process.env['PROJECT_GET_ALL_TOPIC'],
     );
-    this.projectsClient.subscribeToResponseOf(
+    this.projectClient.subscribeToResponseOf(
       process.env['PROJECT_UPDATE_TOPIC'],
     );
-    this.projectsClient.subscribeToResponseOf(
+    this.projectClient.subscribeToResponseOf(
       process.env['PROJECT_DELETE_TOPIC'],
     );
-    await this.projectsClient.connect();
+    await this.projectClient.connect();
   }
 }

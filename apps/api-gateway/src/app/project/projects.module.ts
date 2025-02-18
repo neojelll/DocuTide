@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ProjectsController } from './projects.controller';
-import { ProjectsService } from './projects.service';
+import { ProjectController } from './projects.controller';
+import { ProjectService } from './projects.service';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { ProjectsService } from './projects.service';
       },
     ]),
   ],
-  providers: [ProjectsService],
-  controllers: [ProjectsController],
+  providers: [ProjectService],
+  controllers: [ProjectController],
 })
-export class ProjectsModule {}
+export class ProjectModule {}

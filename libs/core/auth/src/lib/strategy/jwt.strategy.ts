@@ -1,11 +1,16 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from '../interfaces/jwt.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     const secret = process.env['JWT_SECRET'];
 
     if (!secret) {
@@ -13,7 +18,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+        (req) => {
+          const cookieFileName: string | undefined =
+            process.env['COOKIE_FILE_NAME'];
+          if (!cookieFileName) {
+            throw new NotFoundException(
+              'not fount cookie file name in .env file',
+            );
+          }
+          return req.cookies[cookieFileName];
+        },
+      ]),
       ignoreExpiration: false,
       secretOrKey: secret,
     });

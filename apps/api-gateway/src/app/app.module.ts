@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
-import { DocsEditorModule } from './docs-editor/docs-editor.module';
-import { ProjectsModule } from './projects/projects.module';
-import { UsersModule } from './users/users.module';
+import { DocumentEditorModule } from './document-editor/document-editor.module';
+import { ProjectModule } from './project/projects.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -19,9 +19,9 @@ import { UsersModule } from './users/users.module';
       envFilePath: '.env',
     }),
     AuthModule,
-    UsersModule,
-    ProjectsModule,
-    DocsEditorModule,
+    UserModule,
+    ProjectModule,
+    DocumentEditorModule,
   ],
   providers: [
     {
