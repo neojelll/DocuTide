@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { DocsEditorModule } from './docs-editor/docs-editor.module';
-import { ProjectsModule } from './projects/projects.module';
+import { ProjectModule } from './project/projects.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -20,7 +20,7 @@ import { UserModule } from './user/user.module';
     }),
     AuthModule,
     UserModule,
-    ProjectsModule,
+    ProjectModule,
     DocsEditorModule,
   ],
   providers: [

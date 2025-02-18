@@ -11,10 +11,10 @@ import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class ProjectsService {
+export class ProjectService {
   constructor(
     @Inject('PROJECTS_MICROSERVICE')
-    private readonly projectsClient: ClientKafka,
+    private readonly projectClient: ClientKafka,
   ) {}
 
   async createProject(
@@ -27,7 +27,7 @@ export class ProjectsService {
     };
 
     return await firstValueFrom(
-      this.projectsClient.send(
+      this.projectClient.send(
         process.env['PROJECT_CREATE_TOPIC'],
         JSON.stringify(projectCreateDto),
       ),
@@ -36,7 +36,7 @@ export class ProjectsService {
 
   async getAllProjects(jwtPayload: JwtPayload): Promise<Array<ProjectGetDto>> {
     return await firstValueFrom(
-      this.projectsClient.send(
+      this.projectClient.send(
         process.env['PROJECT_GET_ALL_TOPIC'],
         JSON.stringify(jwtPayload),
       ),
@@ -53,7 +53,7 @@ export class ProjectsService {
     };
 
     return await firstValueFrom(
-      this.projectsClient.send(
+      this.projectClient.send(
         process.env['PROJECT_GET_TOPIC'],
         JSON.stringify(payload),
       ),
@@ -72,7 +72,7 @@ export class ProjectsService {
     };
 
     return await firstValueFrom(
-      this.projectsClient.send(
+      this.projectClient.send(
         process.env['PROJECT_UPDATE_TOPIC'],
         JSON.stringify(projectUpdateDto),
       ),
@@ -89,7 +89,7 @@ export class ProjectsService {
     };
 
     return await firstValueFrom(
-      this.projectsClient.send(
+      this.projectClient.send(
         process.env['PROJECT_DELETE_TOPIC'],
         JSON.stringify(payload),
       ),
