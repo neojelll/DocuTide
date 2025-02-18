@@ -8,10 +8,12 @@ import {
   Inject,
   OnModuleInit,
   Patch,
+  Res,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { Response } from 'express';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -41,8 +43,13 @@ export class UserController implements OnModuleInit {
 
   @UseGuards(JwtAuthGuard)
   @Delete('remove')
-  async removeUser(@JwtDecode() jwtPayload: JwtPayload) {
-    return await this.userService.removeUser(jwtPayload);
+  async removeUser(
+    @Res() response: Response,
+    @JwtDecode() jwtPayload: JwtPayload,
+  ) {
+    const result = await this.userService.removeUser(jwtPayload);
+    response.clearCookie('jwt', { httpOnly: true });
+    return result;
   }
 
   async onModuleInit() {
