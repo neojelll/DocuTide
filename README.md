@@ -54,6 +54,10 @@ Explore our architecture through the following diagrams:
 - [Containers Diagram](architecture/diagrams/containers-diagram.png)
 - [MVP Containers Diagram](architecture/diagrams/mvp-diagram.png)
 
+# Contribute
+
+...
+
 # 📜 License
 
 DocuTide is [MIT licensed](LICENSE).
