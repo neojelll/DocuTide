@@ -10,7 +10,7 @@ export class ValidationProjectUpdateDto {
   @IsOptional()
   @MinLength(3)
   @MaxLength(30)
-  newProjectname?: string;
+  projectName?: string;
 
   @ApiPropertyOptional({
     type: String,

@@ -23,7 +23,7 @@ export class ProjectGetDto extends ValidationProjectCreateDto {
     super();
     this.userId = projectGetPayload.userId;
     this.projectId = projectGetPayload.projectId;
-    this.projectname = projectGetPayload.projectname;
+    this.projectName = projectGetPayload.projectName;
     this.description = projectGetPayload.description;
     this.createdAt = projectGetPayload.createdAt;
     this.updatedAt = projectGetPayload.updatedAt;

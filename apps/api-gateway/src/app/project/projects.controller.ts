@@ -47,36 +47,36 @@ export class ProjectController implements OnModuleInit {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':projectname')
+  @Get(':projectName')
   async getProject(
     @JwtDecode() jwtPayload: JwtPayload,
-    @Param('projectname') projectname: string,
+    @Param('projectName') projectName: string,
   ) {
-    return await this.projectService.getProject(jwtPayload, projectname);
+    return await this.projectService.getProject(jwtPayload, projectName);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch(':projectname')
+  @Patch(':projectName')
   async updateProject(
     @JwtDecode() jwtPayload: JwtPayload,
-    @Param('projectname') projectname: string,
+    @Param('projectName') projectName: string,
     @Body(ValidationPipe)
     validationProjectUpdateDto: ValidationProjectUpdateDto,
   ) {
     return await this.projectService.updateProject(
       jwtPayload,
-      projectname,
+      projectName,
       validationProjectUpdateDto,
     );
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':projectname/remove')
+  @Delete(':projectName/remove')
   async removeProject(
     @JwtDecode() jwtPayload: JwtPayload,
-    @Param('projectname') projectname: string,
+    @Param('projectName') projectName: string,
   ) {
-    return await this.projectService.removeProject(jwtPayload, projectname);
+    return await this.projectService.removeProject(jwtPayload, projectName);
   }
 
   async onModuleInit() {

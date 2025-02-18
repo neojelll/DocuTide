@@ -17,5 +17,5 @@ export class DocumentCreateDto extends ValidationDocumentCreateDto {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(30)
-  projectname: string;
+  projectName: string;
 }
