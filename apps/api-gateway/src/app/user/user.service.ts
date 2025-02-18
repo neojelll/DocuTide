@@ -9,49 +9,43 @@ import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
-    @Inject('USERS_MICROSERVICE') private readonly usersClient: ClientKafka,
+    @Inject('USERS_MICROSERVICE') private readonly userClient: ClientKafka,
   ) {}
 
   async getUser(jwtPayload: JwtPayload): Promise<UserGetDto> {
-    const result: UserGetDto = await firstValueFrom(
-      this.usersClient.send(
+    return await firstValueFrom(
+      this.userClient.send(
         process.env['USER_GET_TOPIC'],
         JSON.stringify(jwtPayload),
       ),
     );
-
-    return result;
   }
 
   async updateUser(
     jwtPayload: JwtPayload,
     validationUserUpdateDto: ValidationUserUpdateDto,
-  ): Promise<string> {
+  ): Promise<UserGetDto> {
     const userUpdateDto: UserUpdateDto = {
       jwtPayload,
       ...validationUserUpdateDto,
     };
 
-    const result: string = await firstValueFrom(
-      this.usersClient.send(
+    return await firstValueFrom(
+      this.userClient.send(
         process.env['USER_UPDATE_TOPIC'],
         JSON.stringify(userUpdateDto),
       ),
     );
-
-    return result;
   }
 
-  async deleteUser(user: JwtPayload): Promise<string> {
-    const result: string = await firstValueFrom(
-      this.usersClient.send(
+  async removeUser(jwtPayload: JwtPayload): Promise<string> {
+    return await firstValueFrom(
+      this.userClient.send(
         process.env['USER_DELETE_TOPIC'],
-        JSON.stringify(user),
+        JSON.stringify(jwtPayload),
       ),
     );
-
-    return result;
   }
 }

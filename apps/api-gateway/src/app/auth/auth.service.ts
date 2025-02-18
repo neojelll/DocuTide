@@ -1,8 +1,7 @@
-import { AuthLibService, JwtPayload } from '@docu-tide/core/auth';
+import { AuthLibService } from '@docu-tide/core/auth';
 import { UserGetDto, UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
-import * as bcryptjs from 'bcryptjs';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -13,40 +12,26 @@ export class AuthService {
   ) {}
 
   async signUp(userSignUpDto: UserSignUpDto): Promise<string> {
-    const salt = await bcryptjs.genSalt();
-    userSignUpDto.password = await bcryptjs.hash(userSignUpDto.password, salt);
+    userSignUpDto.password = await this.authLibService.hashPassword(
+      userSignUpDto,
+    );
 
-    const result: string = await firstValueFrom(
+    return await firstValueFrom(
       this.authClient.send(
-        process.env['USER_CREATE_TOPIC'],
+        process.env['AUTH_SIGN_UP_TOPIC'],
         JSON.stringify(userSignUpDto),
       ),
     );
-
-    return result;
   }
 
-  async signIn(userSignInDto: UserSignInDto) {
-    const user: UserGetDto = await firstValueFrom(
+  async signIn(userSignInDto: UserSignInDto): Promise<string> {
+    const userGetDto: UserGetDto = await firstValueFrom(
       this.authClient.send(
-        process.env['USER_CREATED_TOPIC'],
+        process.env['AUTH_SIGN_IN_TOPIC'],
         JSON.stringify(userSignInDto),
       ),
     );
-
-    if (
-      !user.userId ||
-      !(await bcryptjs.compare(userSignInDto.password, user.hashPassword))
-    ) {
-      throw new UnauthorizedException('Uncorrect password');
-    }
-
-    const jwtPayload: JwtPayload = {
-      sub: user.userId,
-      username: user.username,
-      email: user.email,
-    };
-
-    return await this.authLibService.createAccessToken(jwtPayload);
+    await this.authLibService.verifyPassword(userGetDto, userSignInDto);
+    return await this.authLibService.createAccessToken(userGetDto);
   }
 }

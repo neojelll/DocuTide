@@ -1,27 +1,27 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { DocsEditorController } from './docs-editor.controller';
-import { DocsEditorService } from './docs-editor.service';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: 'DOCS_EDITOR_MICROSERVICE',
+        name: 'USERS_MICROSERVICE',
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'docs-editor',
+            clientId: 'users',
             brokers: [process.env['MESSAGE_BROKER_URL']],
           },
           consumer: {
-            groupId: 'docs-editor-consumer',
+            groupId: 'users-consumer',
           },
         },
       },
     ]),
   ],
-  providers: [DocsEditorService],
-  controllers: [DocsEditorController],
+  providers: [UserService],
+  controllers: [UserController],
 })
-export class DocsEditorModule {}
+export class UserModule {}
