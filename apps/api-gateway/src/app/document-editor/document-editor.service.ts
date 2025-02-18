@@ -11,10 +11,10 @@ import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class DocsEditorService {
+export class DocumentEditorService {
   constructor(
     @Inject('DOCS_EDITOR_MICROSERVICE')
-    private readonly docsEditorClient: ClientKafka,
+    private readonly documentEditorClient: ClientKafka,
   ) {}
 
   async createDocument(
@@ -29,7 +29,7 @@ export class DocsEditorService {
     };
 
     return await firstValueFrom(
-      this.docsEditorClient.send(
+      this.documentEditorClient.send(
         process.env['DOCUMENT_CREATE_TOPIC'],
         JSON.stringify(documentCreateDto),
       ),
@@ -46,7 +46,7 @@ export class DocsEditorService {
     };
 
     return await firstValueFrom(
-      this.docsEditorClient.send(
+      this.documentEditorClient.send(
         process.env['DOCUMENT_GET_TOPIC'],
         JSON.stringify(payload),
       ),
@@ -65,7 +65,7 @@ export class DocsEditorService {
     };
 
     return await firstValueFrom(
-      this.docsEditorClient.send(
+      this.documentEditorClient.send(
         process.env['DOCUMENT_UPDATE_TOPIC'],
         JSON.stringify(documentUpdateDto),
       ),
@@ -82,7 +82,7 @@ export class DocsEditorService {
     };
 
     return await firstValueFrom(
-      this.docsEditorClient.send(
+      this.documentEditorClient.send(
         process.env['DOCUMENT_DELETE_TOPIC'],
         JSON.stringify(payload),
       ),

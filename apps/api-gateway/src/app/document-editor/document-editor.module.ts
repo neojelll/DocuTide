@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { DocsEditorController } from './docs-editor.controller';
-import { DocsEditorService } from './docs-editor.service';
+import { DocumentEditorController } from './document-editor.controller';
+import { DocumentEditorService } from './document-editor.service';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { DocsEditorService } from './docs-editor.service';
       },
     ]),
   ],
-  providers: [DocsEditorService],
-  controllers: [DocsEditorController],
+  providers: [DocumentEditorService],
+  controllers: [DocumentEditorController],
 })
-export class DocsEditorModule {}
+export class DocumentEditorModule {}

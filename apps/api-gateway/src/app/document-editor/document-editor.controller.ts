@@ -17,14 +17,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
-import { DocsEditorService } from './docs-editor.service';
+import { DocumentEditorService } from './document-editor.service';
 
 @Controller('projects/:projectname/document')
-export class DocsEditorController implements OnModuleInit {
+export class DocumentEditorController implements OnModuleInit {
   constructor(
-    private readonly docsEditorService: DocsEditorService,
+    private readonly documentEditorService: DocumentEditorService,
     @Inject('DOCS_EDITOR_MICROSERVICE')
-    private readonly docsEditorClient: ClientKafka,
+    private readonly documentEditorClient: ClientKafka,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -35,7 +35,7 @@ export class DocsEditorController implements OnModuleInit {
     @Body(ValidationPipe)
     validationDocumentCreateDto: ValidationDocumentCreateDto,
   ) {
-    return await this.docsEditorService.createDocument(
+    return await this.documentEditorService.createDocument(
       jwtPayload,
       projectname,
       validationDocumentCreateDto,
@@ -48,7 +48,10 @@ export class DocsEditorController implements OnModuleInit {
     @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
   ) {
-    return await this.docsEditorService.getDocument(jwtPayload, projectname);
+    return await this.documentEditorService.getDocument(
+      jwtPayload,
+      projectname,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
@@ -59,7 +62,7 @@ export class DocsEditorController implements OnModuleInit {
     @Body(ValidationPipe)
     validationDocumentUpdateDto: ValidationDocumentUpdateDto,
   ) {
-    return await this.docsEditorService.updateDocument(
+    return await this.documentEditorService.updateDocument(
       jwtPayload,
       projectname,
       validationDocumentUpdateDto,
@@ -72,22 +75,25 @@ export class DocsEditorController implements OnModuleInit {
     @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectname') projectname: string,
   ) {
-    return await this.docsEditorService.removeDocument(jwtPayload, projectname);
+    return await this.documentEditorService.removeDocument(
+      jwtPayload,
+      projectname,
+    );
   }
 
   async onModuleInit() {
-    this.docsEditorClient.subscribeToResponseOf(
+    this.documentEditorClient.subscribeToResponseOf(
       process.env['DOCUMENT_CREATE_TOPIC'],
     );
-    this.docsEditorClient.subscribeToResponseOf(
+    this.documentEditorClient.subscribeToResponseOf(
       process.env['DOCUMENT_GET_TOPIC'],
     );
-    this.docsEditorClient.subscribeToResponseOf(
+    this.documentEditorClient.subscribeToResponseOf(
       process.env['DOCUMENT_UPDATE_TOPIC'],
     );
-    this.docsEditorClient.subscribeToResponseOf(
+    this.documentEditorClient.subscribeToResponseOf(
       process.env['DOCUMENT_DELETE_TOPIC'],
     );
-    await this.docsEditorClient.connect();
+    await this.documentEditorClient.connect();
   }
 }

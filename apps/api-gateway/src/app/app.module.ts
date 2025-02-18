@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
-import { DocsEditorModule } from './docs-editor/docs-editor.module';
+import { DocumentEditorModule } from './document-editor/document-editor.module';
 import { ProjectModule } from './project/projects.module';
 import { UserModule } from './user/user.module';
 
@@ -21,7 +21,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     UserModule,
     ProjectModule,
-    DocsEditorModule,
+    DocumentEditorModule,
   ],
   providers: [
     {
