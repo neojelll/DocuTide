@@ -16,7 +16,7 @@ export class ValidationProjectCreateDto {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(30)
-  projectname: string;
+  projectName: string;
 
   @ApiPropertyOptional({
     type: String,
