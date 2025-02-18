@@ -1,8 +1,12 @@
-import { ProjectReadDto, ProjectUpdateDto } from '@docu-tide/project/lib/dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Project, ProjectDocument } from './schemas/project.schema';
+import {
+  ProjectCreateDto,
+  ProjectGetDto,
+  ProjectUpdateDto,
+} from '@docu-tide/core/dtos';
 
 @Injectable()
 export class ProjectService {
@@ -10,61 +14,83 @@ export class ProjectService {
     @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
   ) {}
 
-  async createProject(ownerId: string): Promise<ProjectReadDto> {
+  async createProject(projectData: ProjectCreateDto): Promise<string> {
     const newProject = new this.projectModel({
-      ownerId: ownerId,
+      ...projectData,
+      userId: projectData.jwtPayload.sub,
     });
-    return this.toProjectReadDto(await newProject.save());
+
+    try {
+      const savedProject = await newProject.save();
+      console.log('New project created:', savedProject);
+      return new ProjectGetDto(savedProject).stringify();
+    } catch (error) {
+      console.error('Error creating project:', error);
+      throw error;
+    }
   }
 
-  async getAllProjects(): Promise<ProjectReadDto[]> {
+
+  async getAllProjects() {
+    console.log('Fetching all projects...');
     const projects = await this.projectModel.find().exec();
-    return projects.map(this.toProjectReadDto);
+    console.log('Projects fetched:', projects);
+
+    const result = projects.map((project) => {
+      return new ProjectGetDto(project);
+    });
+
+    console.log('Fetched all projects:', result);
+    return result;
   }
 
-  async getProjectById(projectId: string) {
+
+
+  async getProjectById(projectId: string): Promise<string> {
+    console.log(`Fetching project by ID: ${projectId}`);
     const project = await this.projectModel.findOne({ id: projectId });
     if (!project) {
+      console.log(`Project with ID ${projectId} not found.`);
       throw new NotFoundException(`Project with id ${projectId} not found.`);
     }
-    return this.toProjectReadDto(project);
+    console.log('Project found:', project);
+    return new ProjectGetDto(project).stringify();
   }
 
-  async updateProject(
-    projectId: string,
-    data: ProjectUpdateDto,
-  ): Promise<ProjectReadDto> {
-    const updatedProject = await this.projectModel.findOneAndUpdate({
-      id: projectId,
-      data: data,
-    });
+  async getProjectByProjectname(projectname: string): Promise<string> {
+    console.log(`Fetching project by projectname: ${projectname}`);
+    const project = await this.projectModel.findOne({ projectname });
+    if (!project) {
+      console.log(`Project with projectname ${projectname} not found.`);
+      throw new NotFoundException(`Project with projectname ${projectname} not found.`);
+    }
+    console.log('Project found:', project);
+    return new ProjectGetDto(project).stringify();
+  }
+
+  async updateProject(projectId: string, data: ProjectUpdateDto): Promise<string> {
+    console.log(`Updating project with ID: ${projectId} with data:`, data);
+    const updatedProject = await this.projectModel
+      .findOneAndUpdate({ projectId }, data, { new: true })
+      .exec();
     if (!updatedProject) {
+      console.log(`Project with ID ${projectId} not found for update.`);
       throw new NotFoundException(`Project with id ${projectId} not found.`);
     }
-    return this.toProjectReadDto(updatedProject);
+    console.log('Updated project:', updatedProject);
+    return new ProjectGetDto(updatedProject).stringify();
   }
 
-  async deleteProject(projectId: string) {
-    const deletedProject = await this.projectModel.findOneAndDelete({
-      id: projectId,
-    });
+  async deleteProject(projectId: string): Promise<string> {
+    console.log(`Deleting project with ID: ${projectId}`);
+    const deletedProject = await this.projectModel
+      .findOneAndDelete({ projectId })
+      .exec();
     if (!deletedProject) {
+      console.log(`Project with ID ${projectId} not found for deletion.`);
       throw new NotFoundException(`Project with id ${projectId} not found.`);
     }
+    console.log(`Project with ID ${projectId} deleted successfully.`);
     return `Project with ID ${projectId} deleted successfully.`;
-  }
-
-  private toProjectReadDto(project: ProjectDocument): ProjectReadDto {
-    const plainProject = project.toObject();
-
-    return {
-      id: plainProject.id,
-      name: plainProject.name,
-      description: plainProject.description,
-      ownerId: plainProject.ownerId,
-      tags: plainProject.tags,
-      createdAt: plainProject.createdAt,
-      updatedAt: plainProject.updatedAt,
-    };
   }
 }
