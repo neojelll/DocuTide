@@ -19,12 +19,12 @@ export class DocumentEditorService {
 
   async createDocument(
     jwtPayload: JwtPayload,
-    projectname: string,
+    projectName: string,
     validationDocumentCreateDto: ValidationDocumentCreateDto,
   ): Promise<DocumentGetDto> {
     const documentCreateDto: DocumentCreateDto = {
       jwtPayload,
-      projectname,
+      projectName,
       ...validationDocumentCreateDto,
     };
 
@@ -38,11 +38,11 @@ export class DocumentEditorService {
 
   async getDocument(
     jwtPayload: JwtPayload,
-    projectname: string,
+    projectName: string,
   ): Promise<DocumentGetDto> {
     const payload = {
       jwtPayload,
-      projectname,
+      projectName,
     };
 
     return await firstValueFrom(
@@ -55,12 +55,12 @@ export class DocumentEditorService {
 
   async updateDocument(
     jwtPayload: JwtPayload,
-    projectname: string,
+    projectName: string,
     validationDocumentUpdateDto: ValidationDocumentUpdateDto,
   ): Promise<DocumentGetDto> {
     const documentUpdateDto: DocumentUpdateDto = {
       jwtPayload,
-      projectname,
+      projectName,
       ...validationDocumentUpdateDto,
     };
 
@@ -74,11 +74,11 @@ export class DocumentEditorService {
 
   async removeDocument(
     jwtPayload: JwtPayload,
-    projectname: string,
+    projectName: string,
   ): Promise<string> {
     const payload = {
       jwtPayload,
-      projectname,
+      projectName,
     };
 
     return await firstValueFrom(
