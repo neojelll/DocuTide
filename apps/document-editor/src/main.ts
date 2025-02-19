@@ -9,11 +9,11 @@ async function bootstrap() {
       transport: Transport.KAFKA,
       options: {
         client: {
-          clientId: 'docs-editor-service',
+          clientId: 'document-editor',
           brokers: [process.env['MESSAGE_BROKER_URL']],
         },
         consumer: {
-          groupId: process.env['DOCS_GROUP_ID'],
+          groupId: process.env['DOCUMENT_GROUP_ID'],
         },
       },
     },

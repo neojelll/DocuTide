@@ -30,47 +30,40 @@ export class DocumentEditor {
     }
   }
 
-  async getAllDocuments() {
-    const documents = await this.documentationModel.find().exec();
-    return documents.map((document) => {
-      return new DocumentGetDto(document);
-    });
-  }
-
-  async getDocumentById(projectName: string): Promise<string> {
+  async getDocumentByProjectId(projectId: string): Promise<string> {
     const document = await this.documentationModel.findOne({
-      projectName: projectName,
+      projectId,
     });
     if (!document) {
       throw new NotFoundException(
-        `Document with projectName ${projectName} not found.`,
+        `Document with projectId ${projectId} not found.`,
       );
     }
     return new DocumentGetDto(document).stringify();
   }
 
   async updateDocument(
-    projectName: string,
+    projectId: string,
     data: DocumentUpdateDto,
   ): Promise<string> {
     const updatedDocument = await this.documentationModel
-      .findOneAndUpdate({ projectName }, data, { new: true })
+      .findOneAndUpdate({ projectId }, data, { new: true })
       .exec();
     if (!updatedDocument) {
       throw new NotFoundException(
-        `Document with projectName ${projectName} not found.`,
+        `Document with projectId ${projectId} not found.`,
       );
     }
     return new DocumentGetDto(updatedDocument).stringify();
   }
 
-  async deleteDocument(projectName: string): Promise<string> {
+  async deleteDocument(projectId: string): Promise<string> {
     const deletedDocument = await this.documentationModel
-      .findOneAndDelete({ projectName })
+      .findOneAndDelete({ projectId })
       .exec();
     if (!deletedDocument) {
       throw new NotFoundException(
-        `Document with projectName ${projectName} not found.`,
+        `Document with projectId ${projectId} not found.`,
       );
     }
     return new DocumentGetDto(deletedDocument).stringify();

@@ -15,16 +15,16 @@ export class DocumentEditorController {
 
   @MessagePattern(process.env['DOCUMENT_GET_TOPIC'])
   async handleGetDocument(
-    @Payload() data: { jwtPayload: JwtPayload; documentId: string },
+    @Payload() data: { jwtPayload: JwtPayload; projectId: string },
   ) {
-    return await this.documentService.getDocumentById(data.documentId);
+    return await this.documentService.getDocumentByProjectId(data.projectId);
   }
 
   @MessagePattern(process.env['DOCUMENT_UPDATE_TOPIC'])
   async handleUpdateDocument(@Payload() payload: DocumentUpdateDto) {
     const { ...documentData } = payload;
     return await this.documentService.updateDocument(
-      payload.projectName,
+      payload.projectId,
       documentData,
     );
   }
