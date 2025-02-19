@@ -8,36 +8,46 @@ import { JwtPayload } from '@docu-tide/core/auth';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @MessagePattern(process.env['PROJECT_CREATE_TOPIC'])
-  async handleCreateProject(@Payload() projectData: ProjectCreateDto) {
-    return await this.projectService.createProject(projectData);
+  @MessagePattern(process.env.PROJECT_CREATE_TOPIC)
+  handleCreate(@Payload() projectData: ProjectCreateDto) {
+    return this.projectService.createProject(projectData);
   }
 
-  @MessagePattern(process.env['PROJECT_GET_ALL_TOPIC'])
-  async handleGetAllProjects() {
-    return await this.projectService.getAllProjects();
+  @MessagePattern(process.env.PROJECT_GET_ALL_TOPIC)
+  handleGetAll() {
+    return this.projectService.getAllProjects();
   }
 
-  @MessagePattern(process.env['PROJECT_GET_TOPIC'])
-  async handleGetProjectByProjectName(
-    @Payload() data: { jwtPayload: JwtPayload; projectName: string },
+  @MessagePattern(process.env.PROJECT_GET_TOPIC)
+  handleGet(
+    @Payload()
+    {
+      jwtPayload,
+      projectName,
+    }: {
+      jwtPayload: JwtPayload;
+      projectName: string;
+    },
   ) {
-    return await this.projectService.getProjectByProjectname(data.projectName);
+    return this.projectService.getProjectByProjectname(projectName);
   }
 
-  @MessagePattern(process.env['PROJECT_UPDATE_TOPIC'])
-  async handleUpdateProject(@Payload() payload: ProjectUpdateDto) {
-    const { ...projectData } = payload;
-    return await this.projectService.updateProject(
-      payload.oldProjectName,
-      projectData,
-    );
+  @MessagePattern(process.env.PROJECT_UPDATE_TOPIC)
+  handleUpdate(@Payload() payload: ProjectUpdateDto) {
+    return this.projectService.updateProject(payload.oldProjectName, payload);
   }
 
-  @MessagePattern(process.env['PROJECT_DELETE_TOPIC'])
-  async handleDeleteProject(
-    @Payload() data: { jwtPayload: JwtPayload; projectName: string },
+  @MessagePattern(process.env.PROJECT_DELETE_TOPIC)
+  handleDelete(
+    @Payload()
+    {
+      jwtPayload,
+      projectName,
+    }: {
+      jwtPayload: JwtPayload;
+      projectName: string;
+    },
   ) {
-    return await this.projectService.deleteProject(data.projectName);
+    return this.projectService.deleteProject(projectName);
   }
 }
