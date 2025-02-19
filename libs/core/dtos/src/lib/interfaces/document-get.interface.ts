@@ -1,6 +1,6 @@
 export interface DocumentGetPayload {
   documentId: string;
-  projectName: string;
+  projectId: string;
   content: string;
   createdAt: Date;
   updatedAt: Date;
