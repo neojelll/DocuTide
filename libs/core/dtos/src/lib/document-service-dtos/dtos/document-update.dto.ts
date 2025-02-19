@@ -17,5 +17,5 @@ export class DocumentUpdateDto extends ValidationDocumentUpdateDto {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(30)
-  projectName: string;
+  projectId: string;
 }
