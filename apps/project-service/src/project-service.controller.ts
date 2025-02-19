@@ -18,6 +18,11 @@ export class ProjectController {
     return this.projectService.getAllProjects();
   }
 
+  @MessagePattern(process.env.PROJECT_GET_ALL_BY_USER_TOPIC)
+  handleGetAllUserProjects(jwtPayload: JwtPayload) {
+    return this.projectService.getAllUserProjects(jwtPayload.sub);
+  }
+
   @MessagePattern(process.env.PROJECT_GET_TOPIC)
   handleGet(
     @Payload()
