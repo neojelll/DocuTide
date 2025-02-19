@@ -2,11 +2,11 @@ import { JwtPayload } from '@docu-tide/core/auth';
 import { DocsDto } from '@docu-tide/docs/lib/dto';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { AppService } from './app.service';
+import { DocumentEditorService } from './document-editor.service';
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class DocumentEditorController {
+  constructor(private readonly appService: DocumentEditorService) {}
 
   @MessagePattern(process.env['DOCS_NEW_TOPIC'])
   async newDocs(

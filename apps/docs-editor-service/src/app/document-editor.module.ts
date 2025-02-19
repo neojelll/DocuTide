@@ -2,8 +2,8 @@ import { EnvModule, EnvService } from '@docu-tide/core/env';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { DocumentEditorController } from './document-editor.controller';
+import { DocumentEditorService } from './document-editor.service';
 import {
   Documentation,
   DocumentationSchema,
@@ -25,7 +25,7 @@ import {
       envFilePath: '.env',
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService, EnvService],
+  controllers: [DocumentEditorController],
+  providers: [DocumentEditorService, EnvService],
 })
-export class AppModule {}
+export class DocumentEditorModule {}

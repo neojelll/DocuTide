@@ -8,7 +8,7 @@ import {
 } from './schemas/documentation.schema';
 
 @Injectable()
-export class AppService {
+export class DocumentEditorService {
   constructor(
     @InjectModel(Documentation.name)
     private documentationModel: Model<DocumentationDocument>,
