@@ -30,7 +30,7 @@ export class ProjectService {
     );
   }
 
-  async getAllProjectsByUserId(userId: string): Promise<ProjectGetDto[]> {
+  async getAllUserProjects(userId: string): Promise<ProjectGetDto[]> {
     const projects = await this.projectModel.find({ userId }).exec();
     return Promise.all(
       projects.map(async (project) => new ProjectGetDto(project)),

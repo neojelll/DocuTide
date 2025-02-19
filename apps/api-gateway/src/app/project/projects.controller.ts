@@ -97,7 +97,7 @@ export class ProjectController implements OnModuleInit {
       process.env['PROJECT_GET_ALL_TOPIC'],
     );
     this.projectClient.subscribeToResponseOf(
-      process.env['PROJECT_GET_ALL_BY_USER_ID_TOPIC'],
+      process.env['PROJECT_GET_ALL_BY_USER_TOPIC'],
     );
     this.projectClient.subscribeToResponseOf(
       process.env['PROJECT_UPDATE_TOPIC'],
