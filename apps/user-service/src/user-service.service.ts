@@ -44,7 +44,7 @@ export class UserService {
     return new UserGetDto(updatedUser).stringify();
   }
 
-  async deleteUser(userId: string): Promise<string> {
+  async removeUser(userId: string): Promise<string> {
     const deletedUser = await this.userModel
       .findOneAndDelete({ userId })
       .exec();
