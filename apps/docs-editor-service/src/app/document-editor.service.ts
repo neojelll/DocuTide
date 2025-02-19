@@ -37,35 +37,41 @@ export class DocumentEditor {
     });
   }
 
-  async getDocumentById(documentId: string): Promise<string> {
+  async getDocumentById(projectName: string): Promise<string> {
     const document = await this.documentationModel.findOne({
-      documentId: documentId,
+      projectName: projectName,
     });
     if (!document) {
-      throw new NotFoundException(`Document with id ${documentId} not found.`);
+      throw new NotFoundException(
+        `Document with projectName ${projectName} not found.`,
+      );
     }
     return new DocumentGetDto(document).stringify();
   }
 
   async updateDocument(
-    documentId: string,
+    projectName: string,
     data: DocumentUpdateDto,
   ): Promise<string> {
     const updatedDocument = await this.documentationModel
-      .findOneAndUpdate({ documentId }, data, { new: true })
+      .findOneAndUpdate({ projectName }, data, { new: true })
       .exec();
     if (!updatedDocument) {
-      throw new NotFoundException(`Document with id ${documentId} not found.`);
+      throw new NotFoundException(
+        `Document with projectName ${projectName} not found.`,
+      );
     }
     return new DocumentGetDto(updatedDocument).stringify();
   }
 
-  async deleteDocument(documentId: string): Promise<string> {
+  async deleteDocument(projectName: string): Promise<string> {
     const deletedDocument = await this.documentationModel
-      .findOneAndDelete({ documentId })
+      .findOneAndDelete({ projectName })
       .exec();
     if (!deletedDocument) {
-      throw new NotFoundException(`Document with id ${documentId} not found.`);
+      throw new NotFoundException(
+        `Document with projectName ${projectName} not found.`,
+      );
     }
     return new DocumentGetDto(deletedDocument).stringify();
   }

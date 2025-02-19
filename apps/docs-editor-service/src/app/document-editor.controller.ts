@@ -1,14 +1,38 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { DocumentEditor } from './document-editor.service';
-import { DocumentCreateDto } from '@docu-tide/core/dtos';
+import { DocumentCreateDto, DocumentUpdateDto } from '@docu-tide/core/dtos';
+import { JwtPayload } from '@docu-tide/core/auth';
 
 @Controller()
 export class DocumentEditorController {
   constructor(private readonly documentService: DocumentEditor) {}
 
-  @MessagePattern(process.env['DOCS_NEW_TOPIC'])
+  @MessagePattern(process.env['DOCUMENT_CREATE_TOPIC'])
   async handleCreateDocument(@Payload() documentData: DocumentCreateDto) {
     return await this.documentService.createDocument(documentData);
+  }
+
+  @MessagePattern(process.env['DOCUMENT_GET_TOPIC'])
+  async handleGetDocument(
+    @Payload() data: { jwtPayload: JwtPayload; documentId: string },
+  ) {
+    return await this.documentService.getDocumentById(data.documentId);
+  }
+
+  @MessagePattern(process.env['DOCUMENT_UPDATE_TOPIC'])
+  async handleUpdateDocument(@Payload() payload: DocumentUpdateDto) {
+    const { ...documentData } = payload;
+    return await this.documentService.updateDocument(
+      payload.projectName,
+      documentData,
+    );
+  }
+
+  @MessagePattern(process.env['DOCUMENT_DELETE_TOPIC'])
+  async handleDeleteDocument(
+    @Payload() data: { jwtPayload: JwtPayload; projectName: string },
+  ) {
+    return await this.documentService.deleteDocument(data.projectName);
   }
 }
