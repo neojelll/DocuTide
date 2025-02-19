@@ -17,8 +17,9 @@
     "baseUrl": ".",
     "paths": {
       "@docu-tide/core/auth": ["libs/core/auth/src/index.ts"],
+      "@docu-tide/core/dtos": ["libs/core/dtos/src/index.ts"],
       "@docu-tide/core/env": ["libs/core/env/src/index.ts"],
-      "@docu-tide/core/dtos": ["libs/core/dtos/src/index.ts"]
+      "login/Routes": ["apps/login/src/app/remote-entry/entry.routes.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
