@@ -15,30 +15,22 @@ import {
 export class DocumentEditor {
   constructor(
     @InjectModel(Documentation.name)
-    private documentationModel: Model<DocumentationDocument>,
+    private readonly documentationModel: Model<DocumentationDocument>,
   ) {}
 
-  async createDocument(documentData: DocumentCreateDto): Promise<string> {
-    const newDocument = new this.documentationModel({
-      ...documentData,
-    });
-    try {
-      return new DocumentGetDto(await newDocument.save()).stringify();
-    } catch (error) {
-      console.error('[Error creating document: ' + error + ']');
-      throw error;
-    }
+  async createDocument(data: DocumentCreateDto): Promise<string> {
+    const document = new this.documentationModel(data);
+    return new DocumentGetDto(await document.save()).stringify();
   }
 
   async getDocumentByProjectId(projectId: string): Promise<string> {
-    const document = await this.documentationModel.findOne({
-      projectId,
-    });
-    if (!document) {
+    const document = await this.documentationModel
+      .findOne({ projectId })
+      .exec();
+    if (!document)
       throw new NotFoundException(
         `Document with projectId ${projectId} not found.`,
       );
-    }
     return new DocumentGetDto(document).stringify();
   }
 
@@ -49,11 +41,10 @@ export class DocumentEditor {
     const updatedDocument = await this.documentationModel
       .findOneAndUpdate({ projectId }, data, { new: true })
       .exec();
-    if (!updatedDocument) {
+    if (!updatedDocument)
       throw new NotFoundException(
         `Document with projectId ${projectId} not found.`,
       );
-    }
     return new DocumentGetDto(updatedDocument).stringify();
   }
 
@@ -61,11 +52,10 @@ export class DocumentEditor {
     const deletedDocument = await this.documentationModel
       .findOneAndDelete({ projectId })
       .exec();
-    if (!deletedDocument) {
+    if (!deletedDocument)
       throw new NotFoundException(
         `Document with projectId ${projectId} not found.`,
       );
-    }
-    return new DocumentGetDto(deletedDocument).stringify();
+    return `Document with projectId "${projectId}" deleted successfully.`;
   }
 }

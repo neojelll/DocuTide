@@ -51,7 +51,7 @@ export class UserController implements OnModuleInit {
     response.clearCookie(process.env['COOKIE_FILE_NAME'], {
       httpOnly: Boolean(process.env['COOKIE_HTTP_ONLY']),
     });
-    return result;
+    return response.status(200).json({ result });
   }
 
   async onModuleInit() {
