@@ -1,31 +1,40 @@
-import { EnvModule, EnvService } from '@docu-tide/core/env';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DocumentEditorController } from './document-editor.controller';
-import { DocumentEditorService } from './document-editor.service';
+import { DocumentEditor } from './document-editor.service';
 import {
   Documentation,
   DocumentationSchema,
 } from './schemas/documentation.schema';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
-    EnvModule,
-    MongooseModule.forRootAsync({
-      useFactory: () => ({
-        uri: process.env['MONGODB_URL'],
-      }),
-    }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    MongooseModule.forRoot(
+      process.env.MONGODB_URI || 'mongodb://admin:secret@localhost:27017',
+    ),
     MongooseModule.forFeature([
       { name: Documentation.name, schema: DocumentationSchema },
     ]),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
+    ClientsModule.register([
+      {
+        name: 'DOCUMENT_MICROSERVICE',
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            clientId: 'document-editor',
+            brokers: [process.env.MESSAGE_BROKER_URL || 'localhost:9094'],
+          },
+          consumer: {
+            groupId: 'document-editor-consumer',
+          },
+        },
+      },
+    ]),
   ],
   controllers: [DocumentEditorController],
-  providers: [DocumentEditorService, EnvService],
+  providers: [DocumentEditor],
 })
 export class DocumentEditorModule {}

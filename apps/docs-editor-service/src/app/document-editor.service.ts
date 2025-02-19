@@ -1,4 +1,3 @@
-import { DocsDto } from '@docu-tide/docs/lib/dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -6,35 +5,68 @@ import {
   Documentation,
   DocumentationDocument,
 } from './schemas/documentation.schema';
+import {
+  DocumentCreateDto,
+  DocumentGetDto,
+  DocumentUpdateDto,
+} from '@docu-tide/core/dtos';
 
 @Injectable()
-export class DocumentEditorService {
+export class DocumentEditor {
   constructor(
     @InjectModel(Documentation.name)
     private documentationModel: Model<DocumentationDocument>,
   ) {}
-  async newDocumentation(message: { projectName: string; docsDto: DocsDto }) {
-    const newDocumentation = new this.documentationModel({
-      projectName: message.projectName,
-      content: message.docsDto.content,
+
+  async createDocument(documentData: DocumentCreateDto): Promise<string> {
+    const newDocument = new this.documentationModel({
+      ...documentData,
     });
-
-    await newDocumentation.save();
-
-    return 'successful save new documentation';
+    try {
+      return new DocumentGetDto(await newDocument.save()).stringify();
+    } catch (error) {
+      console.error('[Error creating document: ' + error + ']');
+      throw error;
+    }
   }
 
-  async getDocumentation(message: { projectName: string }) {
-    const documentation = await this.documentationModel.findOne({
-      projectName: message.projectName,
+  async getAllDocuments() {
+    const documents = await this.documentationModel.find().exec();
+    return documents.map((document) => {
+      return new DocumentGetDto(document);
     });
+  }
 
-    if (!documentation) {
-      throw new NotFoundException(
-        `documentation with projectName: ${message.projectName} is not found`,
-      );
+  async getDocumentById(documentId: string): Promise<string> {
+    const document = await this.documentationModel.findOne({
+      documentId: documentId,
+    });
+    if (!document) {
+      throw new NotFoundException(`Document with id ${documentId} not found.`);
     }
+    return new DocumentGetDto(document).stringify();
+  }
 
-    return documentation.toObject();
+  async updateDocument(
+    documentId: string,
+    data: DocumentUpdateDto,
+  ): Promise<string> {
+    const updatedDocument = await this.documentationModel
+      .findOneAndUpdate({ documentId }, data, { new: true })
+      .exec();
+    if (!updatedDocument) {
+      throw new NotFoundException(`Document with id ${documentId} not found.`);
+    }
+    return new DocumentGetDto(updatedDocument).stringify();
+  }
+
+  async deleteDocument(documentId: string): Promise<string> {
+    const deletedDocument = await this.documentationModel
+      .findOneAndDelete({ documentId })
+      .exec();
+    if (!deletedDocument) {
+      throw new NotFoundException(`Document with id ${documentId} not found.`);
+    }
+    return new DocumentGetDto(deletedDocument).stringify();
   }
 }
