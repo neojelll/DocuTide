@@ -33,14 +33,14 @@ export class ProjectService {
   async getProjectById(projectId: string): Promise<string> {
     const project = await this.projectModel.findOne({ projectId }).exec();
     if (!project)
-      throw new NotFoundException(`Project with id "${projectId}" not found.`);
+      throw new NotFoundException(`Project with id ${projectId} not found.`);
     return new ProjectGetDto(project).stringify();
   }
 
   async getProjectByProjectname(projectName: string): Promise<string> {
     const project = await this.projectModel.findOne({ projectName }).exec();
     if (!project)
-      throw new NotFoundException(`Project "${projectName}" not found.`);
+      throw new NotFoundException(`Project ${projectName} not found.`);
     return new ProjectGetDto(project).stringify();
   }
 
@@ -52,7 +52,7 @@ export class ProjectService {
       .findOneAndUpdate({ projectName: oldProjectName }, data, { new: true })
       .exec();
     if (!updatedProject)
-      throw new NotFoundException(`Project "${oldProjectName}" not found.`);
+      throw new NotFoundException(`Project ${oldProjectName} not found.`);
     return new ProjectGetDto(updatedProject).stringify();
   }
 
@@ -61,7 +61,7 @@ export class ProjectService {
       .findOneAndDelete({ projectName })
       .exec();
     if (!deletedProject)
-      throw new NotFoundException(`Project "${projectName}" not found.`);
-    return `Project "${projectName}" deleted successfully.`;
+      throw new NotFoundException(`Project ${projectName} not found.`);
+    return `Project ${projectName} deleted successfully.`;
   }
 }

@@ -29,7 +29,7 @@ export class DocumentEditor {
       .exec();
     if (!document)
       throw new NotFoundException(
-        `Document with projectId "${projectId}" not found.`,
+        `Document with projectId ${projectId} not found.`,
       );
     return new DocumentGetDto(document).stringify();
   }
@@ -43,7 +43,7 @@ export class DocumentEditor {
       .exec();
     if (!updatedDocument)
       throw new NotFoundException(
-        `Document with projectId "${projectId}" not found.`,
+        `Document with projectId ${projectId} not found.`,
       );
     return new DocumentGetDto(updatedDocument).stringify();
   }
@@ -54,7 +54,7 @@ export class DocumentEditor {
       .exec();
     if (!deletedDocument)
       throw new NotFoundException(
-        `Document with projectId "${projectId}" not found.`,
+        `Document with projectId ${projectId} not found.`,
       );
     return `Document with projectId "${projectId}" deleted successfully.`;
   }

@@ -50,6 +50,6 @@ export class UserService {
       .exec();
     if (!deletedUser)
       throw new NotFoundException(`User with ID "${userId}" not found.`);
-    return `User with ID "${userId}" deleted successfully.`;
+    return `User with ID ${userId} deleted successfully.`;
   }
 }

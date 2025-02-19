@@ -71,7 +71,7 @@ export class ProjectController implements OnModuleInit {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':projectName/remove')
+  @Delete(':projectName')
   async removeProject(
     @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectName') projectName: string,

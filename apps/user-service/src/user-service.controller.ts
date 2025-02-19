@@ -39,6 +39,6 @@ export class UserController {
 
   @MessagePattern(process.env.USER_DELETE_TOPIC)
   handleDelete(@Payload() user: JwtPayload) {
-    return this.userService.deleteUser(user.sub);
+    return this.userService.removeUser(user.sub);
   }
 }
