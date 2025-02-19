@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { UserServiceModule } from '../../user-service/src/user-service.module';
+import { ProjectServiceModule } from './project-service.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    UserServiceModule,
+    ProjectServiceModule,
     {
       transport: Transport.KAFKA,
       options: {
@@ -18,5 +18,7 @@ async function bootstrap() {
       },
     },
   );
+  await app.listen();
 }
+
 bootstrap();

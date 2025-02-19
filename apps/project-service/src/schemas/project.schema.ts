@@ -5,20 +5,27 @@ import { v4 as uuidv4 } from 'uuid';
 @Schema({ timestamps: true })
 export class Project extends Document {
   @Prop({ default: () => uuidv4(), unique: true })
-  id: string;
+  projectId: string;
 
   @Prop({ required: true, default: '' })
-  name: string;
+  projectName: string;
 
   @Prop({ required: true, default: '' })
   description: string;
 
   @Prop({ required: true })
-  ownerId: string;
+  userId: string;
 
   @Prop({ type: [String], default: [] })
   tags: string[];
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);
-export type ProjectDocument = Project & Document;
+export type ProjectDocument = Project &
+  Document & { createdAt: Date; updatedAt: Date };

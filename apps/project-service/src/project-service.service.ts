@@ -1,8 +1,12 @@
-import { ProjectReadDto, ProjectUpdateDto } from '@docu-tide/project/lib/dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Project, ProjectDocument } from './schemas/project.schema';
+import {
+  ProjectCreateDto,
+  ProjectGetDto,
+  ProjectUpdateDto,
+} from '@docu-tide/core/dtos';
 
 @Injectable()
 export class ProjectService {
@@ -10,61 +14,68 @@ export class ProjectService {
     @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
   ) {}
 
-  async createProject(ownerId: string): Promise<ProjectReadDto> {
+  async createProject(projectData: ProjectCreateDto): Promise<string> {
     const newProject = new this.projectModel({
-      ownerId: ownerId,
+      ...projectData,
+      userId: projectData.jwtPayload.sub,
     });
-    return this.toProjectReadDto(await newProject.save());
+    try {
+      return new ProjectGetDto(await newProject.save()).stringify();
+    } catch (error) {
+      console.error('[Error creating project: ' + error + ']');
+      throw error;
+    }
   }
 
-  async getAllProjects(): Promise<ProjectReadDto[]> {
+  async getAllProjects() {
     const projects = await this.projectModel.find().exec();
-    return projects.map(this.toProjectReadDto);
+    return projects.map((project) => {
+      return new ProjectGetDto(project);
+    });
   }
 
-  async getProjectById(projectId: string) {
-    const project = await this.projectModel.findOne({ id: projectId });
+  async getProjectById(projectId: string): Promise<string> {
+    const project = await this.projectModel.findOne({ projectId: projectId });
     if (!project) {
       throw new NotFoundException(`Project with id ${projectId} not found.`);
     }
-    return this.toProjectReadDto(project);
+    return new ProjectGetDto(project).stringify();
+  }
+
+  async getProjectByProjectname(projectName: string): Promise<string> {
+    const project = await this.projectModel.findOne({ projectName });
+    if (!project) {
+      throw new NotFoundException(
+        `Project with projectName ${projectName} not found.`,
+      );
+    }
+    return new ProjectGetDto(project).stringify();
   }
 
   async updateProject(
-    projectId: string,
+    oldProjectName: string,
     data: ProjectUpdateDto,
-  ): Promise<ProjectReadDto> {
-    const updatedProject = await this.projectModel.findOneAndUpdate({
-      id: projectId,
-      data: data,
-    });
+  ): Promise<string> {
+    const updatedProject = await this.projectModel
+      .findOneAndUpdate({ projectName: oldProjectName }, data, { new: true })
+      .exec();
     if (!updatedProject) {
-      throw new NotFoundException(`Project with id ${projectId} not found.`);
+      throw new NotFoundException(
+        `Project with name ${oldProjectName} not found.`,
+      );
     }
-    return this.toProjectReadDto(updatedProject);
+    return new ProjectGetDto(updatedProject).stringify();
   }
 
-  async deleteProject(projectId: string) {
-    const deletedProject = await this.projectModel.findOneAndDelete({
-      id: projectId,
-    });
+  async deleteProject(projectName: string): Promise<string> {
+    const deletedProject = await this.projectModel
+      .findOneAndDelete({ projectName })
+      .exec();
     if (!deletedProject) {
-      throw new NotFoundException(`Project with id ${projectId} not found.`);
+      throw new NotFoundException(
+        `Project with name ${projectName} not found.`,
+      );
     }
-    return `Project with ID ${projectId} deleted successfully.`;
-  }
-
-  private toProjectReadDto(project: ProjectDocument): ProjectReadDto {
-    const plainProject = project.toObject();
-
-    return {
-      id: plainProject.id,
-      name: plainProject.name,
-      description: plainProject.description,
-      ownerId: plainProject.ownerId,
-      tags: plainProject.tags,
-      createdAt: plainProject.createdAt,
-      updatedAt: plainProject.updatedAt,
-    };
+    return `Project with name ${projectName} deleted successfully.`;
   }
 }
