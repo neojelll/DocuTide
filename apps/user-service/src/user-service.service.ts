@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
@@ -6,36 +6,32 @@ import { UserGetDto, UserSignUpDto, UserUpdateDto } from '@docu-tide/core/dtos';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+  ) {}
 
-  async createUser(userData: UserSignUpDto): Promise<string> {
-    const newUser = new this.userModel({
-      ...userData,
-      hashPassword: userData.password,
-    });
-    return new UserGetDto(await newUser.save()).stringify();
+  async createUser(data: UserSignUpDto): Promise<string> {
+    const user = new this.userModel({ ...data, hashPassword: data.password });
+    return new UserGetDto(await user.save()).stringify();
   }
 
-  async getAllUsers(): Promise<Promise<string>[]> {
+  async getAllUsers(): Promise<string[]> {
     const users = await this.userModel.find().exec();
-    return users.map((user) => {
-      return new UserGetDto(user).stringify();
-    });
+    return Promise.all(
+      users.map(async (user) => new UserGetDto(user).stringify()),
+    );
   }
 
   async getUserByUserId(userId: string): Promise<string> {
     const user = await this.userModel.findOne({ userId }).exec();
-    if (!user) {
-      throw new Error(`User with ID ${userId} not found.`);
-    }
+    if (!user)
+      throw new NotFoundException(`User with ID "${userId}" not found.`);
     return new UserGetDto(user).stringify();
   }
 
   async getUserByUsername(username: string): Promise<string> {
     const user = await this.userModel.findOne({ username }).exec();
-    if (!user) {
-      throw new Error(`User with username ${username} not found.`);
-    }
+    if (!user) throw new NotFoundException(`User "${username}" not found.`);
     return new UserGetDto(user).stringify();
   }
 
@@ -43,9 +39,8 @@ export class UserService {
     const updatedUser = await this.userModel
       .findOneAndUpdate({ userId }, data, { new: true })
       .exec();
-    if (!updatedUser) {
-      throw new Error(`User with ID ${userId} not found.`);
-    }
+    if (!updatedUser)
+      throw new NotFoundException(`User with ID "${userId}" not found.`);
     return new UserGetDto(updatedUser).stringify();
   }
 
@@ -53,9 +48,8 @@ export class UserService {
     const deletedUser = await this.userModel
       .findOneAndDelete({ userId })
       .exec();
-    if (!deletedUser) {
-      throw new Error(`User with ID ${userId} not found.`);
-    }
-    return `User with ID ${userId} deleted successfully.`;
+    if (!deletedUser)
+      throw new NotFoundException(`User with ID "${userId}" not found.`);
+    return `User with ID "${userId}" deleted successfully.`;
   }
 }
