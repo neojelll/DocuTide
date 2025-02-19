@@ -34,10 +34,19 @@ export class ProjectService {
     );
   }
 
-  async getAllProjects(jwtPayload: JwtPayload): Promise<Array<ProjectGetDto>> {
+  async getAllProjects(jwtPayload: JwtPayload): Promise<string[]> {
     return await firstValueFrom(
       this.projectClient.send(
         process.env['PROJECT_GET_ALL_TOPIC'],
+        JSON.stringify(jwtPayload),
+      ),
+    );
+  }
+
+  async getAllProjectsByUserId(jwtPayload: JwtPayload): Promise<string[]> {
+    return await firstValueFrom(
+      this.projectClient.send(
+        process.env['PROJECT_GET_ALL_BY_USER_ID_TOPIC'],
         JSON.stringify(jwtPayload),
       ),
     );

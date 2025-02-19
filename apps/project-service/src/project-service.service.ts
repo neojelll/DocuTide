@@ -23,10 +23,17 @@ export class ProjectService {
     return new ProjectGetDto(await project.save()).stringify();
   }
 
-  async getAllProjects(): Promise<string[]> {
+  async getAllProjects(): Promise<ProjectGetDto[]> {
     const projects = await this.projectModel.find().exec();
     return Promise.all(
-      projects.map(async (project) => new ProjectGetDto(project).stringify()),
+      projects.map(async (project) => new ProjectGetDto(project)),
+    );
+  }
+
+  async getAllProjectsByUserId(userId: string): Promise<ProjectGetDto[]> {
+    const projects = await this.projectModel.find({ userId }).exec();
+    return Promise.all(
+      projects.map(async (project) => new ProjectGetDto(project)),
     );
   }
 

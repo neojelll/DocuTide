@@ -47,6 +47,12 @@ export class ProjectController implements OnModuleInit {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async getAllProjectsByUserId(@JwtDecode() jwtPayload: JwtPayload) {
+    return await this.projectService.getAllProjectsByUserId(jwtPayload);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(':projectName')
   async getProject(
     @JwtDecode() jwtPayload: JwtPayload,
@@ -89,6 +95,9 @@ export class ProjectController implements OnModuleInit {
     this.projectClient.subscribeToResponseOf(process.env['PROJECT_GET_TOPIC']);
     this.projectClient.subscribeToResponseOf(
       process.env['PROJECT_GET_ALL_TOPIC'],
+    );
+    this.projectClient.subscribeToResponseOf(
+      process.env['PROJECT_GET_ALL_BY_USER_ID_TOPIC'],
     );
     this.projectClient.subscribeToResponseOf(
       process.env['PROJECT_UPDATE_TOPIC'],
