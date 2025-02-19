@@ -19,7 +19,7 @@ import {
 import { ClientKafka } from '@nestjs/microservices';
 import { DocumentEditorService } from './document-editor.service';
 
-@Controller('projects/:projectId/document')
+@Controller('documents/:projectId')
 export class DocumentEditorController implements OnModuleInit {
   constructor(
     private readonly documentEditorService: DocumentEditorService,
@@ -67,7 +67,7 @@ export class DocumentEditorController implements OnModuleInit {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('remove')
+  @Delete()
   async removeDocument(
     @JwtDecode() jwtPayload: JwtPayload,
     @Param('projectId') projectId: string,
