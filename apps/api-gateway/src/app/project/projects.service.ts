@@ -43,7 +43,7 @@ export class ProjectService {
     );
   }
 
-  async getAllProjectsByUserId(jwtPayload: JwtPayload): Promise<string[]> {
+  async getAllUserProjects(jwtPayload: JwtPayload): Promise<string[]> {
     return await firstValueFrom(
       this.projectClient.send(
         process.env['PROJECT_GET_ALL_BY_USER_ID_TOPIC'],

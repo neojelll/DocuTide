@@ -48,8 +48,8 @@ export class ProjectController implements OnModuleInit {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  async getAllProjectsByUserId(@JwtDecode() jwtPayload: JwtPayload) {
-    return await this.projectService.getAllProjectsByUserId(jwtPayload);
+  async getAllUserProjects(@JwtDecode() jwtPayload: JwtPayload) {
+    return await this.projectService.getAllUserProjects(jwtPayload);
   }
 
   @UseGuards(JwtAuthGuard)
