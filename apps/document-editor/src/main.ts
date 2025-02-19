@@ -1,19 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { AppModule } from './app/app.module';
+import { DocumentEditorModule } from './app/document-editor.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
+    DocumentEditorModule,
     {
       transport: Transport.KAFKA,
       options: {
         client: {
-          clientId: 'docs-editor-service',
+          clientId: 'document-editor',
           brokers: [process.env['MESSAGE_BROKER_URL']],
         },
         consumer: {
-          groupId: process.env['DOCS_GROUP_ID'],
+          groupId: process.env['DOCUMENT_GROUP_ID'],
         },
       },
     },

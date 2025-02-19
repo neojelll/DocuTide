@@ -1,7 +1,7 @@
 {
-  "name": "docs-editor-service",
+  "name": "document-editor",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/docs-editor-service/src",
+  "sourceRoot": "apps/document-editor/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -22,15 +22,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "docs-editor-service:build",
+        "buildTarget": "document-editor:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "docs-editor-service:build:development"
+          "buildTarget": "document-editor:build:development"
         },
         "production": {
-          "buildTarget": "docs-editor-service:build:production"
+          "buildTarget": "document-editor:build:production"
         }
       }
     },
