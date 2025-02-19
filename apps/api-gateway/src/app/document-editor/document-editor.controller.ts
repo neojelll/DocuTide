@@ -19,7 +19,7 @@ import {
 import { ClientKafka } from '@nestjs/microservices';
 import { DocumentEditorService } from './document-editor.service';
 
-@Controller('projects/:projectname/document')
+@Controller('documents/:projectId')
 export class DocumentEditorController implements OnModuleInit {
   constructor(
     private readonly documentEditorService: DocumentEditorService,
@@ -31,13 +31,13 @@ export class DocumentEditorController implements OnModuleInit {
   @Post()
   async createDocument(
     @JwtDecode() jwtPayload: JwtPayload,
-    @Param('projectname') projectname: string,
+    @Param('projectId') projectId: string,
     @Body(ValidationPipe)
     validationDocumentCreateDto: ValidationDocumentCreateDto,
   ) {
     return await this.documentEditorService.createDocument(
       jwtPayload,
-      projectname,
+      projectId,
       validationDocumentCreateDto,
     );
   }
@@ -46,38 +46,35 @@ export class DocumentEditorController implements OnModuleInit {
   @Get()
   async getDocument(
     @JwtDecode() jwtPayload: JwtPayload,
-    @Param('projectname') projectname: string,
+    @Param('projectId') projectId: string,
   ) {
-    return await this.documentEditorService.getDocument(
-      jwtPayload,
-      projectname,
-    );
+    return await this.documentEditorService.getDocument(jwtPayload, projectId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch()
   async updateDocument(
     @JwtDecode() jwtPayload: JwtPayload,
-    @Param('projectname') projectname: string,
+    @Param('projectId') projectId: string,
     @Body(ValidationPipe)
     validationDocumentUpdateDto: ValidationDocumentUpdateDto,
   ) {
     return await this.documentEditorService.updateDocument(
       jwtPayload,
-      projectname,
+      projectId,
       validationDocumentUpdateDto,
     );
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('remove')
+  @Delete()
   async removeDocument(
     @JwtDecode() jwtPayload: JwtPayload,
-    @Param('projectname') projectname: string,
+    @Param('projectId') projectId: string,
   ) {
     return await this.documentEditorService.removeDocument(
       jwtPayload,
-      projectname,
+      projectId,
     );
   }
 
