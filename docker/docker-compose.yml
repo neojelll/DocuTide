@@ -19,6 +19,8 @@ services:
       context: ./kafka
       dockerfile: Dockerfile
     container_name: message_broker
+    env_file:
+      - ../.env
     ports:
       - '9092:9092'
       - '9094:9094'

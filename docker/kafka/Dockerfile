@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y wget && apt-get clean && rm -rf /var/li
     wget https://downloads.apache.org/kafka/3.9.0/kafka_2.13-3.9.0.tgz -O /tmp/kafka.tgz && \
     mkdir -p $KAFKA_HOME && tar -xzf /tmp/kafka.tgz --strip-components=1 -C $KAFKA_HOME && rm /tmp/kafka.tgz
 
+COPY server.properties /etc/kafka/server.properties
 COPY start-kafka.sh /usr/local/bin/start-kafka.sh
 RUN chmod +x /usr/local/bin/start-kafka.sh
 
