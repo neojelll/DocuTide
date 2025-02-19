@@ -13,9 +13,9 @@ export class AppService {
     @InjectModel(Documentation.name)
     private documentationModel: Model<DocumentationDocument>,
   ) {}
-  async newDocumentation(message: { projectname: string; docsDto: DocsDto }) {
+  async newDocumentation(message: { projectName: string; docsDto: DocsDto }) {
     const newDocumentation = new this.documentationModel({
-      projectname: message.projectname,
+      projectName: message.projectName,
       content: message.docsDto.content,
     });
 
@@ -24,14 +24,14 @@ export class AppService {
     return 'successful save new documentation';
   }
 
-  async getDocumentation(message: { projectname: string }) {
+  async getDocumentation(message: { projectName: string }) {
     const documentation = await this.documentationModel.findOne({
-      projectname: message.projectname,
+      projectName: message.projectName,
     });
 
     if (!documentation) {
       throw new NotFoundException(
-        `documentation with projectname: ${message.projectname} is not found`,
+        `documentation with projectName: ${message.projectName} is not found`,
       );
     }
 

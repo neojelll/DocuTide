@@ -4,7 +4,7 @@ import { Document } from 'mongoose';
 @Schema({ timestamps: true })
 export class Documentation extends Document {
   @Prop({ required: true })
-  projectname: string;
+  projectName: string;
 
   @Prop({ required: true })
   content: string;

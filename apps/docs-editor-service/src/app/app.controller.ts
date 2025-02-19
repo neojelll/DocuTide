@@ -13,7 +13,7 @@ export class AppController {
     @Payload()
     message: {
       user: JwtPayload;
-      projectname: string;
+      projectName: string;
       docsDto: DocsDto;
     },
   ) {
