@@ -9,8 +9,8 @@ export class DocumentEditorController {
   constructor(private readonly documentService: DocumentEditor) {}
 
   @MessagePattern(process.env['DOCUMENT_CREATE_TOPIC'])
-  async handleCreateDocument(@Payload() documentData: DocumentCreateDto) {
-    return await this.documentService.createDocument(documentData);
+  async handleCreateDocument(@Payload() payload: DocumentCreateDto) {
+    return await this.documentService.createDocument(payload);
   }
 
   @MessagePattern(process.env['DOCUMENT_GET_TOPIC'])
@@ -31,8 +31,8 @@ export class DocumentEditorController {
 
   @MessagePattern(process.env['DOCUMENT_DELETE_TOPIC'])
   async handleDeleteDocument(
-    @Payload() data: { jwtPayload: JwtPayload; projectName: string },
+    @Payload() data: { jwtPayload: JwtPayload; projectId: string },
   ) {
-    return await this.documentService.deleteDocument(data.projectName);
+    return await this.documentService.deleteDocument(data.projectId);
   }
 }
