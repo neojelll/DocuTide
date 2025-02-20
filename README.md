@@ -56,7 +56,10 @@ Explore our architecture through the following diagrams:
 
 # Contribute
 
-...
+We'd love for you to contribute to **DocuTide**! Whether you're a seasoned developer or just someone passionate about documentation, your input is invaluable. For detailed guidelines on how to contribute, please refer to our [CONTRIBUTING.md](https://github.com/neojelll/DocuTide/blob/main/CONTRIBUTING.md) file. =]
+
+**Thank you for helping make DocuTide awesome!**  
+Your contributions are what make this project great! 💪🔥
 
 # 📜 License
 
