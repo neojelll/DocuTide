@@ -1,6 +1,6 @@
 {
   "name": "project-service",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/project-service/src",
   "projectType": "application",
   "tags": [],
