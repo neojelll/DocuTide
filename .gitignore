@@ -48,3 +48,8 @@ Thumbs.db
 .env.production
 .env.test
 .env.test.local
+
+.angular
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
