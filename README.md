@@ -10,14 +10,6 @@
 	</b> 
 </p>
 
-<p align="center"> 
-  <img alt="GitHub Release" src="https://img.shields.io/github/v/release/neojelll/DocuTide?include_prereleases&display_name=release&style=flat">
-	<img alt="Static Badge" src="https://img.shields.io/badge/TypeScript-5.5-blue?style=flat">
-	<img alt="Coveralls" src="https://img.shields.io/coverallsCoverage/github/neojelll/DocuTide?style=flat">
-	<img alt="GitHub License" src="https://img.shields.io/github/license/neojelll/DocuTide?style=flat">
-	<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/neojelll/DocuTide?style=social">
-</p>
-
 # 🌟 Description
 
 Welcome to **DocuTide**, your go-to service for effortlessly creating stunning documentation! Designed with the everyday user in mind, DocuTide features an intuitive editor that allows anyone—regardless of technical expertise—to craft their own static sites dedicated to any topic.
