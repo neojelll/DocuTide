@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/neojelll/DocuTide" target="blank">
-	  <img src="assets/Black-theme.svg" width="500" alt="DocuTide logo" />
+	  <img src="assets/logo-black-theme.svg" width="500" alt="DocuTide logo" />
 	</a>
 </p>
 
