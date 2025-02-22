@@ -4,7 +4,7 @@ export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   {
-    ignores: ['**/node_modules/', '**/dist/', '**/build', '**/pnpm-lock.yaml'],
+    ignores: ['**/node_modules/', '**/dist/', '**/build'],
   },
   {
     files: ['**/*.ts', '**/*.tsx'],
@@ -22,6 +22,7 @@ export default [
           ],
         },
       ],
+      '@typescript-eslint/no-unused-vars': 'warn',
     },
   },
 ];
