@@ -13,7 +13,7 @@ export class AuthService {
 
   async signUp(userSignUpDto: UserSignUpDto): Promise<string> {
     userSignUpDto.password = await this.authLibService.hashPassword(
-      userSignUpDto,
+      userSignUpDto.password,
     );
 
     return await firstValueFrom(
@@ -31,7 +31,15 @@ export class AuthService {
         JSON.stringify(userSignInDto),
       ),
     );
-    await this.authLibService.verifyPassword(userGetDto, userSignInDto);
-    return await this.authLibService.createAccessToken(userGetDto);
+    await this.authLibService.verifyPassword(
+      userGetDto.userId,
+      userSignInDto.password,
+      userGetDto.hashPassword,
+    );
+    return await this.authLibService.createAccessToken(
+      userGetDto.userId,
+      userGetDto.username,
+      userGetDto.email,
+    );
   }
 }
