@@ -28,4 +28,7 @@ jobs:
         run: pnpm install
 
       - name: Check formatting
-        run: pnpm run format-check
+        run: pnpm format-check
+
+      - name: Check Linting
+        run: pnpm lint-check
