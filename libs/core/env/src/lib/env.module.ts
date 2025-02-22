@@ -9,7 +9,6 @@ import { EnvService } from './env.service';
       envFilePath: '.env',
     }),
   ],
-  controllers: [],
   providers: [EnvService],
   exports: [EnvService],
 })

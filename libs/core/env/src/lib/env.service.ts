@@ -9,10 +9,10 @@ import {
 export class EnvService {
   constructor(private readonly configService: ConfigService) {}
 
-  async getEnvValue(
+  async getEnvValue<T>(
     variableName: string,
-    defaultValue: any = null,
-  ): Promise<string> {
+    defaultValue?: T,
+  ): Promise<string | T> {
     if (variableName !== variableName.toUpperCase()) {
       throw new VariableNameUncorrect('variable name must be in upper case');
     }
@@ -23,7 +23,7 @@ export class EnvService {
       return environmentValue;
     }
 
-    if (defaultValue === null) {
+    if (defaultValue === undefined) {
       throw new VariableNameNotFound(
         'there is no variable with that name in the env file',
         variableName,

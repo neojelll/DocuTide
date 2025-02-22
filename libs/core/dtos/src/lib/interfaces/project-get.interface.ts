@@ -1,9 +1,9 @@
-export interface ProjectGetPayload {
+export interface ProjectGetPayload<T> {
   userId: string;
   projectId: string;
   projectName: string;
   description: string;
   createdAt: Date;
   updatedAt: Date;
-  [key: string]: any;
+  [key: string]: T | string | Date;
 }

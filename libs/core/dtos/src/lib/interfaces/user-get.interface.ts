@@ -1,4 +1,4 @@
-export interface UserGetPayload {
+export interface UserGetPayload<T> {
   userId: string;
   email: string;
   username: string;
@@ -7,5 +7,5 @@ export interface UserGetPayload {
   role?: string;
   createdAt: Date;
   updatedAt: Date;
-  [key: string]: any;
+  [key: string]: T | string | Date | undefined;
 }
