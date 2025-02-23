@@ -5,6 +5,9 @@ export default [
   ...nx.configs['flat/typescript'],
   {
     ignores: ['**/node_modules/', '**/dist/', '**/build'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
   {
     files: ['**/*.ts', '**/*.tsx'],
