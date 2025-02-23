@@ -1,8 +1,8 @@
-export interface DocumentGetPayload<T> {
+export interface DocumentGetPayload {
   documentId: string;
   projectId: string;
   content: string;
   createdAt: Date;
   updatedAt: Date;
-  [key: string]: T | string | Date;
+  [key: string]: any;
 }
