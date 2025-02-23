@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "prepare": "husky",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
-    "prepare": "husky"
+    "lint": "eslint --fix",
+    "lint-check": "eslint"
   },
   "private": true,
   "dependencies": {

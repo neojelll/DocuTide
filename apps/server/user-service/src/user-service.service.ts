@@ -1,8 +1,8 @@
+import { UserGetDto, UserSignUpDto, UserUpdateDto } from '@docu-tide/core/dtos';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
-import { UserGetDto, UserSignUpDto, UserUpdateDto } from '@docu-tide/core/dtos';
 
 @Injectable()
 export class UserService {

@@ -1,8 +1,8 @@
+import { JwtPayload } from '@docu-tide/core/auth';
+import { ProjectCreateDto, ProjectUpdateDto } from '@docu-tide/core/dtos';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ProjectService } from './project-service.service';
-import { ProjectCreateDto, ProjectUpdateDto } from '@docu-tide/core/dtos';
-import { JwtPayload } from '@docu-tide/core/auth';
 
 @Controller()
 export class ProjectController {
@@ -26,13 +26,7 @@ export class ProjectController {
   @MessagePattern(process.env.PROJECT_GET_TOPIC)
   handleGet(
     @Payload()
-    {
-      jwtPayload,
-      projectName,
-    }: {
-      jwtPayload: JwtPayload;
-      projectName: string;
-    },
+    { projectName }: { jwtPayload: JwtPayload; projectName: string },
   ) {
     return this.projectService.getProjectByProjectname(projectName);
   }
@@ -45,13 +39,7 @@ export class ProjectController {
   @MessagePattern(process.env.PROJECT_DELETE_TOPIC)
   handleDelete(
     @Payload()
-    {
-      jwtPayload,
-      projectName,
-    }: {
-      jwtPayload: JwtPayload;
-      projectName: string;
-    },
+    { projectName }: { jwtPayload: JwtPayload; projectName: string },
   ) {
     return this.projectService.deleteProject(projectName);
   }

@@ -1,4 +1,3 @@
-import { EnvModule } from '@docu-tide/core/env';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -7,7 +6,6 @@ import { AuthLibService } from './auth-lib.service';
 
 @Module({
   imports: [
-    EnvModule,
     PassportModule,
     JwtModule.register({
       secret: process.env['JWT_SECRET'],
@@ -20,7 +18,6 @@ import { AuthLibService } from './auth-lib.service';
       envFilePath: '.env',
     }),
   ],
-  controllers: [],
   providers: [AuthLibService],
   exports: [AuthLibService],
 })

@@ -1,12 +1,12 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
-import { UserService } from './user-service.service';
 import { JwtPayload } from '@docu-tide/core/auth';
 import {
   UserSignInDto,
   UserSignUpDto,
   UserUpdateDto,
 } from '@docu-tide/core/dtos';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { UserService } from './user-service.service';
 
 @Controller()
 export class UserController {
