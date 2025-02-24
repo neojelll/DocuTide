@@ -13,7 +13,7 @@ async function bootstrap() {
           brokers: [process.env.MESSAGE_BROKER_URL],
         },
         consumer: {
-          groupId: process.env.USER_GROUP_ID,
+          groupId: process.env.USER_SERVICE_CLIENT_ID,
         },
       },
     },
