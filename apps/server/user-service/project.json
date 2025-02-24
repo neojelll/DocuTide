@@ -1,7 +1,7 @@
 {
   "name": "user-service",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/user-service/src",
+  "sourceRoot": "apps/user-service/src/app",
   "projectType": "application",
   "tags": [],
   "targets": {
