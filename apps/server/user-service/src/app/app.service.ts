@@ -1,22 +1,10 @@
-import { UserGetDto, UserSignUpDto, UserUpdateDto } from '@docu-tide/core/dtos';
+import { UserGetDto, UserUpdateDto } from '@docu-tide/core/dtos';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-
-  async createUser(data: UserSignUpDto): Promise<string> {
-    const user = await this.prisma.user.create({
-      data: {
-        email: data.email,
-        username: data.username,
-        hashPassword: data.password,
-      },
-    });
-
-    return new UserGetDto(user).stringify();
-  }
 
   async getAllUsers(): Promise<string[]> {
     const users = await this.prisma.user.findMany();
@@ -59,15 +47,5 @@ export class UserService {
     }
 
     return new UserGetDto(updatedUser).stringify();
-  }
-
-  async removeUser(userId: string): Promise<string> {
-    const deletedUser = await this.prisma.user.delete({
-      where: { userId },
-    });
-    if (!deletedUser) {
-      throw new NotFoundException(`User with ID "${userId}" not found.`);
-    }
-    return `User with ID ${userId} deleted successfully.`;
   }
 }

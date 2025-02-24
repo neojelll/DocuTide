@@ -12,11 +12,6 @@ import { UserService } from './app.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @MessagePattern(process.env.USER_CREATE_TOPIC)
-  handleCreate(@Payload() userData: UserSignUpDto) {
-    return this.userService.createUser(userData);
-  }
-
   @MessagePattern(process.env.USER_CREATED_TOPIC)
   handleLogin(@Payload() signInDto: UserSignInDto) {
     return this.userService.getUserByUsername(signInDto.username);
@@ -35,10 +30,5 @@ export class UserController {
   @MessagePattern(process.env.USER_UPDATE_TOPIC)
   handleUpdate(@Payload() payload: UserUpdateDto) {
     return this.userService.updateUser(payload.jwtPayload.sub, payload);
-  }
-
-  @MessagePattern(process.env.USER_DELETE_TOPIC)
-  handleDelete(@Payload() user: JwtPayload) {
-    return this.userService.removeUser(user.sub);
   }
 }
