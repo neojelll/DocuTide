@@ -9,11 +9,11 @@ async function bootstrap() {
       transport: Transport.KAFKA,
       options: {
         client: {
-          clientId: process.env.USER_SERVICE_CLIENT_ID,
-          brokers: [process.env.MESSAGE_BROKER_URL],
+          clientId: process.env['USER_SERVICE_CLIENT_ID'],
+          brokers: [process.env['MESSAGE_BROKER_URL']],
         },
         consumer: {
-          groupId: process.env.USER_SERVICE_GROUP_ID,
+          groupId: process.env['USER_SERVICE_GROUP_ID'],
         },
       },
     },
