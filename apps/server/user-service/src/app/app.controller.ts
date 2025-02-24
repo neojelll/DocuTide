@@ -6,7 +6,7 @@ import {
 } from '@docu-tide/core/dtos';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { UserService } from './user-service.service';
+import { UserService } from './app.service';
 
 @Controller()
 export class UserController {
