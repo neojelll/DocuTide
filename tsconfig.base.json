@@ -19,7 +19,7 @@
       "@docu-tide/core/auth": ["libs/core/auth/src/index.ts"],
       "@docu-tide/core/dtos": ["libs/core/dtos/src/index.ts"],
       "@docu-tide/core/env": ["libs/core/env/src/index.ts"],
-      "@docu-tide/schemas": ["libs/core/schemas/src/index.ts"],
+      "@docu-tide/core/schemas": ["libs/core/schemas/src/index.ts"],
       "document_editor/Routes": [
         "apps/client/document_editor/src/app/remote-entry/entry.routes.ts"
       ],
