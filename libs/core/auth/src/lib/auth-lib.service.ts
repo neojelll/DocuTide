@@ -1,7 +1,6 @@
-import { UserGetDto, UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
-import { EnvService } from '@docu-tide/core/env';
 import {
   Injectable,
+  InternalServerErrorException,
   OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -13,20 +12,23 @@ import { JwtPayload } from './interfaces/jwt.interface';
 export class AuthLibService implements OnModuleInit {
   private secret: string;
 
-  constructor(
-    private readonly envService: EnvService,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   async onModuleInit() {
-    this.secret = await this.envService.getEnvValue('JWT_SECRET');
+    const secret = process.env['JWT_SECRET'];
+
+    if (!secret) {
+      throw new InternalServerErrorException();
+    }
+
+    this.secret = secret;
   }
 
-  async createAccessToken(userGetDto: UserGetDto) {
+  async createAccessToken(userId: string, username: string, email: string) {
     const jwtPayload: JwtPayload = {
-      sub: userGetDto.userId,
-      username: userGetDto.username,
-      email: userGetDto.email,
+      sub: userId,
+      username,
+      email,
     };
 
     return await this.jwtService.signAsync(jwtPayload, {
@@ -34,16 +36,13 @@ export class AuthLibService implements OnModuleInit {
     });
   }
 
-  async hashPassword(userSignUpDto: UserSignUpDto) {
+  async hashPassword(password: string) {
     const salt = await bcryptjs.genSalt();
-    return await bcryptjs.hash(userSignUpDto.password, salt);
+    return await bcryptjs.hash(password, salt);
   }
 
-  async verifyPassword(userGetDto: UserGetDto, userSignInDto: UserSignInDto) {
-    if (
-      !userGetDto.userId ||
-      !(await bcryptjs.compare(userSignInDto.password, userGetDto.hashPassword))
-    ) {
+  async verifyPassword(userId: string, password: string, hashPassword: string) {
+    if (!userId || !(await bcryptjs.compare(password, hashPassword))) {
       throw new UnauthorizedException('Uncorrect password');
     }
   }

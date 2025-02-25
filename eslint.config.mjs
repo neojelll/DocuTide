@@ -3,12 +3,14 @@ import nx from '@nx/eslint-plugin';
 export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
-  ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist'],
+    ignores: ['**/node_modules/', '**/dist/', '**/build'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    files: ['**/*.ts', '**/*.tsx'],
     rules: {
       '@nx/enforce-module-boundaries': [
         'error',
@@ -23,20 +25,7 @@ export default [
           ],
         },
       ],
+      '@typescript-eslint/no-unused-vars': 'warn',
     },
-  },
-  {
-    files: [
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.cts',
-      '**/*.mts',
-      '**/*.js',
-      '**/*.jsx',
-      '**/*.cjs',
-      '**/*.mjs',
-    ],
-    // Override or add rules here
-    rules: {},
   },
 ];

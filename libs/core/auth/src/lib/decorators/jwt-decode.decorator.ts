@@ -24,7 +24,7 @@ export const JwtDecode = createParamDecorator(
       const decode = jwtService.verify(token);
       return decode;
     } catch (Error) {
-      return null;
+      return Error;
     }
   },
 );
