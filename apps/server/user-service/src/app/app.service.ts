@@ -1,6 +1,6 @@
 import { UserGetDto, UserUpdateDto } from '@docu-tide/core/dtos';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from './prisma/prisma.service';
+import { PrismaService } from '@docu-tide/core/schemas';
 
 @Injectable()
 export class UserService {
