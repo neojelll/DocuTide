@@ -7,7 +7,10 @@
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "lint": "eslint --fix",
-    "lint-check": "eslint"
+    "lint-check": "eslint",
+    "prisma:generate": "npm run prisma:schema -- generate --schema=libs/core/schemas/src/lib/prisma/schema.prisma",
+    "prisma:migrate": "npm run prisma:schema -- migrate dev --schema=libs/core/schemas/src/lib/prisma/schema.prisma",
+    "prisma:db": "npm run prisma:schema -- db push --schema=libs/core/schemas/src/lib/prisma/schema.prisma"
   },
   "private": true,
   "dependencies": {
