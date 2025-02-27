@@ -12,6 +12,7 @@ export class AppController {
   async handleSignUp(
     @Payload() userSignUpDto: UserSignUpDto,
   ): Promise<string | UserExists> {
+    console.log('Started handleSignUp');
     return await this.appService.signUp(userSignUpDto);
   }
 }
