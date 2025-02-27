@@ -4,9 +4,9 @@ import { User } from '@prisma/client';
 import {
   DatabaseCheckError,
   DatabaseCreateError,
-} from '../errors/database.errors';
-import { UserExists } from '../interfaces/user-exists.interface';
-import { PrismaService } from '../prisma/prisma.service';
+} from '../../errors/database.errors';
+import { UserExists } from '../../interfaces/user-exists.interface';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UserRepository {
@@ -15,7 +15,7 @@ export class UserRepository {
   async createUser(
     userSignUpDto: UserSignUpDto,
     hashPassword: string,
-  ): Promise<User | DatabaseCreateError> {
+  ): Promise<User> {
     try {
       console.log(`Start creating user: ${userSignUpDto.username}`);
       const newUser: User = await this.prisma.user.create({
@@ -24,19 +24,18 @@ export class UserRepository {
           username: userSignUpDto.username,
           hashPassword: hashPassword,
           emailConfirmed: false,
+          notificationsEnabled: userSignUpDto.receiveNotifications,
         },
       });
       console.log(`Successfully user created: ${JSON.stringify(newUser)}`);
       return newUser;
     } catch (error) {
       console.error(`Error creating user: ${error.message}`);
-      throw new DatabaseCreateError('Error creating user:' + error.message);
+      throw new DatabaseCreateError(`Error creating user: ${error.message}`);
     }
   }
 
-  async checkUser(
-    userSignUpDto: UserSignUpDto,
-  ): Promise<UserExists | null | DatabaseCheckError> {
+  async checkUser(userSignUpDto: UserSignUpDto): Promise<UserExists | null> {
     try {
       console.log(`Start checking user: ${userSignUpDto.username}`);
       const [existingUserByUsername, existingUserByEmail] =
@@ -65,7 +64,7 @@ export class UserRepository {
       return null;
     } catch (error) {
       console.error(`Error when check user: ${error.message}`);
-      throw new DatabaseCheckError('Error when check user:' + error.message);
+      throw new DatabaseCheckError(`Error when check user: ${error.message}`);
     }
   }
 }
