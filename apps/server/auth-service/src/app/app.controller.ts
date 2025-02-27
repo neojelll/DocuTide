@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
+import { UserSignUpDto } from '@docu-tide/core/dtos';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { UserExists } from '../interfaces/user-exists.interface';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getData() {
-    return this.appService.getData();
+  @MessagePattern(process.env['AUTH_SIGN_UP_TOPIC'])
+  async handleSignUp(
+    @Payload() userSignUpDto: UserSignUpDto,
+  ): Promise<string | UserExists> {
+    return await this.appService.signUp(userSignUpDto);
   }
 }
