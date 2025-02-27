@@ -10,7 +10,7 @@ async function bootstrap() {
       options: {
         client: {
           clientId: process.env['AUTH_SERVICE_CLIENT_ID'],
-          brokers: [process.env['KAFKA_URL']],
+          brokers: [process.env['MESSAGE_BROKER_URL']],
         },
         consumer: {
           groupId: process.env['AUTH_SERVICE_GROUP_ID'],
