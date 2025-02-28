@@ -8,7 +8,7 @@
     "format-check": "prettier --check .",
     "lint": "eslint --fix",
     "lint-check": "eslint",
-    "prisma:generate": "prisma generate --schema=libs/core/schemas/src/lib/prisma",
+    "prisma:generate": "pnpm prisma generate --schema=libs/core/schemas/src/lib/prisma",
     "prisma:migrate": "prisma migrate dev --schema=libs/core/schemas/src/lib/prisma --name",
     "prisma:db": "prisma db push --schema=libs/core/schemas/src/lib/prisma"
   },
