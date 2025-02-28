@@ -1,3 +1,3 @@
-# schemas
+# Schemas
 
-This library was generated with [Nx](https://nx.dev).
+This library contains shared data schemas used across the application.
