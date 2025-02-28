@@ -1,0 +1,14 @@
+model User {
+  userId         String   @id @default(cuid()) @map("user_id") @db.VarChar(30)
+  email          String   @unique @db.VarChar(50)
+  emailConfirmed Boolean  @map("email_confirmed")
+  username       String   @unique @db.VarChar(15)
+  hashPassword   String   @map("hash_password") @db.VarChar(60)
+  biography      String?
+  role           String   @default("user") @db.VarChar(15)
+  notificationsEnabled Boolean @map("notifications_enabled")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}

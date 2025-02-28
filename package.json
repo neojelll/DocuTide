@@ -7,7 +7,10 @@
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "lint": "eslint --fix",
-    "lint-check": "eslint"
+    "lint-check": "eslint",
+    "prisma:generate": "prisma generate --schema=libs/core/schemas/src/lib/prisma",
+    "prisma:migrate": "prisma migrate dev --schema=libs/core/schemas/src/lib/prisma --name",
+    "prisma:db": "prisma db push --schema=libs/core/schemas/src/lib/prisma"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +33,7 @@
     "@nestjs/swagger": "^11.0.3",
     "@nestjs/throttler": "^6.4.0",
     "@nx/angular": "^20.4.5",
+    "@prisma/client": "^6.4.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/passport-jwt": "^4.0.1",
     "axios": "^1.6.0",
@@ -87,6 +91,7 @@
     "jsdom": "~22.1.0",
     "nx": "20.4.1",
     "prettier": "^2.6.2",
+    "prisma": "^6.4.1",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
     "typescript": "~5.7.2",
