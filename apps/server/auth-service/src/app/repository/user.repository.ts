@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import {
   DatabaseCheckError,
   DatabaseCreateError,
+  DatabaseUpdateError,
 } from '../../errors/database.errors';
 import { UserExists } from '../../interfaces/user-exists.interface';
 
@@ -67,14 +68,25 @@ export class UserRepository {
     }
   }
 
-  async confirmEmail(confirmEmailPayload) {
-    return this.prisma.user.update({
-      where: {
-        email: confirmEmailPayload.email,
-      },
-      data: {
-        emailConfirmed: true,
-      },
-    });
+  async confirmEmail(username: string, email: string): Promise<User> {
+    try {
+      console.log('Start update confirm email user');
+      const updateUser: User = await this.prisma.user.update({
+        where: {
+          username: username,
+          email: email,
+        },
+        data: {
+          emailConfirmed: true,
+        },
+      });
+      console.log('Successfully update confirm email user');
+      return updateUser;
+    } catch (error) {
+      console.error(`Error when update confirm email user: ${error.message}`);
+      throw new DatabaseUpdateError(
+        `Error when update confirm email user: ${error.message}`,
+      );
+    }
   }
 }
