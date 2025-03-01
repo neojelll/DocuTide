@@ -66,4 +66,15 @@ export class UserRepository {
       throw new DatabaseCheckError(`Error when check user: ${error.message}`);
     }
   }
+
+  async confirmEmail(confirmEmailPayload) {
+    return this.prisma.user.update({
+      where: {
+        email: confirmEmailPayload.email,
+      },
+      data: {
+        emailConfirmed: true,
+      },
+    });
+  }
 }
