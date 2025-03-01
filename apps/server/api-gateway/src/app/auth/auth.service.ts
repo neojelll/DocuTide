@@ -21,11 +21,10 @@ export class AuthService {
   }
 
   async confirmEmail(confirmEmailToken: string) {
-    const result = await this.auth.verifyConfirmEmailToken(confirmEmailToken);
     return await firstValueFrom(
       this.authClient.send(
         process.env['AUTH_CONFIRM_EMAIL_TOPIC'],
-        JSON.stringify(result),
+        confirmEmailToken,
       ),
     );
   }

@@ -8,11 +8,9 @@ import {
   Param,
   Post,
   Request,
-  Res,
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
-import { Response } from 'express';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -28,10 +26,7 @@ export class AuthController implements OnModuleInit {
   }
 
   @Get('confirm-email/:confirmEmailToken')
-  async confirmEmail(
-    @Res() response: Response,
-    @Param('confirmEmailToken') confirmEmailToken: string,
-  ) {
+  async confirmEmail(@Param('confirmEmailToken') confirmEmailToken: string) {
     return await this.authService.confirmEmail(confirmEmailToken);
   }
 
