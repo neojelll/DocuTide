@@ -32,8 +32,7 @@ export class AuthController implements OnModuleInit {
     @Res() response: Response,
     @Param('confirmEmailToken') confirmEmailToken: string,
   ) {
-    await this.authService.confirmEmail(confirmEmailToken);
-    return response.redirect(301, process.env['HOME_PAGE_URL']);
+    return await this.authService.confirmEmail(confirmEmailToken);
   }
 
   @Post('sign-in')
