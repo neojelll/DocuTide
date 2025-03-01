@@ -1,7 +1,7 @@
 import { AuthLibService } from '@docu-tide/core/auth';
 import { UserGetDto, UserSignUpDto } from '@docu-tide/core/dtos';
+import { User } from '@docu-tide/core/schemas';
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { SignUpError } from '../errors/sign-up.errors';
 import { UserExists } from '../interfaces/user-exists.interface';
 import { MailService } from './mail/mail.service';
@@ -27,6 +27,13 @@ export class AppService {
         return checkUser;
       }
 
+      const confirmEmailToken = await this.auth.createConfirmEmailToken(
+        userSignUpDto.username,
+        userSignUpDto.email,
+      );
+
+      await this.mail.sendMail(userSignUpDto.email, confirmEmailToken);
+
       const hashPassword: string = await this.auth.hashPassword(
         userSignUpDto.password,
       );
@@ -35,13 +42,15 @@ export class AppService {
         hashPassword,
       );
 
-      await this.mail.sendMail(userSignUpDto.email);
-
       console.log(`User successfully created: ${JSON.stringify(newUser)}`);
       return await new UserGetDto(newUser).stringify();
     } catch (error) {
       console.error(`Error signUp user: ${error.message}`);
       throw new SignUpError(`SignUp error ${error.message}`);
     }
+  }
+
+  async confirmEmail(confirmEmailPayload) {
+    return await this.user.confirmEmail(confirmEmailPayload);
   }
 }

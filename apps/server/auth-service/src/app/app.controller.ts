@@ -15,4 +15,10 @@ export class AppController {
     console.log('Started handleSignUp');
     return await this.appService.signUp(userSignUpDto);
   }
+
+  @MessagePattern(process.env['AUTH_CONFIRM_EMAIL_TOPIC'])
+  async handleConfirmEmail(@Payload() confirmEmailPayload) {
+    console.log('Started handleConfirmEmail');
+    return await this.appService.confirmEmail(confirmEmailPayload);
+  }
 }
