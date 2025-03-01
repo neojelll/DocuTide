@@ -2,13 +2,17 @@ import { UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
 import {
   Body,
   Controller,
+  Get,
   Inject,
   OnModuleInit,
+  Param,
   Post,
   Request,
+  Res,
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
+import { Response } from 'express';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -21,6 +25,15 @@ export class AuthController implements OnModuleInit {
   @Post('sign-up')
   async signUp(@Body(ValidationPipe) userSignUpDto: UserSignUpDto) {
     return await this.authService.signUp(userSignUpDto);
+  }
+
+  @Get('confirm-email/:confirmEmailToken')
+  async confirmEmail(
+    @Res() response: Response,
+    @Param('confirmEmailToken') confirmEmailToken: string,
+  ) {
+    await this.authService.confirmEmail(confirmEmailToken);
+    return response.redirect(301, process.env['HOME_PAGE_URL']);
   }
 
   @Post('sign-in')
@@ -38,6 +51,9 @@ export class AuthController implements OnModuleInit {
 
   async onModuleInit() {
     this.authClient.subscribeToResponseOf(process.env['AUTH_SIGN_UP_TOPIC']);
+    this.authClient.subscribeToResponseOf(
+      process.env['AUTH_CONFIRM_EMAIL_TOPIC'],
+    );
     this.authClient.subscribeToResponseOf(process.env['AUTH_SIGN_IN_TOPIC']);
     this.authClient.subscribeToResponseOf(process.env['AUTH_SIGN_OUT_TOPIC']);
     await this.authClient.connect();
