@@ -50,7 +50,9 @@ export class AppService {
     }
   }
 
-  async confirmEmail(confirmEmailPayload) {
-    return await this.user.confirmEmail(confirmEmailPayload);
+  async confirmEmail(confirmEmailToken: string) {
+    const payload: { username: string; email: string } =
+      await this.auth.verifyConfirmEmailToken(confirmEmailToken);
+    return JSON.stringify(await this.user.confirmEmail(payload));
   }
 }

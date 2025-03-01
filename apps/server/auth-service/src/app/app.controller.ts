@@ -17,8 +17,8 @@ export class AppController {
   }
 
   @MessagePattern(process.env['AUTH_CONFIRM_EMAIL_TOPIC'])
-  async handleConfirmEmail(@Payload() confirmEmailPayload) {
+  async handleConfirmEmail(@Payload() confirmEmailToken: string) {
     console.log('Started handleConfirmEmail');
-    return await this.appService.confirmEmail(confirmEmailPayload);
+    return await this.appService.confirmEmail(confirmEmailToken);
   }
 }
