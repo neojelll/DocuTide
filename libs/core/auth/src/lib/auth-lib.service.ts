@@ -24,6 +24,22 @@ export class AuthLibService implements OnModuleInit {
     this.secret = secret;
   }
 
+  async createConfirmEmailToken(username: string, email: string) {
+    const payload = {
+      username,
+      email,
+    };
+
+    return await this.jwtService.signAsync(payload, {
+      secret: this.secret,
+      expiresIn: Number(process.env['CONFIRM_EMAIL_TOKEN_EXPIRES']),
+    });
+  }
+
+  async verifyConfirmEmailToken(confirmEmailToken: string) {
+    return await this.jwtService.verifyAsync(confirmEmailToken);
+  }
+
   async createAccessToken(userId: string, username: string, email: string) {
     const jwtPayload: JwtPayload = {
       sub: userId,
