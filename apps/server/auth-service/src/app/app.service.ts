@@ -53,6 +53,8 @@ export class AppService {
   async confirmEmail(confirmEmailToken: string) {
     const payload: { username: string; email: string } =
       await this.auth.verifyConfirmEmailToken(confirmEmailToken);
-    return JSON.stringify(await this.user.confirmEmail(payload));
+    return JSON.stringify(
+      await this.user.confirmEmail(payload.username, payload.email),
+    );
   }
 }
