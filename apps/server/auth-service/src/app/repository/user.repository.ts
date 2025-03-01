@@ -1,12 +1,11 @@
 import { UserSignUpDto } from '@docu-tide/core/dtos';
+import { PrismaService, User } from '@docu-tide/core/schemas';
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 import {
   DatabaseCheckError,
   DatabaseCreateError,
 } from '../../errors/database.errors';
 import { UserExists } from '../../interfaces/user-exists.interface';
-import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UserRepository {
