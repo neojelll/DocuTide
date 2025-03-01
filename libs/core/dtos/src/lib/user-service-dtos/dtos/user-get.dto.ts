@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsDate,
   IsEmail,
   IsNotEmpty,
@@ -17,6 +18,10 @@ export class UserGetDto {
   @IsNotEmpty()
   email: string;
 
+  @IsBoolean()
+  @IsNotEmpty()
+  emailConfirmed: boolean;
+
   @IsString()
   @IsNotEmpty()
   username: string;
@@ -33,6 +38,10 @@ export class UserGetDto {
   @IsOptional()
   role?: string;
 
+  @IsBoolean()
+  @IsNotEmpty()
+  notificationsEnabled: boolean;
+
   @IsDate()
   @IsNotEmpty()
   createdAt: Date;
@@ -44,10 +53,12 @@ export class UserGetDto {
   constructor(userGetPayload: UserGetPayload) {
     this.userId = userGetPayload.userId;
     this.email = userGetPayload.email;
+    this.emailConfirmed = userGetPayload.emailConfirmed;
     this.username = userGetPayload.username;
     this.hashPassword = userGetPayload.hashPassword;
     this.biography = userGetPayload.biography;
     this.role = userGetPayload.role;
+    this.notificationsEnabled = userGetPayload.notificationsEnabled;
     this.createdAt = userGetPayload.createdAt;
     this.updatedAt = userGetPayload.updatedAt;
   }
