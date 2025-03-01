@@ -2,7 +2,9 @@ import { AuthLibService } from '@docu-tide/core/auth';
 import { UserGetDto, UserSignUpDto } from '@docu-tide/core/dtos';
 import { User } from '@docu-tide/core/schemas';
 import { Injectable } from '@nestjs/common';
+import { ConfirmEmailError } from '../errors/confirm-email.errors';
 import { SignUpError } from '../errors/sign-up.errors';
+import { ConfirmEmailTokenPayload } from '../interfaces/email-token.interface';
 import { UserExists } from '../interfaces/user-exists.interface';
 import { MailService } from './mail/mail.service';
 import { UserRepository } from './repository/user.repository';
@@ -42,7 +44,7 @@ export class AppService {
         hashPassword,
       );
 
-      console.log(`User successfully created: ${JSON.stringify(newUser)}`);
+      console.log(`Successfully signUp: ${JSON.stringify(newUser)}`);
       return await new UserGetDto(newUser).stringify();
     } catch (error) {
       console.error(`Error signUp user: ${error.message}`);
@@ -50,11 +52,23 @@ export class AppService {
     }
   }
 
-  async confirmEmail(confirmEmailToken: string) {
-    const payload: { username: string; email: string } =
-      await this.auth.verifyConfirmEmailToken(confirmEmailToken);
-    return JSON.stringify(
-      await this.user.confirmEmail(payload.username, payload.email),
-    );
+  async confirmEmail(confirmEmailToken: string): Promise<string> {
+    try {
+      const payload: ConfirmEmailTokenPayload =
+        await this.auth.verifyConfirmEmailToken(confirmEmailToken);
+
+      console.log(`Start confirm email: ${payload.email}`);
+
+      const updateUser: User = await this.user.confirmEmail(
+        payload.username,
+        payload.email,
+      );
+
+      console.log(`Successfully confirm email: ${JSON.stringify(updateUser)}`);
+      return new UserGetDto(updateUser).stringify();
+    } catch (error) {
+      console.error(`Error when confirm email: ${error.message}`);
+      throw new ConfirmEmailError(`Error when confirm email: ${error.message}`);
+    }
   }
 }
