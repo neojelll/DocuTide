@@ -19,22 +19,7 @@
       "@docu-tide/core/auth": ["libs/core/auth/src/index.ts"],
       "@docu-tide/core/dtos": ["libs/core/dtos/src/index.ts"],
       "@docu-tide/core/env": ["libs/core/env/src/index.ts"],
-      "@docu-tide/core/schemas": ["libs/core/schemas/src/index.ts"],
-      "document_editor/Routes": [
-        "apps/client/document_editor/src/app/remote-entry/entry.routes.ts"
-      ],
-      "login/Routes": [
-        "apps/client/login/src/app/remote-entry/entry.routes.ts"
-      ],
-      "project_view/Routes": [
-        "apps/client/project_view/src/app/remote-entry/entry.routes.ts"
-      ],
-      "projects_feed/Routes": [
-        "apps/client/projects_feed/src/app/remote-entry/entry.routes.ts"
-      ],
-      "user_profile/Routes": [
-        "apps/client/user_profile/src/app/remote-entry/entry.routes.ts"
-      ]
+      "@docu-tide/core/schemas": ["libs/core/schemas/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

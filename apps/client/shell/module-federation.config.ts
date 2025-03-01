@@ -14,13 +14,6 @@ const config: ModuleFederationConfig = {
    * declare module 'my-external-remote';
    *
    */
-  remotes: [
-    'login',
-    'user_profile',
-    'projects_feed',
-    'project_view',
-    'document_editor',
-  ],
 };
 
 /**
