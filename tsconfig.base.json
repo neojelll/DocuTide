@@ -18,7 +18,6 @@
     "paths": {
       "@docu-tide/core/auth": ["libs/core/auth/src/index.ts"],
       "@docu-tide/core/dtos": ["libs/core/dtos/src/index.ts"],
-      "@docu-tide/core/env": ["libs/core/env/src/index.ts"],
       "@docu-tide/core/schemas": ["libs/core/schemas/src/index.ts"]
     }
   },
