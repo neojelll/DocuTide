@@ -1,5 +1,5 @@
-import { JwtPayload } from '@docu-tide/core/auth';
-import { DocumentCreateDto, DocumentUpdateDto } from '@docu-tide/core/dtos';
+import { JwtPayload } from '@docu-tide/auth';
+import { DocumentCreateDto, DocumentUpdateDto } from '@docu-tide/core';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { DocumentEditor } from './document-editor.service';

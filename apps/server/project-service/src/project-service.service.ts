@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Project, ProjectDocument } from './schemas/project.schema';
 import {
   ProjectCreateDto,
   ProjectGetDto,
   ProjectUpdateDto,
-} from '@docu-tide/core/dtos';
+} from '@docu-tide/core';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Project, ProjectDocument } from './schemas/project.schema';
 
 @Injectable()
 export class ProjectService {
