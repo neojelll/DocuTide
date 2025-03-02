@@ -1,6 +1,6 @@
-import { JwtPayload } from '@docu-tide/core/auth';
+import { JwtPayload } from '@docu-tide/server/auth';
 import { IsNotEmpty, IsObject } from 'class-validator';
-import { ValidationUserUpdateDto } from '../validation-dtos/user-update-validation.dto';
+import { ValidationUserUpdateDto } from '../validation-dto/user-update-validation.dto';
 
 export class UserUpdateDto extends ValidationUserUpdateDto {
   @IsObject()

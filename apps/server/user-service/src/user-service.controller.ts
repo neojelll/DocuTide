@@ -1,9 +1,5 @@
-import { JwtPayload } from '@docu-tide/core/auth';
-import {
-  UserSignInDto,
-  UserSignUpDto,
-  UserUpdateDto,
-} from '@docu-tide/core/dtos';
+import { UserSignInDto, UserSignUpDto, UserUpdateDto } from '@docu-tide/core';
+import { JwtPayload } from '@docu-tide/server/auth';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserService } from './user-service.service';

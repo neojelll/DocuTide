@@ -6,7 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { DocumentGetPayload } from '../../interfaces/document-get.interface';
+import { DocumentGetPayload } from '../../../interfaces/dto/document-get.interface';
 
 export class DocumentGetDto {
   @IsUUID()

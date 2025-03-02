@@ -1,5 +1,5 @@
-import { JwtPayload } from '@docu-tide/core/auth';
-import { ProjectCreateDto, ProjectUpdateDto } from '@docu-tide/core/dtos';
+import { ProjectCreateDto, ProjectUpdateDto } from '@docu-tide/core';
+import { JwtPayload } from '@docu-tide/server/auth';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ProjectService } from './project-service.service';

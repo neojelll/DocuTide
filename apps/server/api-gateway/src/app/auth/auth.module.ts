@@ -1,5 +1,4 @@
-import { AuthLibModule, JwtStrategy } from '@docu-tide/core/auth';
-import { EnvModule } from '@docu-tide/core/env';
+import { AuthLibModule, JwtStrategy } from '@docu-tide/server/auth';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
@@ -8,7 +7,6 @@ import { AuthService } from './auth.service';
 
 @Module({
   imports: [
-    EnvModule,
     AuthLibModule,
     JwtModule.register({
       secret: process.env['JWT_SECRET'],

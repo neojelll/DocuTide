@@ -1,5 +1,5 @@
-import { AuthLibService } from '@docu-tide/core/auth';
-import { UserGetDto, UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
+import { UserGetDto, UserSignInDto, UserSignUpDto } from '@docu-tide/core';
+import { AuthLibService } from '@docu-tide/server/auth';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';

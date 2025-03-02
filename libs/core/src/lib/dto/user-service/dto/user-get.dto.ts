@@ -6,7 +6,7 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
-import { UserGetPayload } from '../../interfaces/user-get.interface';
+import { UserGetPayload } from '../../../interfaces/dto/user-get.interface';
 
 export class UserGetDto {
   @IsUUID()

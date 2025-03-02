@@ -1,4 +1,4 @@
-import { JwtPayload } from '@docu-tide/core/auth';
+import { JwtPayload } from '@docu-tide/server/auth';
 import {
   IsNotEmpty,
   IsObject,
@@ -6,9 +6,9 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { ValidationDocumentCreateDto } from '../validation-dtos/document-create-validation.dto';
+import { ValidationDocumentUpdateDto } from '../validation-dto/document-update-validation.dto';
 
-export class DocumentCreateDto extends ValidationDocumentCreateDto {
+export class DocumentUpdateDto extends ValidationDocumentUpdateDto {
   @IsObject()
   @IsNotEmpty()
   jwtPayload: JwtPayload;

@@ -1,7 +1,7 @@
 {
-  "name": "dtos",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/core/dtos/src",
+  "name": "core",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/src",
   "projectType": "library",
   "tags": [],
   "// targets": "to see all targets run: nx show project dtos --web",
