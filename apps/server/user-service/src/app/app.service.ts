@@ -1,19 +1,17 @@
 import { UserGetDto, UserUpdateDto } from '@docu-tide/core';
-import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@docu-tide/schemas';
 import { JwtPayload } from '@docu-tide/auth';
 
 @Injectable()
 export class UserService {
-  private readonly logger = new Logger(UserService.name);
-
   constructor(private readonly prisma: PrismaService) {}
 
   async getAllUsers(): Promise<string[]> {
     try {
-      this.logger.log('Fetching all users from database');
+      console.log('Fetching all users from database');
       const users = await this.prisma.user.findMany();
-      this.logger.debug(`Retrieved ${users.length} users from database`);
+      console.debug(`Retrieved ${users.length} users from database`);
 
       const result = await Promise.all(
         users.map(async (user) => {
@@ -21,10 +19,10 @@ export class UserService {
         }),
       );
 
-      this.logger.debug('Successfully processed all users');
+      console.debug('Successfully processed all users');
       return result;
     } catch (error) {
-      this.logger.error('Failed to fetch all users', error.stack);
+      console.error('Failed to fetch all users', error.stack);
       throw error;
     }
   }
@@ -32,21 +30,21 @@ export class UserService {
   async getUser(jwtPayload: JwtPayload): Promise<string> {
     const { sub } = jwtPayload;
     try {
-      this.logger.log(`Fetching user with ID: ${sub}`);
+      console.log(`Fetching user with ID: ${sub}`);
       const user = await this.prisma.user.findUnique({
         where: { userId: sub },
       });
 
       if (!user) {
-        this.logger.warn(`User with ID ${sub} not found`);
+        console.warn(`User with ID ${sub} not found`);
         throw new NotFoundException(`User with ID "${sub}" not found.`);
       }
 
       const result = new UserGetDto(user).stringify();
-      this.logger.debug(`Successfully retrieved user with ID: ${sub}`);
+      console.debug(`Successfully retrieved user with ID: ${sub}`);
       return result;
     } catch (error) {
-      this.logger.error(`Failed to fetch user with ID: ${sub}`, error.stack);
+      console.error(`Failed to fetch user with ID: ${sub}`, error.stack);
       throw error;
     }
   }
@@ -54,7 +52,7 @@ export class UserService {
   async updateUser(userUpdateDto: UserUpdateDto): Promise<string> {
     const { sub } = userUpdateDto.jwtPayload;
     try {
-      this.logger.log(`Updating user with ID: ${userUpdateDto}`);
+      console.log(`Updating user with ID: ${userUpdateDto}`);
       const { jwtPayload, ...validData } = userUpdateDto;
       const updatedUser = await this.prisma.user.update({
         where: { userId: sub },
@@ -62,17 +60,17 @@ export class UserService {
       });
 
       if (!updatedUser) {
-        this.logger.warn(`User with ID ${userUpdateDto} not found for update`);
+        console.warn(`User with ID ${userUpdateDto} not found for update`);
         throw new NotFoundException(
           `User with ID "${userUpdateDto}" not found.`,
         );
       }
 
       const result = new UserGetDto(updatedUser).stringify();
-      this.logger.debug(`Successfully updated user: ${userUpdateDto}`);
+      console.debug(`Successfully updated user: ${userUpdateDto}`);
       return result;
     } catch (error) {
-      this.logger.error(`Failed to update user: ${userUpdateDto}`, error.stack);
+      console.error(`Failed to update user: ${userUpdateDto}`, error.stack);
       throw error;
     }
   }
