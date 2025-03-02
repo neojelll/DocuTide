@@ -19,25 +19,18 @@ export class UserController {
   }
 
   @MessagePattern(process.env['USER_GET_TOPIC'])
-  async handleGet(@Payload() payload: JwtPayload) {
-    this.logger.log(`Handling get user request: ${payload}`);
-    const result = await this.userService.getUser(payload);
-    this.logger.debug(`Successfully retrieved user: ${payload}`);
+  async handleGet(@Payload() jwtPayload: JwtPayload) {
+    this.logger.log(`Handling get user request: ${jwtPayload}`);
+    const result = await this.userService.getUser(jwtPayload);
+    this.logger.debug(`Successfully retrieved user: ${jwtPayload}`);
     return result;
   }
 
   @MessagePattern(process.env['USER_UPDATE_TOPIC'])
-  async handleUpdate(@Payload() payload: UserUpdateDto) {
-    this.logger.log(
-      `Handling update request for userId: ${payload.jwtPayload.sub}`,
-    );
-    const result = await this.userService.updateUser(
-      payload.jwtPayload,
-      payload,
-    );
-    this.logger.debug(
-      `Successfully updated user with ID: ${payload.jwtPayload.sub}`,
-    );
+  async handleUpdate(@Payload() userUpdateDto: UserUpdateDto) {
+    this.logger.log(`Handling update request: ${userUpdateDto}`);
+    const result = await this.userService.updateUser(userUpdateDto);
+    this.logger.debug(`Successfully updated user with ID: ${userUpdateDto}`);
     return result;
   }
 }

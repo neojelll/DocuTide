@@ -29,8 +29,8 @@ export class UserService {
     }
   }
 
-  async getUser(payload: JwtPayload): Promise<string> {
-    const { sub } = payload;
+  async getUser(jwtPayload: JwtPayload): Promise<string> {
+    const { sub } = jwtPayload;
     try {
       this.logger.log(`Fetching user with ID: ${sub}`);
       const user = await this.prisma.user.findUnique({
@@ -51,26 +51,28 @@ export class UserService {
     }
   }
 
-  async updateUser(payload: JwtPayload, data: UserUpdateDto): Promise<string> {
-    const { sub } = payload;
+  async updateUser(userUpdateDto: UserUpdateDto): Promise<string> {
+    const { sub } = userUpdateDto.jwtPayload;
     try {
-      this.logger.log(`Updating user with ID: ${sub}`);
-      const { jwtPayload, ...validData } = data;
+      this.logger.log(`Updating user with ID: ${userUpdateDto}`);
+      const { jwtPayload, ...validData } = userUpdateDto;
       const updatedUser = await this.prisma.user.update({
         where: { userId: sub },
         data: validData,
       });
 
       if (!updatedUser) {
-        this.logger.warn(`User with ID ${sub} not found for update`);
-        throw new NotFoundException(`User with ID "${sub}" not found.`);
+        this.logger.warn(`User with ID ${userUpdateDto} not found for update`);
+        throw new NotFoundException(
+          `User with ID "${userUpdateDto}" not found.`,
+        );
       }
 
       const result = new UserGetDto(updatedUser).stringify();
-      this.logger.debug(`Successfully updated user with ID: ${sub}`);
+      this.logger.debug(`Successfully updated user: ${userUpdateDto}`);
       return result;
     } catch (error) {
-      this.logger.error(`Failed to update user with ID: ${sub}`, error.stack);
+      this.logger.error(`Failed to update user: ${userUpdateDto}`, error.stack);
       throw error;
     }
   }
