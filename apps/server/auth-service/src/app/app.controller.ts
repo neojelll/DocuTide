@@ -1,4 +1,4 @@
-import { UserSignUpDto } from '@docu-tide/core/dtos';
+import { UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserExists } from '../interfaces/user-exists.interface';
@@ -20,5 +20,11 @@ export class AppController {
   async handleConfirmEmail(@Payload() confirmEmailToken: string) {
     console.log('Started handleConfirmEmail');
     return await this.appService.confirmEmail(confirmEmailToken);
+  }
+
+  @MessagePattern(process.env['AUTH_SIGN_IN_TOPIC'])
+  async handleSignIp(@Payload() userSignInDto: UserSignInDto) {
+    console.log('Startes handleSignIn');
+    return await this.appService.signIn(userSignInDto);
   }
 }

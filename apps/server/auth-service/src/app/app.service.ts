@@ -1,5 +1,5 @@
 import { AuthLibService } from '@docu-tide/core/auth';
-import { UserGetDto, UserSignUpDto } from '@docu-tide/core/dtos';
+import { UserGetDto, UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
 import { User } from '@docu-tide/core/schemas';
 import { Injectable } from '@nestjs/common';
 import { ConfirmEmailError } from '../errors/confirm-email.errors';
@@ -70,5 +70,10 @@ export class AppService {
       console.error(`Error when confirm email: ${error.message}`);
       throw new ConfirmEmailError(`Error when confirm email: ${error.message}`);
     }
+  }
+
+  async signIn(userSignInDto: UserSignInDto) {
+    const user: User = await this.user.getUser(userSignInDto.username);
+    return user;
   }
 }

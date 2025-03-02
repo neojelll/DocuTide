@@ -5,6 +5,7 @@ import {
   DatabaseCheckError,
   DatabaseCreateError,
   DatabaseDeleteError,
+  DatabaseGetError,
   DatabaseUpdateError,
 } from '../../errors/database.errors';
 import { UserExists } from '../../interfaces/user-exists.interface';
@@ -96,6 +97,26 @@ export class UserRepository {
       throw new DatabaseUpdateError(
         `Error when update confirm email user: ${error.message}`,
       );
+    }
+  }
+
+  async getUser(username: string) {
+    try {
+      console.log(`Start get user: ${username}`);
+
+      const user: User = await this.prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+      });
+
+      console.log(`Successfully get user: ${JSON.stringify(user)}`);
+      return user;
+    } catch (error) {
+      console.error(
+        `Error when get user: ${username}, error: ${error.message}`,
+      );
+      throw new DatabaseGetError(`Error when get user: ${error.message}`);
     }
   }
 
