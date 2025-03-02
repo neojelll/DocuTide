@@ -1,3 +1,4 @@
+import { JwtPayload } from '@docu-tide/auth';
 import {
   ProjectCreateDto,
   ProjectGetDto,
@@ -5,7 +6,6 @@ import {
   ValidationProjectCreateDto,
   ValidationProjectUpdateDto,
 } from '@docu-tide/core';
-import { JwtPayload } from '@docu-tide/server/auth';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';

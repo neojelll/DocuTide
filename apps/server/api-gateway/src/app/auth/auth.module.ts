@@ -1,4 +1,4 @@
-import { AuthLibModule, JwtStrategy } from '@docu-tide/server/auth';
+import { AuthLibModule, JwtStrategy } from '@docu-tide/auth';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
