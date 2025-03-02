@@ -7,7 +7,6 @@
     "esModuleInterop": true
   },
   "include": [
-    "../../../jest.config.ts",
     "./src/test/*.test.ts",
     "./src/test/**/*.test.ts",
     "./src/test/**/*.spec.ts",
