@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DocumentEditorController } from './document-editor.controller';
 import { DocumentEditor } from './document-editor.service';
@@ -7,7 +8,6 @@ import {
   Documentation,
   DocumentationSchema,
 } from './schemas/documentation.schema';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [

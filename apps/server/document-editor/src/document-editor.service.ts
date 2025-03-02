@@ -1,3 +1,8 @@
+import {
+  DocumentCreateDto,
+  DocumentGetDto,
+  DocumentUpdateDto,
+} from '@docu-tide/core';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -5,11 +10,6 @@ import {
   Documentation,
   DocumentationDocument,
 } from './schemas/documentation.schema';
-import {
-  DocumentCreateDto,
-  DocumentGetDto,
-  DocumentUpdateDto,
-} from '@docu-tide/core/dtos';
 
 @Injectable()
 export class DocumentEditor {
