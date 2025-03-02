@@ -1,4 +1,4 @@
-import { JwtPayload } from '@docu-tide/server/auth';
+import { JwtPayload } from '@docu-tide/auth';
 import { IsNotEmpty, IsObject } from 'class-validator';
 import { ValidationUserUpdateDto } from '../validation-dto/user-update-validation.dto';
 

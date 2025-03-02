@@ -1,4 +1,4 @@
-import { JwtPayload } from '@docu-tide/server/auth';
+import { JwtPayload } from '@docu-tide/auth';
 import {
   IsNotEmpty,
   IsObject,
