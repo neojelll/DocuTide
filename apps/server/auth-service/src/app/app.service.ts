@@ -1,6 +1,6 @@
-import { AuthLibService } from '@docu-tide/core/auth';
-import { UserGetDto, UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
-import { User } from '@docu-tide/core/schemas';
+import { AuthLibService } from '@docu-tide/auth';
+import { UserGetDto, UserSignInDto, UserSignUpDto } from '@docu-tide/core';
+import { User } from '@docu-tide/schemas';
 import { Injectable } from '@nestjs/common';
 import { ConfirmEmailError } from '../errors/confirm-email.errors';
 import { SignUpError } from '../errors/sign-up.errors';

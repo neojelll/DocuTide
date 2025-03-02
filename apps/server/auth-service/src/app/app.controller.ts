@@ -1,4 +1,4 @@
-import { UserSignInDto, UserSignUpDto } from '@docu-tide/core/dtos';
+import { UserSignInDto, UserSignUpDto } from '@docu-tide/core';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserExists } from '../interfaces/user-exists.interface';
