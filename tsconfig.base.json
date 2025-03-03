@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@docu-tide/auth": ["libs/auth/index.ts"],
-      "@docu-tide/core": ["libs/core/index.ts"]
+      "@docu-tide/core": ["libs/core/index.ts"],
+      "@docu-tide/repositories": ["libs/core/repositories/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
