@@ -1,7 +1,7 @@
 import { UserGetDto, UserUpdateDto } from '@docu-tide/core';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '@docu-tide/schemas';
-import { JwtPayload } from '@docu-tide/auth';
+import { PrismaService } from '@docu-tide/core';
+import { JwtPayload } from '@docu-tide/core';
 
 @Injectable()
 export class UserService {

@@ -1,4 +1,4 @@
-import { JwtPayload } from '@docu-tide/auth';
+import { JwtPayload } from '@docu-tide/core';
 import { UserUpdateDto } from '@docu-tide/core';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
