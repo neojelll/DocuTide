@@ -7,7 +7,7 @@ import { inject, Injectable } from '@angular/core';
 export class RegisterService {
   http = inject(HttpClient);
 
-  register(data: { email: string; username: string; password: string }) {
-    return this.http.post('http://localhost:3000/api/v1/auth-sign-up', data);
+  register(data: any) {
+    return this.http.post('http://localhost:3000/api/v1/auth/sign-up', data);
   }
 }

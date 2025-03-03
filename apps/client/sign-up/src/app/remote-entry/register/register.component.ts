@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import {
   FormControl,
@@ -6,23 +6,34 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RegisterService } from './register.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: 'register.component.html',
   styleUrls: ['register.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, HttpClientModule],
 })
 export class RegisterComponent {
-  registerService = inject(RegisterService);
+  http = inject(HttpClient);
   form = new FormGroup({
-    email: new FormControl(null, Validators.required),
-    username: new FormControl(null, Validators.required),
-    password: new FormControl(null, Validators.required),
+    email: new FormControl<null | string>(null, Validators.required),
+    username: new FormControl<null | string>(null, Validators.required),
+    password: new FormControl<null | string>(null, Validators.required),
   });
 
   onSubmit() {
-    console.log(this.form.value);
+    this.http
+      .post('http://localhost:3000/api/v1/auth/sign-up', {
+        ...this.form.value,
+        notificationEnabled: true,
+      })
+      .subscribe(
+        (response) => {
+          console.log('Response:', response);
+        },
+        (error) => {
+          console.error('Error:', error);
+        },
+      );
   }
 }
