@@ -1,5 +1,5 @@
 import { AuthLibModule } from '@docu-tide/auth';
-import { SchemasModule } from '@docu-tide/schemas';
+import { SchemasModule } from '@docu-tide/core';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';

@@ -1,5 +1,4 @@
-import { UserSignUpDto } from '@docu-tide/core';
-import { PrismaService, User } from '@docu-tide/schemas';
+import { PrismaService, User, UserSignUpDto } from '@docu-tide/core';
 import { Injectable } from '@nestjs/common';
 import {
   DatabaseCheckError,
