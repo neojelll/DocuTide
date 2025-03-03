@@ -1,15 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../../dist/out-tsc",
     "module": "commonjs",
-    "moduleResolution": "node10",
-    "types": ["jest", "node"]
+    "target": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
   "include": [
-    "jest.config.ts",
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
+    "./src/test/*.test.ts",
+    "./src/test/**/*.test.ts",
+    "./src/test/**/*.spec.ts",
+    "./src/test/**/*.d.ts"
   ]
 }
