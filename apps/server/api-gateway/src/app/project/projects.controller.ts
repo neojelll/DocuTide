@@ -1,5 +1,6 @@
-import { JwtAuthGuard, JwtDecode, JwtPayload } from '@docu-tide/auth';
+import { JwtAuthGuard, JwtDecode } from '@docu-tide/auth';
 import {
+  JwtPayload,
   ValidationProjectCreateDto,
   ValidationProjectUpdateDto,
 } from '@docu-tide/core';

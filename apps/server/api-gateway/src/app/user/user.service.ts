@@ -1,5 +1,5 @@
-import { JwtPayload } from '@docu-tide/auth';
 import {
+  JwtPayload,
   UserGetDto,
   UserUpdateDto,
   ValidationUserUpdateDto,
