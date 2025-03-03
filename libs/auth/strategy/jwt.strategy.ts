@@ -1,3 +1,4 @@
+import { JwtPayload } from '@docu-tide/core';
 import {
   Injectable,
   NotFoundException,
@@ -6,7 +7,6 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { JwtPayload } from '../interfaces/jwt.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

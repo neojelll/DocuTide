@@ -1,3 +1,4 @@
+import { JwtPayload } from '@docu-tide/core';
 import {
   Injectable,
   InternalServerErrorException,
@@ -6,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
-import { JwtPayload } from './interfaces/jwt.interface';
 
 @Injectable()
 export class AuthLibService implements OnModuleInit {
