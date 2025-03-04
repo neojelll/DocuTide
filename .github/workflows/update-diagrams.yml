@@ -48,9 +48,9 @@ jobs:
           poetry install
         working-directory: architecture
 
-      - name: Generate diagrams from Structurizr DSL
+      - name: Update diagrams
         run: |
-          structurizr.sh export -workspace architecture/structurizr/workspace.dsl -format plantuml
+          structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
           poetry run python architecture/structurizr/render_diagrams.py
         working-directory: architecture
 
