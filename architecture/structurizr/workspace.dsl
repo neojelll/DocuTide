@@ -24,10 +24,9 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
       notificationService = container "NotificationService" "Sends notifications" "TypeScript"
       integrationService = container "IntegrationService" "Manages external integrations" "TypeScript"
 
-      # Исправленный блок docServices
       container "DocServices" "Documentation management" {
-        docsEditor = container "DocsEditor" "Edits and assists with documentation" "TypeScript"
-        docsPublish = container "DocsPublish" "Hosts HTML pages" "TypeScript"
+        docsEditor container "DocsEditor" "Edits and assists with documentation" "TypeScript"
+        docsPublish container "DocsPublish" "Hosts HTML pages" "TypeScript"
       }
 
       dataBase1 = container "DataBase1" "Stores projects and documentation" "MongoDB" {
@@ -38,19 +37,19 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
       }
 
       container "Analytics" "Metrics and visualization" {
-        analyticService = container "AnalyticService" "Collects metrics" "TypeScript"
-        metricsDataBase = container "MetricsDataBase" "Stores metrics" "Prometheus" {
+        analyticService container "AnalyticService" "Collects metrics" "TypeScript"
+        metricsDataBase container "MetricsDataBase" "Stores metrics" "Prometheus" {
           tags "Database"
         }
-        metricsVisualization = container "MetricsVisualization" "Visualizes metrics" "Grafana"
+        metricsVisualization container "MetricsVisualization" "Visualizes metrics" "Grafana"
       }
 
       container "Logs" "Log management" {
-        logService = container "LogService" "Collects and structures logs" "Logstash"
-        logsDataBase = container "LogsDataBase" "Stores and indexes logs" "Elasticsearch" {
+        logService container "LogService" "Collects and structures logs" "Logstash"
+        logsDataBase container "LogsDataBase" "Stores and indexes logs" "Elasticsearch" {
           tags "Database"
         }
-        logsVisualization = container "LogsVisualization" "Visualizes logs" "Kibana"
+        logsVisualization container "LogsVisualization" "Visualizes logs" "Kibana"
       }
     }
 
