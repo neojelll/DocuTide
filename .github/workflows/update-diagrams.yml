@@ -51,8 +51,9 @@ jobs:
           diagrams["MessageBrokerRelationships"]="messagebroker-relationships-diagram.png"
           diagrams["MVP"]="mvp-diagram.png"
 
+          mkdir -p diagrams  # Ensure the diagrams directory exists
           for view in "${!diagrams[@]}"; do
-            puml_file="structurizr-${view}.puml"
+            puml_file="structurizr/structurizr-${view}.puml"  # Correct path to .puml files
             if [ -f "$puml_file" ]; then
               plantuml -tpng "$puml_file" -o diagrams/
               mv "diagrams/structurizr-${view}.png" "diagrams/${diagrams[$view]}"
@@ -64,9 +65,8 @@ jobs:
         run: |
           git config --local user.name "GitHub Action"
           git config --local user.email "action@github.com"
-          git add diagrams/*.png
+          git add architecture/diagrams/*.png  # Correct path from repository root
           git commit -m "Update diagrams" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: architecture
