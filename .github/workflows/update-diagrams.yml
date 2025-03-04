@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Java (For Structurizr CLI)
+      - name: Install Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -37,26 +37,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y graphviz
 
+      - name: Install PlantUML
+        run: |
+          sudo apt-get install -y plantuml
+
       - name: Install Structurizr CLI
         run: |
           curl -L -o structurizr-cli.zip https://github.com/structurizr/cli/releases/download/v1.34.0/structurizr-cli-1.34.0.zip
           unzip structurizr-cli.zip -d structurizr-cli
           echo "$(pwd)/structurizr-cli" >> $GITHUB_PATH
 
-      - name: Install Poetry
+      - name: Generate PlantUML files from Structurizr DSL
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Install dependencies
-        run: |
-          poetry install
+          structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
         working-directory: architecture
 
       - name: Update diagrams
         run: |
-          structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
-          poetry run python structurizr/render_diagrams.py
+          for puml in structurizr/*.puml; do
+            plantuml -tpng "$puml"
+          done
+          mkdir -p diagrams
+          mv structurizr/*.png diagrams/
         working-directory: architecture
 
       - name: Commit changes
