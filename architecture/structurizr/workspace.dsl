@@ -56,8 +56,8 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
     apiGateway -> messageBroker ""
     apiGateway -> docsEditor "Sends data [WebSocket]"
 
-    messageBroker -> analyticService "Sends data for metrics [HTTP/HTTPS]"
-    messageBroker -> logService "Sends all logs [HTTP/HTTPS]"
+    messageBroker -> analytics "Sends data for metrics [HTTP/HTTPS]"
+    messageBroker -> logs "Sends all logs [HTTP/HTTPS]"
     authService -> messageBroker "Sends events (user.registered, user.logged.in) [HTTP/HTTPS]"
     projectService -> messageBroker "Sends events (project.created, project.updated, project.deleted) [HTTP/HTTPS]"
     usersService -> messageBroker "Subscribes to events [HTTP/HTTPS]"
@@ -100,7 +100,7 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
     }
 
     container docuTide "MessageBrokerRelationships" {
-      include messageBroker apiGateway authService usersService projectService commentService publicProjectFeedService notificationService integrationService docsEditor analyticService logService
+      include messageBroker apiGateway authService usersService projectService commentService publicProjectFeedService notificationService integrationService docsEditor analytics logs
       autoLayout
     }
 
