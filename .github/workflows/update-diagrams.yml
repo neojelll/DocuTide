@@ -39,7 +39,7 @@ jobs:
           echo "$(pwd)/structurizr-cli" >> $GITHUB_PATH
 
       - name: Generate PlantUML files from Structurizr DSL
-        run: structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
+        run: structurizr.sh export -workspace architecture/structurizr/workspace.dsl -format plantuml
         working-directory: architecture
 
       - name: Update diagrams
@@ -51,9 +51,10 @@ jobs:
           diagrams["MessageBrokerRelationships"]="messagebroker-relationships-diagram.png"
           diagrams["MVP"]="mvp-diagram.png"
 
-          mkdir -p diagrams  # Ensure the diagrams directory exists
+          mkdir -p diagrams
+
           for view in "${!diagrams[@]}"; do
-            puml_file="structurizr/structurizr-${view}.puml"  # Correct path to .puml files
+            puml_file="architecture/structurizr/structurizr-${view}.puml"
             if [ -f "$puml_file" ]; then
               plantuml -tpng "$puml_file" -o diagrams/
               mv "diagrams/structurizr-${view}.png" "diagrams/${diagrams[$view]}"
