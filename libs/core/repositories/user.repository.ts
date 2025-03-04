@@ -6,12 +6,7 @@ import {
   DatabaseUpdateError,
   DatabaseDeleteError,
 } from '../errors';
-
-enum UserIdentifierType {
-  userId = 'userId',
-  email = 'email',
-  username = 'username',
-}
+import { UserIdentifierType } from '../enums';
 
 @Injectable()
 export class UserRepository {
