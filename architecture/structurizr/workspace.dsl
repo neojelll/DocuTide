@@ -1,4 +1,4 @@
-workspace "DocuTide" "Service for creating, editing and publishing documentation" {
+workspace "DocuTide" "Service for creating, editing and publishing documentation." {
 
   model {
     user = person "User" "Interacts with a convenient service interface"

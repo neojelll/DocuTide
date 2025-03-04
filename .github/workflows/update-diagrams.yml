@@ -54,11 +54,23 @@ jobs:
 
       - name: Update diagrams
         run: |
-          for puml in structurizr/*.puml; do
-            plantuml -tpng "$puml"
-          done
+          declare -A diagrams
+          diagrams["SystemContext"]="system-context-diagram.png"
+          diagrams["Containers"]="containers-diagram.png"
+          diagrams["DocsEditorRelationships"]="docs-editor-relationships-diagram.png"
+          diagrams["MessageBrokerRelationships"]="messagebroker-relationships-diagram.png"
+          diagrams["MVP"]="mvp-diagram.png"
+
           mkdir -p diagrams
-          mv structurizr/*.png diagrams/
+          for view in "${!diagrams[@]}"; do
+            puml_file="structurizr/structurizr-${view}.puml"
+            if [ -f "$puml_file" ]; then
+              plantuml -tpng "$puml_file"
+              mv "structurizr/structurizr-${view}.png" "diagrams/${diagrams[$view]}"
+            else
+              echo "Warning: $puml_file not found"
+            fi
+          done
         working-directory: architecture
 
       - name: Commit changes
