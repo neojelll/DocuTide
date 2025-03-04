@@ -1,1 +1,32 @@
-...
+name: Integration
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+
+jobs:
+  integration:
+    runs-on: ubumtu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check formatting
+        run: pnpm format-check
+
+      - name: Check linting
+        run: pnpm lint-check
+
+      - name: Testing
+        run: pnpm test
