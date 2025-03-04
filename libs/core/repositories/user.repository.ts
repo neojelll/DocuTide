@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { User, Prisma, PrismaService } from '../../schemas';
+import { User, Prisma, PrismaService } from '../schemas';
 import {
   DatabaseCreateError,
   DatabaseGetError,
   DatabaseUpdateError,
   DatabaseDeleteError,
-} from '../../errors';
+} from '../errors';
 
 @Injectable()
 export class UserRepository {

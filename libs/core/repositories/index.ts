@@ -1,2 +1,2 @@
-export * from './entities/repositories.module';
-export * from './entities/user.repository';
+export * from './repositories.module';
+export * from './user.repository';
