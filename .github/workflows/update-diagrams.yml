@@ -39,7 +39,7 @@ jobs:
           echo "$(pwd)/structurizr-cli" >> $GITHUB_PATH
 
       - name: Generate PlantUML files from Structurizr DSL
-        run: structurizr.sh export -workspace architecture/structurizr/workspace.dsl -format plantuml
+        run: structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
         working-directory: architecture
 
       - name: Update diagrams
