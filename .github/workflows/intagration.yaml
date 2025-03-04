@@ -33,3 +33,6 @@ jobs:
 
       - name: Check Linting
         run: pnpm lint-check
+
+      - name: Testing
+        run: pnpm test

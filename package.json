@@ -8,6 +8,7 @@
     "format-check": "prettier --check .",
     "lint": "eslint --fix",
     "lint-check": "eslint",
+    "test": "vitest",
     "prisma:generate": "prisma generate --schema=libs/core/schemas/prisma",
     "prisma:migrate": "prisma migrate dev --schema=libs/core/schemas/prisma --name",
     "prisma:db": "prisma db push --schema=libs/core/schemas/prisma"
@@ -97,7 +98,7 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.19.0",
     "vite": "^5.0.0",
-    "vitest": "^1.3.1",
+    "vitest": "^1.6.1",
     "webpack-cli": "^5.1.4"
   }
 }
