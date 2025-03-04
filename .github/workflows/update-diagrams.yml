@@ -6,7 +6,8 @@ on:
       - '**'
       - '!main'
     paths:
-      - architecture/architecture/*-diagram.py
+      - 'architecture/structurizr/workspace.dsl'
+      - 'architecture/structurizr/*.py'
 
 jobs:
   update-diagrams:
@@ -25,35 +26,63 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
       - name: Install Graphviz
         run: |
           sudo apt-get update
           sudo apt-get install -y graphviz
 
-      - name: Install Poetry
+      - name: Install PlantUML
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          sudo apt-get install -y plantuml
 
-      - name: Install dependencies
+      - name: Install Structurizr CLI
         run: |
-          poetry install
+          curl -L -o structurizr-cli.zip https://github.com/structurizr/cli/releases/download/v1.34.0/structurizr-cli-1.34.0.zip
+          unzip structurizr-cli.zip -d structurizr-cli
+          echo "$(pwd)/structurizr-cli" >> $GITHUB_PATH
+
+      - name: Generate PlantUML files from Structurizr DSL
+        run: |
+          structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
         working-directory: architecture
 
       - name: Update diagrams
         run: |
-          poetry run python architecture/system-context-diagram.py
-          poetry run python architecture/containers-diagram.py
-          poetry run python architecture/messagebroker-relationships-diagram.py
-          poetry run python architecture/docs-editor-relationships-diagram.py
-          poetry run python architecture/mvp-diagram.py
+          for puml in structurizr/*.puml; do
+            plantuml -tpng "$puml"
+          done
+
+          declare -A diagrams
+          diagrams["SystemContext"]="system-context-diagram.png"
+          diagrams["Containers"]="containers-diagram.png"
+          diagrams["DocsEditorRelationships"]="docs-editor-relationships-diagram.png"
+          diagrams["MessageBrokerRelationships"]="messagebroker-relationships-diagram.png"
+          diagrams["MVP"]="mvp-diagram.png"
+
+          mkdir -p diagrams
+
+          for view in "${!diagrams[@]}"; do
+            if [ -f "structurizr/structurizr-${view}.png" ]; then
+              mv "structurizr/structurizr-${view}.png" "diagrams/${diagrams[$view]}"
+            else
+              echo "Warning: structurizr/structurizr-${view}.png not found"
+            fi
+          done
+
+          rm -f structurizr/*.png
         working-directory: architecture
 
       - name: Commit changes
         run: |
           git config --local user.name "GitHub Action"
           git config --local user.email "action@github.com"
-          git add diagrams/*-diagram.png
+          git add diagrams/*.png
           git commit -m "Update diagrams" || echo "No changes to commit"
           git push
         env:
