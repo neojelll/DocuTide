@@ -3,18 +3,20 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
     model {
         user = person "User" "Interacts with a convenient service interface"
 
-        # External Systems
-        largeLanguageModel = system "LargeLanguageModel" "Corrects texts and assists with writing" "External"
-        googleServices = system "GoogleServices" "Integration with Google services" "External"
+        # External systems
+        largeLanguageModel = softwareSystem "LargeLanguageModel" "Corrects texts and assists with writing" {
+            tags "External"
+        }
+        googleServices = softwareSystem "GoogleServices" "Integration with Google services" {
+            tags "External"
+        }
 
-        # Main System
-        docuTide = system "DocuTide" "Service for creating, editing and publishing documentation" {
+        docuTide = softwareSystem "DocuTide" "Service for creating, editing and publishing documentation" {
             webApplication = container "WebApplication" "Simple user interface" "TypeScript[Angular/React]"
             apiGateway = container "APIGateway" "Central entry point for requests" "TypeScript"
             messageBroker = container "MessageBroker" "Asynchronous message passing" "Kafka"
             cache = container "Cache" "Stores user sessions and tokens" "Redis"
 
-            # Services
             authService = container "AuthService" "Handles registration and login events" "TypeScript"
             usersService = container "UsersService" "Manages user updates" "TypeScript"
             projectService = container "ProjectService" "Manages projects" "TypeScript"
@@ -23,32 +25,35 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
             notificationService = container "NotificationService" "Sends notifications" "TypeScript"
             integrationService = container "IntegrationService" "Manages external integrations" "TypeScript"
 
-            # Doc Services
             docServices = container "DocServices" "Documentation management" {
                 docsEditor = container "DocsEditor" "Edits and assists with documentation" "TypeScript"
                 docsPublish = container "DocsPublish" "Hosts HTML pages" "TypeScript"
             }
 
-            # Databases
-            dataBase1 = container "DataBase1" "Stores projects and documentation" "MongoDB" "Database"
-            dataBase2 = container "DataBase2" "Stores profiles and comments" "PostgreSQL" "Database"
+            dataBase1 = container "DataBase1" "Stores projects and documentation" "MongoDB" {
+                tags "Database"
+            }
+            dataBase2 = container "DataBase2" "Stores profiles and comments" "PostgreSQL" {
+                tags "Database"
+            }
 
-            # Analytics
             analytics = container "Analytics" "Metrics and visualization" {
                 analyticService = container "AnalyticService" "Collects metrics" "TypeScript"
-                metricsDataBase = container "MetricsDataBase" "Stores metrics" "Prometheus" "Database"
+                metricsDataBase = container "MetricsDataBase" "Stores metrics" "Prometheus" {
+                    tags "Database"
+                }
                 metricsVisualization = container "MetricsVisualization" "Visualizes metrics" "Grafana"
             }
 
-            # Logs
             logs = container "Logs" "Log management" {
                 logService = container "LogService" "Collects and structures logs" "Logstash"
-                logsDataBase = container "LogsDataBase" "Stores and indexes logs" "Elasticsearch" "Database"
+                logsDataBase = container "LogsDataBase" "Stores and indexes logs" "Elasticsearch" {
+                    tags "Database"
+                }
                 logsVisualization = container "LogsVisualization" "Visualizes logs" "Kibana"
             }
         }
 
-        # Relationships
         user -> webApplication "Uses service [HTTP/HTTPS]"
         webApplication -> apiGateway ""
         apiGateway -> messageBroker ""
