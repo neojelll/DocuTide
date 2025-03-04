@@ -24,10 +24,8 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
       notificationService = container "NotificationService" "Sends notifications" "TypeScript"
       integrationService = container "IntegrationService" "Manages external integrations" "TypeScript"
 
-      container "DocServices" "Documentation management" {
-        docsEditor container "DocsEditor" "Edits and assists with documentation" "TypeScript"
-        docsPublish container "DocsPublish" "Hosts HTML pages" "TypeScript"
-      }
+      docsEditor = container "DocsEditor" "Edits and assists with documentation" "TypeScript"
+      docsPublish = container "DocsPublish" "Hosts HTML pages" "TypeScript"
 
       dataBase1 = container "DataBase1" "Stores projects and documentation" "MongoDB" {
         tags "Database"
@@ -36,20 +34,20 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
         tags "Database"
       }
 
-      container "Analytics" "Metrics and visualization" {
-        analyticService container "AnalyticService" "Collects metrics" "TypeScript"
-        metricsDataBase container "MetricsDataBase" "Stores metrics" "Prometheus" {
+      analytics = container "Analytics" "Metrics and visualization" {
+        analyticService = component "AnalyticService" "Collects metrics" "TypeScript"
+        metricsDataBase = component "MetricsDataBase" "Stores metrics" "Prometheus" {
           tags "Database"
         }
-        metricsVisualization container "MetricsVisualization" "Visualizes metrics" "Grafana"
+        metricsVisualization = component "MetricsVisualization" "Visualizes metrics" "Grafana"
       }
 
-      container "Logs" "Log management" {
-        logService container "LogService" "Collects and structures logs" "Logstash"
-        logsDataBase container "LogsDataBase" "Stores and indexes logs" "Elasticsearch" {
+      logs = container "Logs" "Log management" {
+        logService = component "LogService" "Collects and structures logs" "Logstash"
+        logsDataBase = component "LogsDataBase" "Stores and indexes logs" "Elasticsearch" {
           tags "Database"
         }
-        logsVisualization container "LogsVisualization" "Visualizes logs" "Kibana"
+        logsVisualization = component "LogsVisualization" "Visualizes logs" "Kibana"
       }
     }
 
