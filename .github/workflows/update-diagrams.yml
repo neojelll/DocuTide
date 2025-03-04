@@ -7,7 +7,6 @@ on:
       - '!main'
     paths:
       - 'architecture/structurizr/workspace.dsl'
-      - 'architecture/structurizr/*.py'
 
 jobs:
   update-diagrams:
@@ -21,25 +20,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install Java
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Install Graphviz
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
 
       - name: Install PlantUML
-        run: |
-          sudo apt-get install -y plantuml
+        run: sudo apt-get install -y plantuml
 
       - name: Install Structurizr CLI
         run: |
@@ -48,17 +39,25 @@ jobs:
           echo "$(pwd)/structurizr-cli" >> $GITHUB_PATH
 
       - name: Generate PlantUML files from Structurizr DSL
-        run: |
-          structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
+        run: structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
         working-directory: architecture
 
-      - name: Update diagrams
+      - name: Render PlantUML to PNG
         run: |
-          for puml in structurizr/*.puml; do
-            plantuml -tpng "$puml"
+          declare -A diagrams
+          diagrams["SystemContext"]="system-context-diagram.png"
+          diagrams["Containers"]="containers-diagram.png"
+          diagrams["DocsEditorRelationships"]="docs-editor-relationships-diagram.png"
+          diagrams["MessageBrokerRelationships"]="messagebroker-relationships-diagram.png"
+          diagrams["MVP"]="mvp-diagram.png"
+
+          for view in "${!diagrams[@]}"; do
+            puml_file="structurizr-${view}.puml"
+            if [ -f "$puml_file" ]; then
+              plantuml -tpng "$puml_file" -o diagrams/
+              mv "diagrams/structurizr-${view}.png" "diagrams/${diagrams[$view]}"
+            fi
           done
-          mkdir -p diagrams
-          mv structurizr/*.png diagrams/
         working-directory: architecture
 
       - name: Commit changes
