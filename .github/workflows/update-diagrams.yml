@@ -32,6 +32,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Install Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+
       - name: Install Structurizr CLI
         run: |
           curl -L -o structurizr-cli.zip https://github.com/structurizr/cli/releases/download/v1.34.0/structurizr-cli-1.34.0.zip
@@ -51,7 +56,7 @@ jobs:
       - name: Update diagrams
         run: |
           structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
-          poetry run python architecture/structurizr/render_diagrams.py
+          poetry run python structurizr/render_diagrams.py
         working-directory: architecture
 
       - name: Commit changes
