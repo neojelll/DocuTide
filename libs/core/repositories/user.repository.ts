@@ -7,6 +7,12 @@ import {
   DatabaseDeleteError,
 } from '../errors';
 
+enum UserIdentifierType {
+  userId = 'userId',
+  email = 'email',
+  username = 'username',
+}
+
 @Injectable()
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -59,7 +65,7 @@ export class UserRepository {
     }
   }
 
-  async findAll(): Promise<User[]> {
+  async getAll(): Promise<User[]> {
     console.log('Starting retrieval of all users');
 
     try {
@@ -83,22 +89,29 @@ export class UserRepository {
     }
   }
 
-  async find(userId: string): Promise<User | null> {
-    console.log('Starting user retrieval by ID', { userId });
+  async get(identifier: {
+    type: UserIdentifierType;
+    value: string;
+  }): Promise<User | null> {
+    console.log('Starting user retrieval', { identifier });
 
-    if (!userId) {
-      console.log('Invalid userId provided for find operation', { userId });
-      throw new DatabaseGetError('User ID cannot be empty');
+    if (!identifier.value) {
+      console.log('Invalid identifier value provided for get operation', {
+        identifier,
+      });
+      throw new DatabaseGetError(`${identifier.type} cannot be empty`);
     }
 
     try {
-      console.log('Attempting to fetch user from database', { userId });
+      console.log('Attempting to fetch user from database', { identifier });
       const user = await this.prisma.user.findUnique({
-        where: { userId },
+        where: {
+          [identifier.type]: identifier.value,
+        } as unknown as Prisma.UserWhereUniqueInput,
       });
 
       if (!user) {
-        console.log('User not found', { userId });
+        console.log('User not found', { identifier });
         return null;
       }
 
@@ -109,8 +122,8 @@ export class UserRepository {
       return user;
     } catch (error: unknown) {
       const err = error as Error;
-      console.log('Error while fetching user by ID', {
-        userId,
+      console.log('Error while fetching user', {
+        identifier,
         message: err.message,
         stack: err.stack,
       });
