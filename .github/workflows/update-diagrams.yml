@@ -51,12 +51,19 @@ jobs:
           diagrams["MessageBrokerRelationships"]="messagebroker-relationships-diagram.png"
           diagrams["MVP"]="mvp-diagram.png"
 
-          mkdir -p diagrams  # Ensure the diagrams directory exists
+          mkdir -p diagrams
           for view in "${!diagrams[@]}"; do
             puml_file="structurizr/structurizr-${view}.puml"
             if [ -f "$puml_file" ]; then
-              plantuml -tpng "$puml_file" -o diagrams/
-              mv "diagrams/structurizr-${view}.png" "diagrams/${diagrams[$view]}"
+              echo "Processing $puml_file"
+              plantuml -tpng "$puml_file" -o diagrams/ -filename "structurizr-${view}"
+              if [ -f "diagrams/structurizr-${view}.png" ]; then
+                mv "diagrams/structurizr-${view}.png" "diagrams/${diagrams[$view]}"
+              else
+                echo "Error: diagrams/structurizr-${view}.png was not generated"
+                ls -la diagrams/
+                exit 1
+              fi
             else
               echo "Warning: $puml_file not found"
             fi
