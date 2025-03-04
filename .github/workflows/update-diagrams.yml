@@ -42,7 +42,7 @@ jobs:
         run: structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
         working-directory: architecture
 
-      - name: Render PlantUML to PNG
+      - name: Update diagrams
         run: |
           declare -A diagrams
           diagrams["SystemContext"]="system-context-diagram.png"
