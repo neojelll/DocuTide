@@ -109,6 +109,16 @@ workspace "DocuTide" "Service for creating, editing and publishing documentation
       autoLayout
     }
 
+    component analytics "AnalyticsComponents" {
+      include analyticService metricsDataBase metricsVisualization
+      autoLayout
+    }
+
+    component logs "LogsComponents" {
+      include logService logsDataBase logsVisualization
+      autoLayout
+    }
+
     styles {
       element "External" {
         background #999999
