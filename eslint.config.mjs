@@ -4,7 +4,7 @@ export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   {
-    ignores: ['**/node_modules/', '**/dist/', '**/build', '.husky'],
+    ignores: ['**/node_modules/', '**/dist/', '**/build'],
   },
   {
     files: ['**/*.ts', '**/*.tsx'],
