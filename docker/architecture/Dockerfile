@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim AS builder
+FROM openjdk:17-jdk-slim-bullseye AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN apt-get purge -y curl && apt-get autoremove -y && rm -rf /var/lib/apt/lists/
 
 COPY architecture/structurizr/workspace.dsl .
 
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-slim-bullseye
 
 WORKDIR /app
 
