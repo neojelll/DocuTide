@@ -4,13 +4,15 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "lint": "eslint --fix",
     "lint-check": "eslint",
-    "prisma:generate": "prisma generate --schema=libs/core/schemas/src/lib/prisma",
-    "prisma:migrate": "prisma migrate dev --schema=libs/core/schemas/src/lib/prisma --name",
-    "prisma:db": "prisma db push --schema=libs/core/schemas/src/lib/prisma"
+    "prisma:generate": "prisma generate --schema=libs/core/schemas/prisma",
+    "prisma:migrate": "prisma migrate dev --schema=libs/core/schemas/prisma --name",
+    "prisma:db": "prisma db push --schema=libs/core/schemas/prisma"
   },
   "private": true,
   "dependencies": {
@@ -93,8 +95,8 @@
     "@types/node": "~18.16.9",
     "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/utils": "^8.19.0",
-    "@vitest/coverage-v8": "^1.0.4",
-    "@vitest/ui": "^1.3.1",
+    "@vitest/coverage-v8": "^1.6.1",
+    "@vitest/ui": "^1.6.1",
     "angular-eslint": "^19.0.2",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.0.0",
@@ -108,7 +110,7 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.19.0",
     "vite": "^5.0.0",
-    "vitest": "^1.3.1",
+    "vitest": "^1.6.1",
     "webpack-cli": "^5.1.4"
   }
 }
