@@ -11,5 +11,11 @@ export default defineConfig({
       '**/{webpack,vite,vitest,build,eslint,prettier}.config.*',
     ],
     watchExclude: ['**/node_modules/**', '**/dist/**'],
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'html-spa'],
+      reportsDirectory: 'coverage',
+    },
   },
 });

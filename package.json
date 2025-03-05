@@ -5,6 +5,7 @@
   "scripts": {
     "prepare": "husky",
     "test": "vitest",
+    "coverage": "vitest run --coverage",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "lint": "eslint --fix",
@@ -83,7 +84,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "~18.16.9",
     "@typescript-eslint/utils": "^8.19.0",
-    "@vitest/coverage-v8": "^1.0.4",
+    "@vitest/coverage-v8": "^1.6.1",
     "@vitest/ui": "^1.6.1",
     "angular-eslint": "^19.0.2",
     "eslint": "^9.8.0",
