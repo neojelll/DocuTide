@@ -33,7 +33,7 @@ jobs:
       - name: Build and push an image
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/architecture
+          context: ./
           file: ./docker/architecture/Dockerfile
           push: true
           tags: |
