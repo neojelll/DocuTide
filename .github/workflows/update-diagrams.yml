@@ -21,11 +21,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
       - name: Install Java
         uses: actions/setup-java@v4
         with:
@@ -47,7 +42,7 @@ jobs:
           unzip structurizr-cli.zip -d structurizr-cli
           echo "$(pwd)/structurizr-cli" >> $GITHUB_PATH
 
-      - name: Generate PlantUML files from Structurizr DSL
+      - name: Generate PlantUML files
         run: |
           structurizr.sh export -workspace structurizr/workspace.dsl -format plantuml
         working-directory: architecture
