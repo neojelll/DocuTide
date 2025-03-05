@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY structurizr/workspace.dsl .
 
-FROM openjdk:17-jre-slim
+FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
