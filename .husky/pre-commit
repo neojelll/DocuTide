@@ -7,6 +7,4 @@ echo "$FILES" | xargs ./node_modules/.bin/eslint --fix --no-warn-ignored
 
 echo "$FILES" | xargs git add
 
-# test
-
 exit 0
