@@ -7,7 +7,6 @@ on:
       - '!main'
     paths:
       - 'architecture/structurizr/workspace.dsl'
-      - 'architecture/structurizr/*.py'
 
 jobs:
   update-diagrams:
