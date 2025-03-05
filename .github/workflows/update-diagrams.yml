@@ -37,5 +37,5 @@ jobs:
           file: ./docker/architecture/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/structurizr-ui:latest
-            ghcr.io/${{ github.repository }}/structurizr-ui:${{ github.sha }}
+            ghcr.io/docutide/structurizr-ui:latest
+            ghcr.io/docutide/structurizr-ui:${{ github.sha }}
