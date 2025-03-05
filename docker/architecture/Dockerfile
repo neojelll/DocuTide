@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     graphviz \
     curl \
-    && curl -L -o structurizr-lite.war https://github.com/structurizr/lite/releases/download/v1.34.0/structurizr-lite.war \
+    && curl -L -o structurizr-lite.war https://github.com/structurizr/lite/releases/download/v2024.12.07/structurizr-lite.war \
     && apt-get purge -y curl \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
