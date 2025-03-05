@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-COPY structurizr/workspace.dsl .
+COPY architecture/structurizr/workspace.dsl .
 
 FROM openjdk:17-jdk-slim
 
@@ -18,6 +18,6 @@ WORKDIR /app
 
 COPY --from=builder /app/structurizr-lite.war /app/workspace.dsl ./
 
-EXPOSE 8089
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "structurizr-lite.war", "workspace.dsl"]
