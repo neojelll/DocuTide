@@ -37,7 +37,6 @@ jobs:
           context: ./
           file: ./docker/architecture/Dockerfile
           push: true
-          platforms: linux/arm64
           tags: |
             ghcr.io/neojelll/structurizr-ui:latest
             ghcr.io/neojelll/structurizr-ui:${{ github.sha }}
