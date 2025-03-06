@@ -6,6 +6,10 @@ on:
       - '**'
       - '!main'
 
+permissions:
+  actions: read
+  contents: read
+
 jobs:
   Integration:
     name: Integration
@@ -34,4 +38,4 @@ jobs:
       - name: Check Linting
         env:
           secrets.NX_CLOUD_INTEGRATION: ${{ secrets.NX_CLOUD_INTEGRATION }}
-        run: pnpm lint-check --nx-cloud --auth-token=$NX_CLOUD_INTEGRATION
+        run: pnpm lint-check
