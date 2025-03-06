@@ -1,6 +1,5 @@
 .husky/
 .nx/
-.vscode/
 architecture/
 docker/
 docs/
