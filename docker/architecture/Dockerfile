@@ -20,4 +20,4 @@ COPY --from=builder /app/structurizr-lite.war /app/workspace.dsl ./
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "structurizr-lite.war", "/app/workspace.dsl"]
+ENTRYPOINT ["java", "-jar", "structurizr-lite.war", "/app"]
