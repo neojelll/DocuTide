@@ -32,4 +32,4 @@ jobs:
         run: pnpm format-check
 
       - name: Check Linting
-        run: pnpm lint-check --auth-token=${{ secrets.NX_CLOUD_INTEGRATION }}
+        run: pnpm lint-check --nx-cloud --auth-token=${{ secrets.NX_CLOUD_INTEGRATION }}
