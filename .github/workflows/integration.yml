@@ -32,4 +32,6 @@ jobs:
         run: pnpm format-check
 
       - name: Check Linting
-        run: pnpm lint-check --nx-cloud --auth-token=${{ secrets.NX_CLOUD_INTEGRATION }}
+        env:
+          secrets.NX_CLOUD_INTEGRATION: ${{ secrets.NX_CLOUD_INTEGRATION }}
+        run: pnpm lint-check --nx-cloud --auth-token=$NX_CLOUD_INTEGRATION
