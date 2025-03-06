@@ -7,7 +7,5 @@ architecture/
 **/coverage/
 docker/
 docs/
-**/node_modules/
-LICENSE
 **/*.json
 **/*.yaml
