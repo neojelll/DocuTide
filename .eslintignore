@@ -3,7 +3,6 @@
 .vscode/
 architecture/
 **/assets/
-**/coverage/
 docker/
 docs/
 **/*.json
