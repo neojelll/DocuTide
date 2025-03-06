@@ -8,15 +8,6 @@ architecture/
 docker/
 docs/
 **/node_modules/
-.editorconfig
-.env.example
-.gitignore
-.npmrc
-.prettierignore
-.prettierrc
-*.md
 LICENSE
 **/*.json
 **/*.yaml
-vitest.config.mts
-vitest.workspace.ts
