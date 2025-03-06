@@ -3,7 +3,7 @@ FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 
 echo "$FILES" | xargs ./node_modules/.bin/prettier --ignore-unknown --write
 
-echo "$FILES" | xargs ./node_modules/.bin/eslint --fix --no-warn-ignored
+echo "$FILES" | xargs ./node_modules/.bin/eslint --fix
 
 echo "$FILES" | xargs git add
 
