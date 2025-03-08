@@ -1,259 +1,150 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from '@docu-tide/core';
-import { NotFoundException } from '@nestjs/common';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, beforeAll, afterEach, afterAll, expect } from 'vitest';
 import { UserService } from '../src/app/app.service';
+import { DatabaseUpdateError, UserRepository } from '@docu-tide/core';
+import { NotFoundException } from '@nestjs/common';
+import { PrismaClient, PrismaService } from '@docu-tide/core';
 
-describe('UserService', () => {
-  let service: UserService;
-  let prismaMock: any;
+describe('UserService Tests', () => {
+  let userService: UserService;
+  let prisma: PrismaService;
 
-  beforeEach(async () => {
-    prismaMock = {
-      user: {
-        findMany: vi.fn(),
-        findUnique: vi.fn(),
-        update: vi.fn(),
-      },
-    };
+  beforeAll(async () => {
+    prisma = new PrismaClient({
+      datasources: { db: { url: process.env.POSTGRES_URL } },
+    });
+    userService = new UserService(new UserRepository(prisma));
+    await prisma.user.deleteMany();
+  });
 
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        UserService,
-        {
-          provide: PrismaService,
-          useValue: prismaMock,
-        },
-      ],
-    }).compile();
+  afterEach(async () => {
+    await prisma.user.deleteMany();
+  });
 
-    service = module.get<UserService>(UserService);
+  afterAll(async () => {
+    await prisma.$disconnect();
   });
 
   describe('getAllUsers', () => {
-    it('should return an array of stringified users when users exist', async () => {
-      const mockUsers = [
-        {
-          userId: 'cuid12345678901234567890',
-          email: 'alice@example.com',
-          emailConfirmed: true,
-          username: 'alice123',
-          hashPassword:
-            '$2b$10$hashedpassword123456789012345678901234567890123456789',
-          biography: 'Loves coding and coffee',
-          role: 'admin',
-          notificationsEnabled: true,
-          createdAt: new Date('2023-01-01T10:00:00Z'),
-          updatedAt: new Date('2023-01-02T12:00:00Z'),
-        },
-        {
-          userId: 'cuid22345678901234567890',
-          email: 'bob@example.com',
-          emailConfirmed: false,
-          username: 'bobsmith',
-          hashPassword:
-            '$2b$10$hashedpassword223456789012345678901234567890123456789',
-          biography: null,
-          role: 'user',
-          notificationsEnabled: false,
-          createdAt: new Date('2023-02-01T14:30:00Z'),
-          updatedAt: new Date('2023-02-01T14:30:00Z'),
-        },
-      ];
-      prismaMock.user.findMany.mockResolvedValue(mockUsers);
-
-      const result = await service.getAllUsers();
-
-      expect(result).toHaveLength(2);
-      expect(typeof result[0]).toBe('string');
-      expect(typeof result[1]).toBe('string');
-      expect(prismaMock.user.findMany).toHaveBeenCalledTimes(1);
-    });
-
     it('should return an empty array when no users exist', async () => {
-      prismaMock.user.findMany.mockResolvedValue([]);
-
-      const result = await service.getAllUsers();
-
+      const result = await userService.getAllUsers();
       expect(result).toEqual([]);
-      expect(prismaMock.user.findMany).toHaveBeenCalledTimes(1);
     });
 
-    it('should throw an error when database throws an error', async () => {
-      const error = new Error('Database error');
-      prismaMock.user.findMany.mockRejectedValue(error);
+    it('should return all users as stringified DTOs', async () => {
+      await prisma.user.createMany({
+        data: [
+          {
+            userId: '1',
+            email: 'test1@example.com',
+            username: 'test1',
+            hashPassword: 'hash1',
+          },
+          {
+            userId: '2',
+            email: 'test2@example.com',
+            username: 'test2',
+            hashPassword: 'hash2',
+          },
+        ],
+      });
 
-      await expect(service.getAllUsers()).rejects.toThrow('Database error');
+      const result = await userService.getAllUsers();
+      expect(result).toHaveLength(2);
+      expect(JSON.parse(result[0])).toMatchObject({
+        userId: '1',
+        email: 'test1@example.com',
+        username: 'test1',
+        hashPassword: 'hash1',
+      });
+      expect(JSON.parse(result[1])).toMatchObject({
+        userId: '2',
+        email: 'test2@example.com',
+        username: 'test2',
+        hashPassword: 'hash2',
+      });
     });
   });
 
   describe('getUser', () => {
-    it('should return the stringified user when user exists', async () => {
-      const mockUser = {
-        userId: 'cuid12345678901234567890',
-        email: 'alice@example.com',
-        emailConfirmed: true,
-        username: 'alice123',
-        hashPassword:
-          '$2b$10$hashedpassword123456789012345678901234567890123456789',
-        biography: 'Loves coding and coffee',
-        role: 'admin',
-        notificationsEnabled: true,
-        createdAt: new Date('2023-01-01T10:00:00Z'),
-        updatedAt: new Date('2023-01-02T12:00:00Z'),
-      };
-      prismaMock.user.findUnique.mockResolvedValue(mockUser);
-      const jwtPayload = {
-        sub: 'cuid12345678901234567890',
-        username: 'alice123',
-        email: 'alice@example.com',
-      };
-
-      const result = await service.getUser(jwtPayload);
-
-      expect(typeof result).toBe('string');
-      expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-        where: { userId: 'cuid12345678901234567890' },
+    it('should return the user DTO when the user exists', async () => {
+      await prisma.user.create({
+        data: {
+          userId: '1',
+          email: 'test@example.com',
+          username: 'test',
+          hashPassword: 'hash',
+        },
+      });
+      const result = await userService.getUser({
+        sub: '1',
+        username: 'test',
+        email: 'test@example.com',
+      });
+      expect(JSON.parse(result)).toMatchObject({
+        userId: '1',
+        email: 'test@example.com',
+        username: 'test',
       });
     });
 
-    it('should throw NotFoundException when user does not exist', async () => {
-      prismaMock.user.findUnique.mockResolvedValue(null);
-      const jwtPayload = {
-        sub: 'cuid99999999999999999999',
-        username: 'unknown',
-        email: 'unknown@example.com',
-      };
-
-      await expect(service.getUser(jwtPayload)).rejects.toThrow(
-        new NotFoundException(
-          'User with ID "cuid99999999999999999999" not found.',
-        ),
-      );
-      expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
-        where: { userId: 'cuid99999999999999999999' },
-      });
-    });
-
-    it('should throw an error when database throws an error', async () => {
-      const error = new Error('Database error');
-      prismaMock.user.findUnique.mockRejectedValue(error);
-      const jwtPayload = {
-        sub: 'cuid12345678901234567890',
-        username: 'alice123',
-        email: 'alice@example.com',
-      };
-
-      await expect(service.getUser(jwtPayload)).rejects.toThrow(
-        'Database error',
-      );
+    it('should throw NotFoundException when the user does not exist', async () => {
+      await expect(
+        userService.getUser({
+          sub: '999',
+          username: 'test',
+          email: 'test@example.com',
+        }),
+      ).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('updateUser', () => {
-    it('should return the stringified updated user when user exists', async () => {
-      const mockUpdatedUser = {
-        userId: 'cuid12345678901234567890',
-        email: 'alice_new@example.com',
-        emailConfirmed: true,
-        username: 'alice_new',
-        hashPassword:
-          '$2b$10$hashedpassword123456789012345678901234567890123456789',
-        biography: 'Loves coding and coffee',
-        role: 'admin',
-        notificationsEnabled: true,
-        createdAt: new Date('2023-01-01T10:00:00Z'),
-        updatedAt: new Date('2023-01-02T12:00:00Z'),
-      };
-      prismaMock.user.update.mockResolvedValue(mockUpdatedUser);
-      const userUpdateDto = {
-        jwtPayload: {
-          sub: 'cuid12345678901234567890',
-          username: 'alice123',
-          email: 'alice@example.com',
+    it('should update and return the updated user DTO', async () => {
+      await prisma.user.create({
+        data: {
+          userId: '1',
+          email: 'old@example.com',
+          username: 'old',
+          hashPassword: 'hash',
         },
-        username: 'alice_new',
-        email: 'alice_new@example.com',
+      });
+
+      const updateDto = {
+        jwtPayload: { sub: '1', username: 'test', email: 'test@example.com' },
+        email: 'new@example.com',
+        username: 'new',
+        hashPassword: 'hash',
       };
-
-      const result = await service.updateUser(userUpdateDto);
-
-      expect(typeof result).toBe('string');
-      expect(prismaMock.user.update).toHaveBeenCalledWith({
-        where: { userId: 'cuid12345678901234567890' },
-        data: { username: 'alice_new', email: 'alice_new@example.com' },
+      const result = await userService.updateUser(updateDto);
+      expect(JSON.parse(result)).toMatchObject({
+        userId: '1',
+        email: 'new@example.com',
+        username: 'new',
       });
     });
 
-    it('should handle empty update data', async () => {
-      const mockUpdatedUser = {
-        userId: 'cuid12345678901234567890',
-        email: 'alice@example.com',
-        emailConfirmed: true,
-        username: 'alice123',
-        hashPassword:
-          '$2b$10$hashedpassword123456789012345678901234567890123456789',
-        biography: 'Loves coding and coffee',
-        role: 'admin',
-        notificationsEnabled: true,
-        createdAt: new Date('2023-01-01T10:00:00Z'),
-        updatedAt: new Date('2023-01-02T12:00:00Z'),
+    it('should throw DatabaseUpdateError when updating a non-existing user', async () => {
+      const updateDto = {
+        jwtPayload: { sub: '999', username: 'test', email: 'test@example.com' },
+        email: 'new@example.com',
       };
-      prismaMock.user.update.mockResolvedValue(mockUpdatedUser);
-      const userUpdateDto = {
-        jwtPayload: {
-          sub: 'cuid12345678901234567890',
-          username: 'alice123',
-          email: 'alice@example.com',
-        },
-      };
-
-      const result = await service.updateUser(userUpdateDto);
-
-      expect(typeof result).toBe('string');
-      expect(prismaMock.user.update).toHaveBeenCalledWith({
-        where: { userId: 'cuid12345678901234567890' },
-        data: {},
-      });
-    });
-
-    it('should throw NotFoundException when user does not exist', async () => {
-      const error = { code: 'P2025' };
-      prismaMock.user.update.mockRejectedValue(error);
-      const userUpdateDto = {
-        jwtPayload: {
-          sub: 'cuid99999999999999999999',
-          username: 'unknown',
-          email: 'unknown@example.com',
-        },
-        username: 'newUsername',
-      };
-
-      await expect(service.updateUser(userUpdateDto)).rejects.toThrow(
-        new NotFoundException(
-          'User with ID "cuid99999999999999999999" not found.',
-        ),
+      await expect(userService.updateUser(updateDto)).rejects.toThrow(
+        DatabaseUpdateError,
       );
-      expect(prismaMock.user.update).toHaveBeenCalledWith({
-        where: { userId: 'cuid99999999999999999999' },
-        data: { username: 'newUsername' },
-      });
     });
 
-    it('should throw an error when database throws an error', async () => {
-      const error = new Error('Database error');
-      prismaMock.user.update.mockRejectedValue(error);
-      const userUpdateDto = {
+    it('should throw DatabaseUpdateError when user data is invalid', async () => {
+      const updateDto = {
         jwtPayload: {
-          sub: 'cuid12345678901234567890',
-          username: 'alice123',
-          email: 'alice@example.com',
+          sub: '1',
+          username: 'invalid',
+          email: 'invalid@example.com',
         },
-        username: 'alice_new',
+        email: '',
+        username: '',
       };
-
-      await expect(service.updateUser(userUpdateDto)).rejects.toThrow(
-        'Database error',
+      await expect(userService.updateUser(updateDto)).rejects.toThrow(
+        DatabaseUpdateError,
       );
     });
   });

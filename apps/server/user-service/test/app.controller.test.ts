@@ -1,141 +1,174 @@
-import { vi } from 'vitest';
+import {
+  describe,
+  it,
+  beforeAll,
+  afterEach,
+  afterAll,
+  expect,
+  vi,
+} from 'vitest';
+import { UserController } from '../src/app/app.controller';
+import { UserService } from '../src/app/app.service';
+import {
+  DatabaseUpdateError,
+  PrismaClient,
+  PrismaService,
+  UserRepository,
+} from '@docu-tide/core';
+import { UserUpdateDto, JwtPayload } from '@docu-tide/core';
 import { NotFoundException } from '@nestjs/common';
-import { UserService } from '../src/app/app.service.ts';
 
-const mockPrisma = {
-  user: {
-    findMany: vi.fn(),
-    findUnique: vi.fn(),
-    update: vi.fn(),
-  },
-};
+describe('UserController Tests', () => {
+  let userController: UserController;
+  let userService: UserService;
+  let prisma: PrismaService;
 
-describe('UserService', () => {
-  let service: UserService;
-
-  beforeEach(() => {
-    service = new UserService(mockPrisma as any);
+  beforeAll(async () => {
+    prisma = new PrismaClient({
+      datasources: { db: { url: process.env.POSTGRES_URL } },
+    });
+    userService = new UserService(new UserRepository(prisma));
+    userController = new UserController(userService);
+    await prisma.user.deleteMany();
   });
 
-  describe('getAllUsers', () => {
-    it('successfully returns all users', async () => {
-      const mockUsers = [
-        {
-          userId: '1',
-          email: 'test1@example.com',
-          username: 'test1',
-          hashPassword: 'hash',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          userId: '2',
-          email: 'test2@example.com',
-          username: 'test2',
-          hashPassword: 'hash',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ];
-      mockPrisma.user.findMany.mockResolvedValue(mockUsers);
-      const result = await service.getAllUsers();
+  afterEach(async () => {
+    await prisma.user.deleteMany();
+  });
+
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+
+  describe('handleGetAll', () => {
+    it('should return an empty array when no users exist', async () => {
+      const result = await userController.handleGetAll();
+      expect(result).toEqual([]);
+    });
+
+    it('should return all users as stringified DTOs', async () => {
+      await prisma.user.createMany({
+        data: [
+          {
+            userId: '1',
+            email: 'test1@example.com',
+            username: 'test1',
+            hashPassword: 'hash1',
+          },
+          {
+            userId: '2',
+            email: 'test2@example.com',
+            username: 'test2',
+            hashPassword: 'hash2',
+          },
+        ],
+      });
+
+      const result = await userController.handleGetAll();
       expect(result).toHaveLength(2);
-      expect(result[0]).toBe(JSON.stringify(mockUsers[0], null, 2));
-    });
-
-    it('throws an error on database failure', async () => {
-      mockPrisma.user.findMany.mockRejectedValue(new Error('Database error'));
-      await expect(service.getAllUsers()).rejects.toThrow('Database error');
+      expect(JSON.parse(result[0])).toMatchObject({
+        userId: '1',
+        email: 'test1@example.com',
+        username: 'test1',
+        hashPassword: 'hash1',
+      });
+      expect(JSON.parse(result[1])).toMatchObject({
+        userId: '2',
+        email: 'test2@example.com',
+        username: 'test2',
+        hashPassword: 'hash2',
+      });
     });
   });
 
-  describe('getUser', () => {
-    it('successfully returns a user', async () => {
-      const mockUser = {
+  describe('handleGet', () => {
+    it('should return the user DTO when the user exists', async () => {
+      const jwtPayload: JwtPayload = {
+        sub: '1',
+        username: 'test',
+        email: 'test@example.com',
+      };
+      await prisma.user.create({
+        data: {
+          userId: '1',
+          email: 'test@example.com',
+          username: 'test',
+          hashPassword: 'hash',
+        },
+      });
+
+      const result = await userController.handleGet(jwtPayload);
+      expect(JSON.parse(result)).toMatchObject({
         userId: '1',
         email: 'test@example.com',
         username: 'test',
-        hashPassword: 'hash',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      mockPrisma.user.findUnique.mockResolvedValue(mockUser);
-      const result = await service.getUser({
-        sub: '1',
-        username: 'test',
-        email: 'test@example',
       });
-      expect(result).toBe(JSON.stringify(mockUser, null, 2));
     });
 
-    it('throws NotFoundException if user is not found', async () => {
-      mockPrisma.user.findUnique.mockResolvedValue(null);
-      await expect(
-        service.getUser({
-          sub: '999',
-          username: 'test',
-          email: 'test@example',
-        }),
-      ).rejects.toThrow(NotFoundException);
-    });
-
-    it('throws an error on database failure', async () => {
-      mockPrisma.user.findUnique.mockRejectedValue(new Error('Database error'));
-      await expect(
-        service.getUser({
-          sub: '1',
-          username: 'test',
-          email: 'test@example',
-        }),
-      ).rejects.toThrow('Database error');
+    it('should throw NotFoundException when the user does not exist', async () => {
+      const jwtPayload: JwtPayload = {
+        sub: '999',
+        username: 'test',
+        email: 'test@example.com',
+      };
+      await expect(userController.handleGet(jwtPayload)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
-  describe('updateUser', () => {
-    it('successfully updates a user', async () => {
-      const mockUpdatedUser = {
+  describe('handleUpdate', () => {
+    it('should update and return the updated user DTO', async () => {
+      const jwtPayload: JwtPayload = {
+        sub: '1',
+        username: 'test',
+        email: 'test@example.com',
+      };
+      await prisma.user.create({
+        data: {
+          userId: '1',
+          email: 'old@example.com',
+          username: 'old',
+          hashPassword: 'hash',
+        },
+      });
+
+      const updateDto: UserUpdateDto = {
+        jwtPayload,
+        email: 'new@example.com',
+        username: 'new',
+      };
+      const result = await userController.handleUpdate(updateDto);
+      expect(JSON.parse(result)).toMatchObject({
         userId: '1',
         email: 'new@example.com',
-        username: 'newname',
-        hashPassword: 'hash',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      mockPrisma.user.update.mockResolvedValue(mockUpdatedUser);
-      const result = await service.updateUser({
-        jwtPayload: { sub: '1', username: 'newname', email: 'new@example.com' },
-        email: 'new@example.com',
-        username: 'newname',
+        username: 'new',
       });
-      expect(result).toBe(JSON.stringify(mockUpdatedUser, null, 2));
     });
 
-    it('throws NotFoundException if user is not found', async () => {
-      mockPrisma.user.update.mockRejectedValue(new Error('Record not found'));
-      await expect(
-        service.updateUser({
-          jwtPayload: {
-            sub: '999',
-            username: 'newname',
-            email: 'new@example.com',
-          },
-          email: 'new@example.com',
-        }),
-      ).rejects.toThrow(NotFoundException);
+    it('should throw DatabaseUpdateError when updating a non-existing user', async () => {
+      const updateDto: UserUpdateDto = {
+        jwtPayload: { sub: '999', username: 'test', email: 'test@example.com' },
+        email: 'new@example.com',
+      };
+      await expect(userController.handleUpdate(updateDto)).rejects.toThrow(
+        DatabaseUpdateError,
+      );
     });
 
-    it('throws an error on database failure', async () => {
-      mockPrisma.user.update.mockRejectedValue(new Error('Database error'));
-      await expect(
-        service.updateUser({
-          jwtPayload: {
-            sub: '1',
-            username: 'newname',
-            email: 'new@example.com',
-          },
-          email: 'new@example.com',
-        }),
-      ).rejects.toThrow('Database error');
+    it('should throw DatabaseUpdateError when user data is invalid', async () => {
+      const updateDto: UserUpdateDto = {
+        jwtPayload: {
+          sub: '1',
+          username: 'invalid',
+          email: 'invalid@example.com',
+        },
+        email: '',
+        username: '',
+      };
+      await expect(userController.handleUpdate(updateDto)).rejects.toThrow(
+        DatabaseUpdateError,
+      );
     });
   });
 });
