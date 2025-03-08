@@ -17,7 +17,10 @@
     "baseUrl": ".",
     "paths": {
       "@docu-tide/auth": ["libs/auth/index.ts"],
-      "@docu-tide/core": ["libs/core/index.ts"]
+      "@docu-tide/core": ["libs/core/index.ts"],
+      "sign-up/Routes": [
+        "apps/client/sign-up/src/app/remote-entry/entry.routes.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
