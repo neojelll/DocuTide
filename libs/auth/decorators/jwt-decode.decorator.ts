@@ -1,21 +1,23 @@
 import {
   createParamDecorator,
   ExecutionContext,
-  NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 export const JwtDecode = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    const cookieFileName: string | undefined = process.env['COOKIE_FILE_NAME'];
-    if (!cookieFileName) {
-      throw new NotFoundException('not fount cookie file name in .env file');
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader) {
+      throw new UnauthorizedException('Authorization header is missing');
     }
-    const token = request.cookies[cookieFileName];
+
+    const token = authHeader.split(' ')[1];
 
     if (!token) {
-      return null;
+      throw new UnauthorizedException('Token is missing');
     }
 
     const jwtService = new JwtService({ secret: process.env['JWT_SECRET'] });
@@ -23,8 +25,8 @@ export const JwtDecode = createParamDecorator(
     try {
       const decode = jwtService.verify(token);
       return decode;
-    } catch (Error) {
-      return Error;
+    } catch (error) {
+      throw new UnauthorizedException(`Invalid token: ${error}`);
     }
   },
 );
