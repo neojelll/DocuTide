@@ -5,7 +5,6 @@ import {
   DatabaseUpdateError,
   UserRepository,
 } from '@docu-tide/core';
-import { NotFoundException } from '@nestjs/common';
 import { PrismaClient, PrismaService } from '@docu-tide/core';
 
 describe('UserService Tests', () => {
