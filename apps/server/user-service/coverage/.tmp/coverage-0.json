@@ -1,96 +1,91 @@
 {
   "result": [
     {
-      "scriptId": "369",
+      "scriptId": "377",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/apps/server/user-service/test/app.controller.test.ts",
       "functions": [
         {
           "functionName": "",
-          "ranges": [{ "startOffset": 0, "endOffset": 17872, "count": 1 }],
+          "ranges": [{ "startOffset": 0, "endOffset": 14314, "count": 1 }],
           "isBlockCoverage": true
         },
         {
           "functionName": "",
-          "ranges": [{ "startOffset": 13, "endOffset": 17872, "count": 1 }],
+          "ranges": [{ "startOffset": 13, "endOffset": 14314, "count": 1 }],
           "isBlockCoverage": true
         },
         {
           "functionName": "",
-          "ranges": [{ "startOffset": 717, "endOffset": 6382, "count": 1 }],
+          "ranges": [{ "startOffset": 712, "endOffset": 4688, "count": 1 }],
           "isBlockCoverage": true
         },
         {
           "functionName": "",
-          "ranges": [{ "startOffset": 797, "endOffset": 1336, "count": 6 }],
+          "ranges": [{ "startOffset": 748, "endOffset": 824, "count": 1 }],
           "isBlockCoverage": true
         },
         {
           "functionName": "",
-          "ranges": [{ "startOffset": 1388, "endOffset": 3116, "count": 1 }],
+          "ranges": [{ "startOffset": 853, "endOffset": 1883, "count": 1 }],
           "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 902, "endOffset": 1653, "count": 0 }],
+          "isBlockCoverage": false
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 1702, "endOffset": 1877, "count": 0 }],
+          "isBlockCoverage": false
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 1908, "endOffset": 3141, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 1954, "endOffset": 2465, "count": 0 }],
+          "isBlockCoverage": false
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 2524, "endOffset": 2806, "count": 0 }],
+          "isBlockCoverage": false
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 2855, "endOffset": 3135, "count": 0 }],
+          "isBlockCoverage": false
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 3169, "endOffset": 4684, "count": 1 }],
+          "isBlockCoverage": true
+        },
+        {
+          "functionName": "",
+          "ranges": [{ "startOffset": 3215, "endOffset": 3817, "count": 0 }],
+          "isBlockCoverage": false
         },
         {
           "functionName": "",
           "ranges": [
-            { "startOffset": 1466, "endOffset": 2810, "count": 1 },
-            { "startOffset": 2657, "endOffset": 2809, "count": 0 }
+            { "startOffset": 3876, "endOffset": 4266, "count": 1 },
+            { "startOffset": 4260, "endOffset": 4265, "count": 0 }
           ],
           "isBlockCoverage": true
         },
         {
           "functionName": "",
-          "ranges": [
-            { "startOffset": 2885, "endOffset": 3110, "count": 1 },
-            { "startOffset": 3104, "endOffset": 3109, "count": 0 }
-          ],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "",
-          "ranges": [{ "startOffset": 3165, "endOffset": 4636, "count": 1 }],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "",
-          "ranges": [
-            { "startOffset": 3239, "endOffset": 4189, "count": 1 },
-            { "startOffset": 4032, "endOffset": 4188, "count": 0 }
-          ],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "",
-          "ranges": [
-            { "startOffset": 4260, "endOffset": 4630, "count": 1 },
-            { "startOffset": 4624, "endOffset": 4629, "count": 0 }
-          ],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "",
-          "ranges": [{ "startOffset": 4688, "endOffset": 6378, "count": 1 }],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "",
-          "ranges": [
-            { "startOffset": 4765, "endOffset": 5847, "count": 1 },
-            { "startOffset": 5684, "endOffset": 5846, "count": 0 }
-          ],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "",
-          "ranges": [
-            { "startOffset": 5921, "endOffset": 6372, "count": 1 },
-            { "startOffset": 6366, "endOffset": 6371, "count": 0 }
-          ],
-          "isBlockCoverage": true
+          "ranges": [{ "startOffset": 4315, "endOffset": 4678, "count": 0 }],
+          "isBlockCoverage": false
         }
       ]
     },
     {
-      "scriptId": "1079",
+      "scriptId": "1117",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/apps/server/user-service/src/app/app.service.ts",
       "functions": [
         {
@@ -117,8 +112,8 @@
         },
         {
           "functionName": "UserService",
-          "ranges": [{ "startOffset": 993, "endOffset": 1044, "count": 0 }],
-          "isBlockCoverage": false
+          "ranges": [{ "startOffset": 993, "endOffset": 1044, "count": 1 }],
+          "isBlockCoverage": true
         },
         {
           "functionName": "getAllUsers",
@@ -132,18 +127,21 @@
         },
         {
           "functionName": "updateUser",
-          "ranges": [{ "startOffset": 2310, "endOffset": 3179, "count": 0 }],
-          "isBlockCoverage": false
+          "ranges": [
+            { "startOffset": 2310, "endOffset": 3179, "count": 1 },
+            { "startOffset": 2643, "endOffset": 3058, "count": 0 }
+          ],
+          "isBlockCoverage": true
         },
         {
           "functionName": "get",
-          "ranges": [{ "startOffset": 3282, "endOffset": 3309, "count": 6 }],
+          "ranges": [{ "startOffset": 3282, "endOffset": 3309, "count": 1 }],
           "isBlockCoverage": true
         }
       ]
     },
     {
-      "scriptId": "1080",
+      "scriptId": "1118",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/index.ts",
       "functions": [
         {
@@ -159,7 +157,7 @@
       ]
     },
     {
-      "scriptId": "1081",
+      "scriptId": "1119",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/index.ts",
       "functions": [
         {
@@ -175,7 +173,7 @@
       ]
     },
     {
-      "scriptId": "1082",
+      "scriptId": "1120",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/auth/dto/user-sign-in.dto.ts",
       "functions": [
         {
@@ -207,7 +205,7 @@
       ]
     },
     {
-      "scriptId": "1742",
+      "scriptId": "2421",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/auth/dto/user-sign-up.dto.ts",
       "functions": [
         {
@@ -239,7 +237,7 @@
       ]
     },
     {
-      "scriptId": "1743",
+      "scriptId": "2422",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/document-service/dto/document-create.dto.ts",
       "functions": [
         {
@@ -271,7 +269,7 @@
       ]
     },
     {
-      "scriptId": "1744",
+      "scriptId": "2423",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/document-service/validation-dto/document-create-validation.dto.ts",
       "functions": [
         {
@@ -303,7 +301,7 @@
       ]
     },
     {
-      "scriptId": "1745",
+      "scriptId": "2424",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/document-service/dto/document-get.dto.ts",
       "functions": [
         {
@@ -345,7 +343,7 @@
       ]
     },
     {
-      "scriptId": "1746",
+      "scriptId": "2425",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/document-service/dto/document-update.dto.ts",
       "functions": [
         {
@@ -377,7 +375,7 @@
       ]
     },
     {
-      "scriptId": "1747",
+      "scriptId": "2426",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/document-service/validation-dto/document-update-validation.dto.ts",
       "functions": [
         {
@@ -409,7 +407,7 @@
       ]
     },
     {
-      "scriptId": "1748",
+      "scriptId": "2427",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/project-service/dto/project-create.dto.ts",
       "functions": [
         {
@@ -441,7 +439,7 @@
       ]
     },
     {
-      "scriptId": "1749",
+      "scriptId": "2428",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/project-service/validation-dto/project-create-validation.dto.ts",
       "functions": [
         {
@@ -473,7 +471,7 @@
       ]
     },
     {
-      "scriptId": "1750",
+      "scriptId": "2429",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/project-service/dto/project-get.dto.ts",
       "functions": [
         {
@@ -515,7 +513,7 @@
       ]
     },
     {
-      "scriptId": "1751",
+      "scriptId": "2430",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/project-service/dto/project-update.dto.ts",
       "functions": [
         {
@@ -547,7 +545,7 @@
       ]
     },
     {
-      "scriptId": "1752",
+      "scriptId": "2431",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/project-service/validation-dto/project-update-validation.dto.ts",
       "functions": [
         {
@@ -579,7 +577,7 @@
       ]
     },
     {
-      "scriptId": "1753",
+      "scriptId": "2432",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/user-service/dto/user-get.dto.ts",
       "functions": [
         {
@@ -621,7 +619,7 @@
       ]
     },
     {
-      "scriptId": "1754",
+      "scriptId": "2433",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/user-service/dto/user-update.dto.ts",
       "functions": [
         {
@@ -653,7 +651,7 @@
       ]
     },
     {
-      "scriptId": "1755",
+      "scriptId": "2434",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/dto/user-service/validation-dto/user-update-validation.dto.ts",
       "functions": [
         {
@@ -685,7 +683,7 @@
       ]
     },
     {
-      "scriptId": "1756",
+      "scriptId": "2435",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/enums/index.ts",
       "functions": [
         {
@@ -701,7 +699,7 @@
       ]
     },
     {
-      "scriptId": "1757",
+      "scriptId": "2436",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/enums/user-identifier.type.ts",
       "functions": [
         {
@@ -727,7 +725,7 @@
       ]
     },
     {
-      "scriptId": "1758",
+      "scriptId": "2437",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/errors/index.ts",
       "functions": [
         {
@@ -743,7 +741,7 @@
       ]
     },
     {
-      "scriptId": "1759",
+      "scriptId": "2438",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/errors/custom.error.ts",
       "functions": [
         {
@@ -774,7 +772,7 @@
       ]
     },
     {
-      "scriptId": "1760",
+      "scriptId": "2439",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/errors/database.errors.ts",
       "functions": [
         {
@@ -830,7 +828,7 @@
       ]
     },
     {
-      "scriptId": "1761",
+      "scriptId": "2440",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/errors/mail.erros.ts",
       "functions": [
         {
@@ -866,7 +864,7 @@
       ]
     },
     {
-      "scriptId": "1762",
+      "scriptId": "2441",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/interfaces/index.ts",
       "functions": [
         {
@@ -882,7 +880,7 @@
       ]
     },
     {
-      "scriptId": "1763",
+      "scriptId": "2442",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/interfaces/dto/document-get.interface.ts",
       "functions": [
         {
@@ -898,7 +896,7 @@
       ]
     },
     {
-      "scriptId": "1764",
+      "scriptId": "2443",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/interfaces/dto/project-get.interface.ts",
       "functions": [
         {
@@ -914,7 +912,7 @@
       ]
     },
     {
-      "scriptId": "1765",
+      "scriptId": "2444",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/interfaces/dto/user-get.interface.ts",
       "functions": [
         {
@@ -930,7 +928,7 @@
       ]
     },
     {
-      "scriptId": "1766",
+      "scriptId": "2445",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/interfaces/errors/custom-error.interface.ts",
       "functions": [
         {
@@ -946,7 +944,7 @@
       ]
     },
     {
-      "scriptId": "1767",
+      "scriptId": "2446",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/interfaces/jwt/jwt.interface.ts",
       "functions": [
         {
@@ -962,7 +960,7 @@
       ]
     },
     {
-      "scriptId": "1768",
+      "scriptId": "2447",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/repositories/index.ts",
       "functions": [
         {
@@ -978,7 +976,7 @@
       ]
     },
     {
-      "scriptId": "1769",
+      "scriptId": "2448",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/repositories/user.repository.ts",
       "functions": [
         {
@@ -1041,7 +1039,7 @@
       ]
     },
     {
-      "scriptId": "1917",
+      "scriptId": "2449",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/schemas/index.ts",
       "functions": [
         {
@@ -1057,7 +1055,7 @@
       ]
     },
     {
-      "scriptId": "1929",
+      "scriptId": "2463",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/schemas/prisma/prisma.service.ts",
       "functions": [
         {
@@ -1095,7 +1093,7 @@
       ]
     },
     {
-      "scriptId": "1930",
+      "scriptId": "2464",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/schemas/prisma/schemas.module.ts",
       "functions": [
         {
@@ -1128,7 +1126,7 @@
       ]
     },
     {
-      "scriptId": "1931",
+      "scriptId": "2465",
       "url": "file:///Users/Makss/Documents/GitHub/DocuTide/libs/core/repositories/repositories.module.ts",
       "functions": [
         {
@@ -1157,82 +1155,6 @@
           "functionName": "get",
           "ranges": [{ "startOffset": 1278, "endOffset": 1312, "count": 0 }],
           "isBlockCoverage": false
-        }
-      ]
-    },
-    {
-      "scriptId": "1932",
-      "url": "file:///Users/Makss/Documents/GitHub/DocuTide/apps/server/user-service/src/app/app.controller.ts",
-      "functions": [
-        {
-          "functionName": "",
-          "ranges": [{ "startOffset": 0, "endOffset": 5746, "count": 1 }],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "",
-          "ranges": [{ "startOffset": 13, "endOffset": 5746, "count": 1 }],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "__decorateClass",
-          "ranges": [
-            { "startOffset": 541, "endOffset": 915, "count": 4 },
-            { "startOffset": 602, "endOffset": 610, "count": 0 },
-            { "startOffset": 618, "endOffset": 649, "count": 3 },
-            { "startOffset": 650, "endOffset": 658, "count": 1 },
-            { "startOffset": 726, "endOffset": 842, "count": 6 },
-            { "startOffset": 778, "endOffset": 810, "count": 5 },
-            { "startOffset": 811, "endOffset": 830, "count": 1 },
-            { "startOffset": 832, "endOffset": 841, "count": 3 },
-            { "startOffset": 854, "endOffset": 863, "count": 3 },
-            { "startOffset": 865, "endOffset": 896, "count": 3 }
-          ],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "__decorateParam",
-          "ranges": [{ "startOffset": 939, "endOffset": 1007, "count": 2 }],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "",
-          "ranges": [{ "startOffset": 961, "endOffset": 1007, "count": 2 }],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "UserController",
-          "ranges": [{ "startOffset": 1042, "endOffset": 1108, "count": 6 }],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "handleGetAll",
-          "ranges": [
-            { "startOffset": 1111, "endOffset": 1332, "count": 2 },
-            { "startOffset": 1241, "endOffset": 1331, "count": 0 }
-          ],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "handleGet",
-          "ranges": [
-            { "startOffset": 1335, "endOffset": 1576, "count": 2 },
-            { "startOffset": 1488, "endOffset": 1575, "count": 0 }
-          ],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "handleUpdate",
-          "ranges": [
-            { "startOffset": 1579, "endOffset": 1842, "count": 2 },
-            { "startOffset": 1745, "endOffset": 1841, "count": 0 }
-          ],
-          "isBlockCoverage": true
-        },
-        {
-          "functionName": "get",
-          "ranges": [{ "startOffset": 1948, "endOffset": 1978, "count": 12 }],
-          "isBlockCoverage": true
         }
       ]
     }

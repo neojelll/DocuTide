@@ -1,168 +1,141 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { UserService } from '../src/app/app.service';
-import { UserController } from '../src/app/app.controller';
+import { vi } from 'vitest';
+import { NotFoundException } from '@nestjs/common';
+import { UserService } from '../src/app/app.service.ts';
 
-describe('UserController', () => {
-  let controller: UserController;
-  let serviceMock: any;
+const mockPrisma = {
+  user: {
+    findMany: vi.fn(),
+    findUnique: vi.fn(),
+    update: vi.fn(),
+  },
+};
 
-  beforeEach(async () => {
-    serviceMock = {
-      getAllUsers: vi.fn(),
-      getUser: vi.fn(),
-      updateUser: vi.fn(),
-    };
+describe('UserService', () => {
+  let service: UserService;
 
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserController],
-      providers: [
+  beforeEach(() => {
+    service = new UserService(mockPrisma as any);
+  });
+
+  describe('getAllUsers', () => {
+    it('successfully returns all users', async () => {
+      const mockUsers = [
         {
-          provide: UserService,
-          useValue: serviceMock,
+          userId: '1',
+          email: 'test1@example.com',
+          username: 'test1',
+          hashPassword: 'hash',
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
-      ],
-    }).compile();
-
-    controller = module.get<UserController>(UserController);
-  });
-
-  describe('handleGetAll', () => {
-    it('should return result from getAllUsers', async () => {
-      const mockResult = [
-        JSON.stringify({
-          userId: 'cuid12345678901234567890',
-          email: 'alice@example.com',
-          emailConfirmed: true,
-          username: 'alice123',
-          hashPassword:
-            '$2b$10$hashedpassword123456789012345678901234567890123456789',
-          biography: 'Loves coding and coffee',
-          role: 'admin',
-          notificationsEnabled: true,
-          createdAt: new Date('2023-01-01T10:00:00Z'),
-          updatedAt: new Date('2023-01-02T12:00:00Z'),
-        }),
-        JSON.stringify({
-          userId: 'cuid22345678901234567890',
-          email: 'bob@example.com',
-          emailConfirmed: false,
-          username: 'bobsmith',
-          hashPassword:
-            '$2b$10$hashedpassword223456789012345678901234567890123456789',
-          biography: null,
-          role: 'user',
-          notificationsEnabled: false,
-          createdAt: new Date('2023-02-01T14:30:00Z'),
-          updatedAt: new Date('2023-02-01T14:30:00Z'),
-        }),
+        {
+          userId: '2',
+          email: 'test2@example.com',
+          username: 'test2',
+          hashPassword: 'hash',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
-      serviceMock.getAllUsers.mockResolvedValue(mockResult);
-
-      const result = await controller.handleGetAll();
-
-      expect(result).toBe(mockResult);
-      expect(serviceMock.getAllUsers).toHaveBeenCalledTimes(1);
+      mockPrisma.user.findMany.mockResolvedValue(mockUsers);
+      const result = await service.getAllUsers();
+      expect(result).toHaveLength(2);
+      expect(result[0]).toBe(JSON.stringify(mockUsers[0], null, 2));
     });
 
-    it('should throw error if getAllUsers fails', async () => {
-      const error = new Error('Service error');
-      serviceMock.getAllUsers.mockRejectedValue(error);
-
-      await expect(controller.handleGetAll()).rejects.toThrow('Service error');
+    it('throws an error on database failure', async () => {
+      mockPrisma.user.findMany.mockRejectedValue(new Error('Database error'));
+      await expect(service.getAllUsers()).rejects.toThrow('Database error');
     });
   });
 
-  describe('handleGet', () => {
-    it('should return result from getUser', async () => {
-      const jwtPayload = {
-        sub: 'cuid12345678901234567890',
-        username: 'alice123',
-        email: 'alice@example.com',
+  describe('getUser', () => {
+    it('successfully returns a user', async () => {
+      const mockUser = {
+        userId: '1',
+        email: 'test@example.com',
+        username: 'test',
+        hashPassword: 'hash',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
-      const mockResult = JSON.stringify({
-        userId: 'cuid12345678901234567890',
-        email: 'alice@example.com',
-        emailConfirmed: true,
-        username: 'alice123',
-        hashPassword:
-          '$2b$10$hashedpassword123456789012345678901234567890123456789',
-        biography: 'Loves coding and coffee',
-        role: 'admin',
-        notificationsEnabled: true,
-        createdAt: new Date('2023-01-01T10:00:00Z'),
-        updatedAt: new Date('2023-01-02T12:00:00Z'),
+      mockPrisma.user.findUnique.mockResolvedValue(mockUser);
+      const result = await service.getUser({
+        sub: '1',
+        username: 'test',
+        email: 'test@example',
       });
-      serviceMock.getUser.mockResolvedValue(mockResult);
-
-      const result = await controller.handleGet(jwtPayload);
-
-      expect(result).toBe(mockResult);
-      expect(serviceMock.getUser).toHaveBeenCalledWith(jwtPayload);
+      expect(result).toBe(JSON.stringify(mockUser, null, 2));
     });
 
-    it('should throw error if getUser fails', async () => {
-      const jwtPayload = {
-        sub: 'cuid12345678901234567890',
-        username: 'alice123',
-        email: 'alice@example.com',
-      };
-      const error = new Error('Service error');
-      serviceMock.getUser.mockRejectedValue(error);
+    it('throws NotFoundException if user is not found', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+      await expect(
+        service.getUser({
+          sub: '999',
+          username: 'test',
+          email: 'test@example',
+        }),
+      ).rejects.toThrow(NotFoundException);
+    });
 
-      await expect(controller.handleGet(jwtPayload)).rejects.toThrow(
-        'Service error',
-      );
+    it('throws an error on database failure', async () => {
+      mockPrisma.user.findUnique.mockRejectedValue(new Error('Database error'));
+      await expect(
+        service.getUser({
+          sub: '1',
+          username: 'test',
+          email: 'test@example',
+        }),
+      ).rejects.toThrow('Database error');
     });
   });
 
-  describe('handleUpdate', () => {
-    it('should return result from updateUser', async () => {
-      const userUpdateDto = {
-        jwtPayload: {
-          sub: 'cuid12345678901234567890',
-          username: 'alice123',
-          email: 'alice@example.com',
-        },
-        username: 'alice_new',
-        email: 'alice_new@example.com',
+  describe('updateUser', () => {
+    it('successfully updates a user', async () => {
+      const mockUpdatedUser = {
+        userId: '1',
+        email: 'new@example.com',
+        username: 'newname',
+        hashPassword: 'hash',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
-      const mockResult = JSON.stringify({
-        userId: 'cuid12345678901234567890',
-        email: 'alice_new@example.com',
-        emailConfirmed: true,
-        username: 'alice_new',
-        hashPassword:
-          '$2b$10$hashedpassword123456789012345678901234567890123456789',
-        biography: 'Loves coding and coffee',
-        role: 'admin',
-        notificationsEnabled: true,
-        createdAt: new Date('2023-01-01T10:00:00Z'),
-        updatedAt: new Date('2023-01-02T12:00:00Z'),
+      mockPrisma.user.update.mockResolvedValue(mockUpdatedUser);
+      const result = await service.updateUser({
+        jwtPayload: { sub: '1', username: 'newname', email: 'new@example.com' },
+        email: 'new@example.com',
+        username: 'newname',
       });
-      serviceMock.updateUser.mockResolvedValue(mockResult);
-
-      const result = await controller.handleUpdate(userUpdateDto);
-
-      expect(result).toBe(mockResult);
-      expect(serviceMock.updateUser).toHaveBeenCalledWith(userUpdateDto);
+      expect(result).toBe(JSON.stringify(mockUpdatedUser, null, 2));
     });
 
-    it('should throw error if updateUser fails', async () => {
-      const userUpdateDto = {
-        jwtPayload: {
-          sub: 'cuid12345678901234567890',
-          username: 'alice123',
-          email: 'alice@example.com',
-        },
-        username: 'alice_new',
-      };
-      const error = new Error('Service error');
-      serviceMock.updateUser.mockRejectedValue(error);
+    it('throws NotFoundException if user is not found', async () => {
+      mockPrisma.user.update.mockRejectedValue(new Error('Record not found'));
+      await expect(
+        service.updateUser({
+          jwtPayload: {
+            sub: '999',
+            username: 'newname',
+            email: 'new@example.com',
+          },
+          email: 'new@example.com',
+        }),
+      ).rejects.toThrow(NotFoundException);
+    });
 
-      await expect(controller.handleUpdate(userUpdateDto)).rejects.toThrow(
-        'Service error',
-      );
+    it('throws an error on database failure', async () => {
+      mockPrisma.user.update.mockRejectedValue(new Error('Database error'));
+      await expect(
+        service.updateUser({
+          jwtPayload: {
+            sub: '1',
+            username: 'newname',
+            email: 'new@example.com',
+          },
+          email: 'new@example.com',
+        }),
+      ).rejects.toThrow('Database error');
     });
   });
 });
