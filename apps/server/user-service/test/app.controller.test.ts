@@ -10,13 +10,13 @@ import {
 import { UserController } from '../src/app/app.controller';
 import { UserService } from '../src/app/app.service';
 import {
+  DatabaseGetError,
   DatabaseUpdateError,
   PrismaClient,
   PrismaService,
   UserRepository,
 } from '@docu-tide/core';
 import { UserUpdateDto, JwtPayload } from '@docu-tide/core';
-import { NotFoundException } from '@nestjs/common';
 
 describe('UserController Tests', () => {
   let userController: UserController;
@@ -105,14 +105,14 @@ describe('UserController Tests', () => {
       });
     });
 
-    it('should throw NotFoundException when the user does not exist', async () => {
+    it('should throw DatabaseGetError when the user does not exist', async () => {
       const jwtPayload: JwtPayload = {
         sub: '999',
         username: 'test',
         email: 'test@example.com',
       };
       await expect(userController.handleGet(jwtPayload)).rejects.toThrow(
-        NotFoundException,
+        DatabaseGetError,
       );
     });
   });

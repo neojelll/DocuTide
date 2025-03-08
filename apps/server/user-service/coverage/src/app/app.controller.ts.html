@@ -20,27 +20,27 @@
         <h1><a href="javascript:history.back()">Back</a></h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
-            <span class="strong">100% </span>
+            <span class="strong">0% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">34/34</span>
+            <span class="fraction">0/34</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">100% </span>
+            <span class="strong">0% </span>
             <span class="quiet">Branches</span>
-            <span class="fraction">6/6</span>
+            <span class="fraction">0/1</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">100% </span>
+            <span class="strong">0% </span>
             <span class="quiet">Functions</span>
-            <span class="fraction">4/4</span>
+            <span class="fraction">0/1</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">100% </span>
+            <span class="strong">0% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">34/34</span>
+            <span class="fraction">0/34</span>
           </div>
         </div>
         <p class="quiet">
@@ -54,7 +54,7 @@
           </div>
         </template>
       </div>
-      <div class="status-line high"></div>
+      <div class="status-line low"></div>
       <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -90,74 +90,74 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { JwtPayload } from '@docu-tide/core';
-import { UserUpdateDto } from '@docu-tide/core';
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
-import { UserService } from './app.service';
-&nbsp;
-@Controller()
-export class UserController {
-  constructor(private readonly userService: UserService) {}
-&nbsp;
-  @MessagePattern(process.env['USER_GET_ALL_TOPIC'])
-  async handleGetAll() {
-    console.log('Handling get all users request');
-    const result = await this.userService.getAllUsers();
-    console.debug(`Successfully retrieved ${result.length} users`);
-    return result;
-  }
-&nbsp;
-  @MessagePattern(process.env['USER_GET_TOPIC'])
-  async handleGet(@Payload() jwtPayload: JwtPayload) {
-    console.log(`Handling get user request: ${jwtPayload}`);
-    const result = await this.userService.getUser(jwtPayload);
-    console.debug(`Successfully retrieved user: ${jwtPayload}`);
-    return result;
-  }
-&nbsp;
-  @MessagePattern(process.env['USER_UPDATE_TOPIC'])
-  async handleUpdate(@Payload() userUpdateDto: UserUpdateDto) {
-    console.log(`Handling update request: ${userUpdateDto}`);
-    const result = await this.userService.updateUser(userUpdateDto);
-    console.debug(`Successfully updated user with ID: ${userUpdateDto}`);
-    return result;
-  }
-}
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { JwtPayload } from '@docu-tide/core';</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { UserUpdateDto } from '@docu-tide/core';</span>
+<span class="cstat-no" title="statement not covered" >import { Controller } from '@nestjs/common';</span>
+<span class="cstat-no" title="statement not covered" >import { MessagePattern, Payload } from '@nestjs/microservices';</span>
+<span class="cstat-no" title="statement not covered" >import { UserService } from './app.service';</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >@Controller()</span>
+<span class="cstat-no" title="statement not covered" >export class UserController {</span>
+<span class="cstat-no" title="statement not covered" >  constructor(private readonly userService: UserService) {}</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  @MessagePattern(process.env['USER_GET_ALL_TOPIC'])</span>
+<span class="cstat-no" title="statement not covered" >  async handleGetAll() {</span>
+<span class="cstat-no" title="statement not covered" >    console.log('Handling get all users request');</span>
+<span class="cstat-no" title="statement not covered" >    const result = await this.userService.getAllUsers();</span>
+<span class="cstat-no" title="statement not covered" >    console.debug(`Successfully retrieved ${result.length} users`);</span>
+<span class="cstat-no" title="statement not covered" >    return result;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  @MessagePattern(process.env['USER_GET_TOPIC'])</span>
+<span class="cstat-no" title="statement not covered" >  async handleGet(@Payload() jwtPayload: JwtPayload) {</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`Handling get user request: ${jwtPayload}`);</span>
+<span class="cstat-no" title="statement not covered" >    const result = await this.userService.getUser(jwtPayload);</span>
+<span class="cstat-no" title="statement not covered" >    console.debug(`Successfully retrieved user: ${jwtPayload}`);</span>
+<span class="cstat-no" title="statement not covered" >    return result;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  @MessagePattern(process.env['USER_UPDATE_TOPIC'])</span>
+<span class="cstat-no" title="statement not covered" >  async handleUpdate(@Payload() userUpdateDto: UserUpdateDto) {</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`Handling update request: ${userUpdateDto}`);</span>
+<span class="cstat-no" title="statement not covered" >    const result = await this.userService.updateUser(userUpdateDto);</span>
+<span class="cstat-no" title="statement not covered" >    console.debug(`Successfully updated user with ID: ${userUpdateDto}`);</span>
+<span class="cstat-no" title="statement not covered" >    return result;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
       <div class="push"></div>
@@ -172,7 +172,7 @@ export class UserController {
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2025-03-08T17:07:25.759Z
+      at 2025-03-08T17:14:15.061Z
     </div>
     <script src="../../prettify.js"></script>
     <script>

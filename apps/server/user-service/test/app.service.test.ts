@@ -1,6 +1,10 @@
 import { describe, it, beforeAll, afterEach, afterAll, expect } from 'vitest';
 import { UserService } from '../src/app/app.service';
-import { DatabaseUpdateError, UserRepository } from '@docu-tide/core';
+import {
+  DatabaseGetError,
+  DatabaseUpdateError,
+  UserRepository,
+} from '@docu-tide/core';
 import { NotFoundException } from '@nestjs/common';
 import { PrismaClient, PrismaService } from '@docu-tide/core';
 
@@ -87,14 +91,14 @@ describe('UserService Tests', () => {
       });
     });
 
-    it('should throw NotFoundException when the user does not exist', async () => {
+    it('should throw DatabaseGetError when the user does not exist', async () => {
       await expect(
         userService.getUser({
           sub: '999',
           username: 'test',
           email: 'test@example.com',
         }),
-      ).rejects.toThrow(NotFoundException);
+      ).rejects.toThrow(DatabaseGetError);
     });
   });
 

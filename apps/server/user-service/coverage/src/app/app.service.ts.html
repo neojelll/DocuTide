@@ -203,7 +203,7 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserGetDto, UserUpdateDto, UserRepository } from '@docu-tide/core';
+import {UserGetDto, UserUpdateDto, UserRepository, DatabaseGetError, DatabaseUpdateError} from '@docu-tide/core';
 import { JwtPayload } from '@docu-tide/core';
 import { UserIdentifierType } from '@docu-tide/core';
 &nbsp;
@@ -242,7 +242,7 @@ export class UserService {
 &nbsp;
       if (!user) {
         console.warn(`User with ID ${sub} not found`);
-        throw new NotFoundException(`User with ID "${sub}" not found.`);
+        throw new DatabaseGetError(`User with ID "${sub}" not found.`);
       }
 &nbsp;
       const result = new UserGetDto(user).stringify();
@@ -263,7 +263,7 @@ export class UserService {
 &nbsp;
       if (!updatedUser) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >        console.warn(`User with ID ${sub} not found for update`);</span>
-<span class="cstat-no" title="statement not covered" >        throw new NotFoundException(`User with ID "${sub}" not found.`);</span>
+<span class="cstat-no" title="statement not covered" >        throw new DatabaseUpdateError(`User with ID "${sub}" not found.`);</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 &nbsp;
       const result = new UserGetDto(updatedUser).stringify();
@@ -289,7 +289,7 @@ export class UserService {
         rel="noopener noreferrer"
         >istanbul</a
       >
-      at 2025-03-08T17:07:25.759Z
+      at 2025-03-08T17:14:15.061Z
     </div>
     <script src="../../prettify.js"></script>
     <script>

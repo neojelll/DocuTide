@@ -1,5 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserGetDto, UserUpdateDto, UserRepository } from '@docu-tide/core';
+import {
+  UserGetDto,
+  UserUpdateDto,
+  UserRepository,
+  DatabaseGetError,
+  DatabaseUpdateError,
+} from '@docu-tide/core';
 import { JwtPayload } from '@docu-tide/core';
 import { UserIdentifierType } from '@docu-tide/core';
 
@@ -38,7 +44,7 @@ export class UserService {
 
       if (!user) {
         console.warn(`User with ID ${sub} not found`);
-        throw new NotFoundException(`User with ID "${sub}" not found.`);
+        throw new DatabaseGetError(`User with ID "${sub}" not found.`);
       }
 
       const result = new UserGetDto(user).stringify();
@@ -59,7 +65,7 @@ export class UserService {
 
       if (!updatedUser) {
         console.warn(`User with ID ${sub} not found for update`);
-        throw new NotFoundException(`User with ID "${sub}" not found.`);
+        throw new DatabaseUpdateError(`User with ID "${sub}" not found.`);
       }
 
       const result = new UserGetDto(updatedUser).stringify();
