@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - '**'
-      - '!main'
+
+permissions:
+  actions: read
+  contents: read
 
 jobs:
   Integration:
@@ -28,8 +31,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Set NX Cloud SHAs
+        id: nx-cloud
+        run: |
+          set +e
+          nrwl/nx-set-shas@v4
+          echo "NX_CLOUD_SUCCESS=$?" >> $GITHUB_ENV
+          set -e
+
       - name: Check formatting
         run: pnpm format-check
 
       - name: Check Linting
-        run: pnpm lint-check
+        env:
+          NX_CLOUD_INTEGRATION: ${{ secrets.NX_CLOUD_INTEGRATION }}
+        run: |
+          if [ "${{ env.NX_CLOUD_SUCCESS }}" == "127" ]; then
+            echo "NX Cloud integration failed. Running lint-check without it."
+            pnpm lint-check --skip-nx-cache
+          else
+            pnpm lint-check
+          fi
