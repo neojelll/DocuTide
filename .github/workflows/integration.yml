@@ -48,7 +48,7 @@ jobs:
         run: |
           if [ "${{ env.NX_CLOUD_SUCCESS }}" == "127" ]; then
             echo "NX Cloud integration failed. Running lint-check without it."
-            pnpm lint-check --skip-nx-cloud
+            pnpm lint-check --skip-nx-cache
           else
             pnpm lint-check
           fi
