@@ -52,4 +52,4 @@ Thumbs.db
 .angular
 
 vite.config.*.timestamp*
-vitest.config.*.timestamp*
+vitest.config.*.timestamp*!/apps/server/**/coverage/
