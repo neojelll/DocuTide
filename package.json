@@ -10,9 +10,13 @@
     "format-check": "prettier --check .",
     "lint": "eslint --fix",
     "lint-check": "eslint",
-    "prisma:generate": "prisma generate --schema=libs/core/schemas/prisma",
-    "prisma:migrate": "prisma migrate dev --schema=libs/core/schemas/prisma --name",
-    "prisma:db": "prisma db push --schema=libs/core/schemas/prisma"
+    "postgres:migrate:dev": "prisma migrate dev --schema=libs/core/schemas/prisma/postgres",
+    "prisma": "prisma",
+    "prisma:generate:postgres": "prisma generate --schema libs/core/schemas/prisma/postgres",
+    "prisma:generate:mongo": "prisma generate --schema libs/core/schemas/prisma/mongo",
+    "prisma:generate:all": "prisma generate --schema libs/core/schemas/prisma/postgres && prisma generate --schema libs/core/schemas/prisma/mongo",
+    "prisma:dbpush:postgres": "prisma db push --schema=libs/core/schemas/prisma/postgres",
+    "prisma:dbpush:mongo": "prisma db push --schema=libs/core/schemas/prisma/mongo"
   },
   "private": true,
   "dependencies": {
