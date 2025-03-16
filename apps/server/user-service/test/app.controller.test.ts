@@ -1,22 +1,15 @@
-import {
-  describe,
-  it,
-  beforeAll,
-  afterEach,
-  afterAll,
-  expect,
-  vi,
-} from 'vitest';
+import { describe, it, beforeAll, afterEach, afterAll, expect } from 'vitest';
 import { UserController } from '../src/app/app.controller';
 import { UserService } from '../src/app/app.service';
 import {
+  JwtPayload,
+  UserUpdateDto,
   DatabaseGetError,
   DatabaseUpdateError,
   PrismaClient,
   PrismaService,
   UserRepository,
 } from '@docu-tide/core';
-import { UserUpdateDto, JwtPayload } from '@docu-tide/core';
 
 describe('UserController Tests', () => {
   let userController: UserController;
