@@ -1,13 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
   UserGetDto,
+  JwtPayload,
   UserUpdateDto,
   UserRepository,
   DatabaseGetError,
+  UserIdentifierType,
   DatabaseUpdateError,
 } from '@docu-tide/core';
-import { JwtPayload } from '@docu-tide/core';
-import { UserIdentifierType } from '@docu-tide/core';
 
 @Injectable()
 export class UserService {
